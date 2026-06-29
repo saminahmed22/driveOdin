@@ -1,0 +1,32 @@
+<div class="container">
+  <h1 class="authPageHeader">Login</h1>
+  <form method="POST" action="/" class="from">
+    <div class="inputContainer">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        autocomplete="username"
+      />
+    </div>
+    <div class="inputContainer">
+      <label for="password">Password</label>
+      <div class="passwordInputField">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          autocomplete="current-password"
+        />
+        <button type="button" class="passwordVisibilityBtn passwordInvisible">
+          <img
+            src="/assets/icons/password_not_visible.svg"
+            alt="show password"
+          />
+        </button>
+      </div>
+    </div>
+    <button class="submitBtn" type="submit">Submit</button>
+  </form>
+</div>

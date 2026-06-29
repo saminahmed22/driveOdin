@@ -1,0 +1,70 @@
+<div class="container">
+  <h1 class="authPageHeader">Register</h1>
+  <form method="POST" action="/" class="from">
+    <div class="inputContainer">
+      <label for="firstName">First name</label>
+      <input
+        type="text"
+        name="firstName"
+        id="firstName"
+        autocomplete="given-name"
+        autocapitalize="words"
+      />
+    </div>
+    <div class="inputContainer">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        name="lastName"
+        id="lastName"
+        autocomplete="family-name"
+        autocapitalize="words"
+      />
+    </div>
+    <div class="inputContainer">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        autocomplete="username"
+      />
+    </div>
+    <div class="inputContainer">
+      <label for="password">Password</label>
+      <div class="passwordInputField">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          autocomplete="new-password"
+        />
+        <button type="button" class="passwordVisibilityBtn passwordInvisible">
+          <img
+            src="/assets/icons/password_not_visible.svg"
+            alt="show password"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="inputContainer">
+      <label for="rePassword">Re-enter the password</label>
+      <div class="rePasswordInputField">
+        <input
+          type="password"
+          name="rePassword"
+          id="rePassword"
+          autocomplete="new-password"
+        />
+        <button type="button" class="passwordVisibilityBtn passwordInvisible">
+          <img
+            src="/assets/icons/password_not_visible.svg"
+            alt="show password"
+          />
+        </button>
+      </div>
+    </div>
+    <button class="submitBtn" type="submit">Submit</button>
+  </form>
+</div>
