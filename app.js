@@ -6,6 +6,9 @@ const app = express();
 
 // Route
 import { indexRouter } from "./routes/indexRouter.js";
+import { authRouter } from "./routes/auth.js";
+
+app.use("/auth", authRouter);
 app.use(indexRouter);
 
 // View
