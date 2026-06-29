@@ -1,0 +1,104 @@
+.container {
+  background-color: rgb(21, 21, 21);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+
+  margin: 30px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+label {
+  color: white;
+}
+
+input {
+  height: 25px;
+  width: 250px;
+
+  padding: 0 5px;
+}
+
+.passwordInputField {
+  display: grid;
+  grid-template-areas: "pile";
+  place-items: center;
+}
+
+.passwordInputField input,
+button {
+  grid-area: pile;
+}
+
+.passwordInputField button {
+  justify-self: end;
+  margin-right: 5px;
+}
+
+.passwordVisibilityBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: transparent;
+  border: none;
+}
+
+.submitBtn {
+  height: 30px;
+  width: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  align-self: flex-end;
+}
+
+@media (max-width: 600px) {
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+
+    font-size: 1.1rem;
+  }
+
+  input {
+    height: 25px;
+    width: 250px;
+
+    padding: 0 5px;
+
+    align-self: center;
+  }
+
+  .submitBtn {
+    height: 30px;
+    width: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    align-self: flex-end;
+  }
+}
