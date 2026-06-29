@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/login.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <form method="POST" action="/" class="from">
+        <div class="inputContainer">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            autocomplete="username"
+          />
+        </div>
+        <div class="inputContainer">
+          <label for="password">Password</label>
+          <div class="passwordInputField">
+            <input type="password" name="password" id="password" />
+            <button
+              type="button"
+              class="passwordVisibilityBtn passwordInvisible"
+            >
+              <img
+                src="/assets/icons/password_not_visible.svg"
+                alt="show password"
+              />
+            </button>
+          </div>
+        </div>
+        <button class="submitBtn" type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
