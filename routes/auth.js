@@ -6,9 +6,18 @@ import {
   renderRegistrationPage,
 } from "../controllers/authController.js";
 
+// Models
+import { registerUser } from "../models/userModel.js";
+
 // Express Router initialization
 export const authRouter = Router();
 
 // Routes
+
+//____Get
 authRouter.get("/login", renderLoginPage);
 authRouter.get("/register", renderRegistrationPage);
+
+//____Post
+authRouter.post("/login", renderLoginPage);
+authRouter.post("/register", registerUser);
