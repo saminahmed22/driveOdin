@@ -4,7 +4,10 @@ import "dotenv/config";
 import express from "express";
 const app = express();
 
-// Route
+// Middleware to parse URL-encoded bodies (text data)
+app.use(express.urlencoded({ extended: true }));
+
+// Routers
 import { indexRouter } from "./routes/indexRouter.js";
 import { authRouter } from "./routes/auth.js";
 
