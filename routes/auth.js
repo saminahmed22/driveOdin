@@ -7,7 +7,7 @@ import {
 } from "../controllers/authController.js";
 
 // Models
-import { registerUser } from "../models/userModel.js";
+import { registerUser } from "../models/user.model.js";
 
 // Express Router initialization
 export const authRouter = Router();
