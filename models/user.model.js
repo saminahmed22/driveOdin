@@ -1,7 +1,7 @@
 import { prisma } from "../lib/prisma.js";
 import { hashPassword } from "../utils/password.utils.js";
 
-export async function registerUser(req, res) {
+export async function registerUser(req, res, next) {
   const userSubmittedData = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -14,9 +14,10 @@ export async function registerUser(req, res) {
       data: userSubmittedData,
     });
 
-    res.redirect("/");
+    req.user = user;
+    next();
   } catch (error) {
-    console.error(error);
+    next(error);
   }
 }
 
