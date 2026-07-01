@@ -7,6 +7,51 @@
   margin-top: 50px;
 }
 
+.errorContainer {
+  height: 0;
+
+  min-width: 250px;
+  max-width: 250px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: white;
+  background-color: rgba(220, 20, 60, 0.302);
+
+  border-radius: 5px;
+  border: 1px solid red;
+
+  overflow: hidden;
+
+  animation: openUp 0.3s ease forwards;
+
+  opacity: 0;
+}
+
+.fieldErrorMessage {
+  height: 0px;
+
+  font-size: 0.9rem;
+
+  color: crimson;
+
+  animation: openUp 0.3s ease forwards;
+
+  font-weight: 500;
+
+  opacity: 0;
+}
+
+@keyframes openUp {
+  to {
+    height: 30px;
+    opacity: 1;
+  }
+}
+
 .container {
   background-color: rgb(21, 21, 21);
 
@@ -17,6 +62,19 @@
   gap: 20px;
 
   border-radius: 20px;
+
+  animation: slideIn 0.5s ease forwards;
+
+  transform: translateY(50px);
+
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
 
 form {
@@ -24,7 +82,7 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 25px;
+  gap: 10px;
 
   margin: 30px;
 }
@@ -90,11 +148,7 @@ input {
   border-radius: 8px;
   border: none;
 
-  transition: background-color 0.5s ease;
-}
-
-.submitBtn:hover {
-  background-color: rgb(210, 210, 210);
+  margin-top: 25px;
 }
 
 @media (max-width: 600px) {
