@@ -4,7 +4,30 @@ import "dotenv/config";
 import express from "express";
 const app = express();
 
-// Middleware to parse URL-encoded bodies (text data)
+// Session
+import session from "express-session";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import { prisma } from "./lib/prisma.js";
+
+const sessionStore = new PrismaSessionStore(prisma, {
+  dbRecordIdIsSessionId: true,
+  dbRecordIdFunction: undefined,
+});
+
+app.use(
+  session({
+    store: sessionStore,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days, ms * minute * hour * day * day_count
+    },
+  }),
+);
+
+// Middleware to parse URL-encoded bodies (text data and JSON)
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
