@@ -26,16 +26,26 @@ app.use(
   }),
 );
 
+// Passport.js config
+import passport from "passport";
+import flash from "connect-flash";
+
+app.use(passport.session());
+
+import "./lib/passport.js";
+
+// app.use(flash); Doesn't work
+
 // Middleware to parse URL-encoded bodies (text data and JSON)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
 import { indexRouter } from "./routes/indexRouter.js";
-import { authRouter } from "./routes/auth.js";
+import { authRouter } from "./routes/authRouter.js";
 
 app.use("/auth", authRouter);
-app.use(indexRouter);
+app.use("/", indexRouter);
 
 // View
 app.set("/views");
