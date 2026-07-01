@@ -1,5 +1,5 @@
 import { prisma } from "../lib/prisma.js";
-import { hashPassword } from "../utils/passwordUtils.js";
+import { hashPassword } from "../utils/password.utils.js";
 
 export async function registerUser(req, res) {
   const userSubmittedData = {
