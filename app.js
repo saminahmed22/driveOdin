@@ -34,7 +34,7 @@ app.use(passport.session());
 
 import "./lib/passport.js";
 
-// app.use(flash); Doesn't work
+app.use(flash());
 
 // Middleware to parse URL-encoded bodies (text data and JSON)
 app.use(express.json());
