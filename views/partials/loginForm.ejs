@@ -1,5 +1,12 @@
 <div class="container">
   <h1 class="authPageHeader">Login</h1>
+
+  <% if (errorMessages.passportErrors.length > 0) { %>
+  <div class="errorContainer">
+    <p class="errorMessage"><%= errorMessages.passportErrors %></p>
+  </div>
+  <% } %>
+
   <form method="POST" action="/auth/login" class="from">
     <div class="inputContainer">
       <label for="username">Username</label>
@@ -9,6 +16,7 @@
         id="username"
         autocomplete="username"
       />
+      <!-- <p class="fieldErrorMessage">Please enter a username.</p> -->
     </div>
     <div class="inputContainer">
       <label for="password">Password</label>
