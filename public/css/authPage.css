@@ -62,19 +62,6 @@
   gap: 20px;
 
   border-radius: 20px;
-
-  animation: slideIn 0.5s ease forwards;
-
-  transform: translateY(50px);
-
-  opacity: 0;
-}
-
-@keyframes slideIn {
-  to {
-    transform: translateY(0px);
-    opacity: 1;
-  }
 }
 
 form {
