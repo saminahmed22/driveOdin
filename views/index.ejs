@@ -3,9 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/index.js" defer></script>
     <title>Document</title>
   </head>
   <body>
-    Hello
+    <header>
+      <nav>
+        <button class="uploadBtn">
+          <img
+            src="/assets/icons/upload.svg"
+            alt="Upload icon"
+            draggable="false"
+          />
+          Upload an image
+        </button>
+        <button class="downloadBtn">
+          <img
+            src="/assets/icons/download.svg"
+            alt="Download icon"
+            draggable="false"
+          />
+          Receive an image
+        </button>
+      </nav>
+    </header>
+    <div class="contentBody"><%- include('./partials/uploadForm.ejs') %></div>
+    <div class="contentBody"><%- include('./partials/downloadForm.ejs') %></div>
   </body>
 </html>
