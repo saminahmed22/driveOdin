@@ -20,25 +20,39 @@ uploadPopover.addEventListener("click", (event) => {
   const uploadSelectBtn = document.querySelector(".uploadSelectBtn");
   const uploadBtnInstruction = document.querySelector(".uploadBtnInstruction");
 
+  if (!button) return;
+
   if (button.classList.contains("closeBtn")) {
     uploadPopover.close();
-    uploadPopover.querySelector("form").reset();
 
-    uploadSelectBtn.style.backgroundImage = "";
-    uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
-    uploadBtnInstruction.style.color = "black";
-    uploadBtnInstruction.style.textShadow = "none";
+    window.location.href = `/`;
 
-    uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
+    if (uploadSelectBtn && uploadBtnInstruction) {
+      uploadPopover.querySelector("form").reset();
+
+      uploadSelectBtn.style.backgroundImage = "";
+      uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
+      uploadBtnInstruction.style.color = "black";
+      uploadBtnInstruction.style.textShadow = "none";
+      uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
+    }
+  } else if (button.classList.contains("shareCodeCopyBtn")) {
+    const code = document.querySelector(".shareCode").textContent;
+
+    navigator.clipboard.writeText(code);
   }
 });
 
 downloadPopover.addEventListener("click", (event) => {
   const button = event.target.closest("button");
 
+  if (!button) return;
+
   if (button.classList.contains("closeBtn")) {
     downloadPopover.close();
     uploadPopover.querySelector("form").reset();
+
+    window.location.href = "/";
   }
 });
 
@@ -91,21 +105,5 @@ if (uploadSelectBtn) {
     };
 
     reader.readAsDataURL(selectedImage);
-  });
-}
-
-// share code copy button
-
-const sharePage = document.querySelector(".uploadFromSharePage");
-
-if (sharePage) {
-  sharePage.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
-
-    if (button.classList.contains("shareCodeCopyBtn")) {
-      const code = document.querySelector(".shareCode").textContent;
-
-      navigator.clipboard.writeText(code);
-    }
   });
 }
