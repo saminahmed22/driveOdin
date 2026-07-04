@@ -1,0 +1,26 @@
+<dialog id="downloadPopover">
+  <div class="popoverHeader">
+    <div class="popoverTitleContainer">
+      <img
+        src="/assets/icons/download.svg"
+        alt="Download icon"
+        draggable="false"
+      />
+      <p class="popverTitle">Receive an image</p>
+    </div>
+
+    <button class="closeBtn">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <form class="fileDownloadForm popoverForm" action="/" method="POST">
+    <div class="inputField">
+      <label for="shareCode">
+        <img src="/assets/icons/threeDot.svg" alt="" /> Enter share code:</label
+      >
+      <input type="text" name="shareCode" id="shareCode" />
+    </div>
+    <button type="submit" class="submitBtn">Submit</button>
+  </form>
+</dialog>
