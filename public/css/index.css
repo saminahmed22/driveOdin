@@ -1,0 +1,350 @@
+:root {
+  --uploadTheme: lightblue;
+  --downloadTheme: lightpink;
+}
+
+body {
+  display: flex;
+
+  flex-direction: column;
+}
+
+header {
+  height: 100px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+nav {
+  display: flex;
+  gap: 50px;
+  align-self: flex-end;
+
+  margin-right: 50px;
+}
+
+nav button {
+  height: 50px;
+  min-width: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  border: none;
+  border-radius: 50px;
+
+  transition: background-color 0.2s ease;
+}
+
+.uploadBtn:hover {
+  background-color: var(--uploadTheme);
+}
+
+.downloadBtn:hover {
+  background-color: var(--downloadTheme);
+}
+
+.contentBody {
+  flex-grow: 1;
+
+  width: 100%;
+}
+
+#uploadPopover,
+#downloadPopover {
+  height: fit-content;
+  width: 500px;
+
+  background-color: white;
+
+  border: none;
+  border-radius: 20px;
+
+  margin: auto auto;
+
+  overflow: hidden;
+}
+
+#uploadPopover:modal:open,
+#downloadPopover:modal:open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+
+  transform: translateY(50px);
+
+  opacity: 0;
+
+  animation: slideIn 0.2s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateY(0px);
+
+    opacity: 1;
+  }
+}
+
+.popoverHeader {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popoverTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-left: 20px;
+}
+
+.popverTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.closeBtn {
+  height: 50px;
+  width: 50px;
+
+  background-color: transparent;
+
+  border: none;
+}
+
+.closeBtn img {
+  height: 30px;
+}
+
+.popoverForm {
+  width: 90%;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.uploadSelectBtn {
+  height: 175px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #add8e666;
+
+  border-radius: 10px;
+
+  border: 2px dashed black;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.uploadBtnInstruction {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadSelectBtn p {
+  font-size: 1.2rem;
+  max-width: 250px;
+}
+
+.uploadSelectBtn img {
+  height: 100px;
+}
+
+#imagePicker {
+  display: none;
+}
+
+.inputField {
+  align-self: flex-start;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputField label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.passwordInputField {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.inputField input {
+  height: 25px;
+  width: fit-content;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-left: 20px;
+
+  letter-spacing: 0.5em;
+  text-align: center;
+
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.passwordVisibilityBtn {
+  background-color: transparent;
+  border: none;
+}
+
+.expiryDatefield {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.expiryDatefield .expiryDatefieldTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.radioGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  border-radius: 10px;
+
+  background-color: #add8e666;
+}
+
+.radioGroup label {
+  height: 50px;
+  width: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 500;
+}
+
+.radioGroup input {
+  display: none;
+}
+
+.radio_label {
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+}
+
+.radio_label:hover {
+  background-color: lightblue;
+}
+
+.radioGroup input:checked + .radio_label {
+  background-color: rgb(155 229 254);
+}
+
+.submitBtn {
+  height: 40px;
+  width: 120px;
+
+  align-self: flex-end;
+  border-radius: 10px;
+  margin-bottom: 15px;
+
+  background-color: white;
+
+  transition: background-color 0.3s ease;
+}
+
+#uploadPopover .submitBtn:hover {
+  background-color: var(--uploadTheme);
+}
+#downloadPopover .submitBtn:hover {
+  background-color: var(--downloadTheme);
+}
+
+/* Upload page step-2 */
+
+.uploadFromSharePage {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.shareCodeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  margin-left: 20px;
+}
+
+.shareCodeContainer .shareCodeLabel {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.shareCodeShow {
+  align-self: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: fit-content;
+  min-width: fit-content;
+}
+.shareCodeContainer .shareCode {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 10px;
+  letter-spacing: 0.5rem;
+}
+
+.shareCodeCopyBtn {
+  background-color: transparent;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
