@@ -29,7 +29,9 @@
         </button>
       </nav>
     </header>
-    <div class="contentBody"><%- include('./partials/uploadForm.ejs') %></div>
-    <div class="contentBody"><%- include('./partials/downloadForm.ejs') %></div>
+    <div class="contentBody">
+      <%- include('./partials/uploadForm.ejs') %> <%-
+      include('./partials/downloadForm.ejs') %>
+    </div>
   </body>
 </html>
