@@ -1,34 +1,85 @@
-<dialog id="uploadPopover">
+<% if (uploadModalOpen) { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("uploadPopover").showModal();
+  });
+</script>
+<% } %>
+
+<dialog id="uploadPopover" class="<%- !modalContent ? 'slideIn' : '' %>">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
+      <% if (uploadModalOpen && modalContent === "sharePage") { %>
+      <img src="/assets/icons/share.svg" alt="Share icon" draggable="false" />
+      <p class="popverTitle">Share the image</p>
+      <% } else{ %>
       <img src="/assets/icons/upload.svg" alt="Upload icon" draggable="false" />
       <p class="popverTitle">Upload an image</p>
+      <% } %>
     </div>
     <button class="closeBtn">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
-  <div class="uploadFromSharePage">
+
+  <% if (modalContent === "sharePage") { %>
+  <div class="uploadFormSharePage">
+    <!-- <img src="<%= uploadData.file.path %>" alt="" /> -->
+    <div class="sharePagePreview">
+      <img
+        class="sharePagePreivewImage"
+        src="/uploads/<%= uploadData.post.file_name%>"
+        alt=""
+      />
+      <div class="sharePagePreviewInfo">
+        <table class="sharePagePreviewInfoTable">
+          <tr>
+            <th>File name:</th>
+            <td class="sharePagePreviewTitle">
+              <%= uploadData.post.file_name %>
+            </td>
+          </tr>
+
+          <tr>
+            <th>File size:</th>
+            <td class="sharePagePreviewSize"><%= uploadData.file.size %></td>
+          </tr>
+
+          <tr>
+            <th>Expires at:</th>
+            <td class="sharePagePreviewSize">
+              <%= uploadData.body.readableExpiryDate %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
     <div class="shareCodeContainer">
       <p class="shareCodeLabel">Share code:</p>
       <div class="shareCodeShow">
-        <p class="shareCode">Af4R7</p>
+        <p class="shareCode"><%= uploadData.post.id %></p>
         <button class="shareCodeCopyBtn" type="button">
           <img src="/assets/icons/copy.svg" alt="" draggable="false" />
         </button>
       </div>
     </div>
   </div>
-</dialog>
 
-<!-- <form class="fileUploadForm popoverForm" method="POST" action="/">
+  <% } else{%>
+  <form
+    class="fileUploadForm popoverForm"
+    method="POST"
+    action="/upload"
+    enctype="multipart/form-data"
+  >
     <button class="uploadSelectBtn" type="button">
       <div class="uploadBtnInstruction">
         <img src="/assets/icons/add_photo.svg" alt="" draggable="false" />
         <p>Click here to select an image</p>
       </div>
     </button>
-    <input type="file" name="image" id="imagePicker" />
+    <input type="file" name="selected_image" id="imagePicker" />
 
     <div class="inputField">
       <label for="filePasswordInput">
@@ -58,18 +109,20 @@
         Expiry date:
       </p>
       <div class="radioGroup">
-        <input type="radio" name="expiryDate" id="radio_1" checked />
+        <input type="radio" name="expiryDate" id="radio_1" value="1" checked />
         <label class="radio_label" for="radio_1">1 day</label>
 
-        <input type="radio" name="expiryDate" id="radio_2" />
+        <input type="radio" name="expiryDate" id="radio_2" value="3" />
         <label class="radio_label" for="radio_2">3 days</label>
 
-        <input type="radio" name="expiryDate" id="radio_3" />
+        <input type="radio" name="expiryDate" id="radio_3" value="7" />
         <label class="radio_label" for="radio_3">7 days</label>
 
-        <input type="radio" name="expiryDate" id="radio_4" />
+        <input type="radio" name="expiryDate" id="radio_4" value="15" />
         <label class="radio_label" for="radio_4">15 days</label>
       </div>
     </div>
     <button type="submit" class="submitBtn">Upload</button>
-  </form> -->
+  </form>
+  <% } %>
+</dialog>
