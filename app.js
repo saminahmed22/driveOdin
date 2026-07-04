@@ -51,8 +51,15 @@ app.use("/", indexRouter);
 app.set("/views");
 app.set("view engine", "ejs");
 
+import { fileURLToPath } from "url";
+import path from "path";
+
 // Static files
-app.use(express.static("public"));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Listen
 const port = process.env.PORT || 3000;
