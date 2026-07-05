@@ -1,12 +1,13 @@
 import Router from "express";
 
 // Controllers
-import { renderIndex } from "../controllers/indexController.js";
 import {
+  renderIndex,
   renderSharePage,
-  uploadImage,
-  uploadPost,
-} from "../controllers/uploadController.js";
+  renderDownloadPage,
+} from "../controllers/indexController.js";
+import { uploadImage, uploadPost } from "../controllers/uploadController.js";
+import { getImage } from "../controllers/downloadController.js";
 
 // Middlewares
 import { authenticationStatus } from "../middlewares/authenticationStatus.js";
@@ -26,4 +27,11 @@ indexRouter.post(
   uploadImage,
   uploadPost,
   renderSharePage,
+);
+
+indexRouter.post(
+  "/download",
+  authenticationStatus,
+  getImage,
+  renderDownloadPage,
 );
