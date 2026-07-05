@@ -1,3 +1,11 @@
+<% if (modalOpen === "download") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("downloadPopover").showModal();
+  });
+</script>
+<% } %>
+
 <dialog id="downloadPopover" class="slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
@@ -6,21 +14,84 @@
         alt="Download icon"
         draggable="false"
       />
-      <p class="popverTitle">Receive an image</p>
+      <p class="popverTitle">
+        <%- modalOpen === "download" && modalContent === "downloadPage" ?
+        'Download the image' : 'Receive an image'%>
+      </p>
     </div>
 
     <button class="closeBtn">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
+  <% if (modalOpen === "download" && modalContent === "downloadPage") { %>
+  <div class="uploadFormSharePage">
+    <div class="sharePagePreview">
+      <img
+        class="sharePagePreivewImage"
+        src="/uploads/<%= data.file_name%>"
+        alt=""
+      />
+      <div class="sharePagePreviewInfo">
+        <table class="sharePagePreviewInfoTable">
+          <tr>
+            <th>File name:</th>
+            <td class="sharePagePreviewTitle"><%= data.file_name %></td>
+          </tr>
 
-  <form class="fileDownloadForm popoverForm" action="/" method="POST">
+          <tr>
+            <th>File size:</th>
+            <td class="sharePagePreviewSize"><%= data.file_size %></td>
+          </tr>
+
+          <tr>
+            <th>Expires at:</th>
+            <td class="sharePagePreviewSize"><%= data.expires_at %></td>
+          </tr>
+        </table>
+      </div>
+
+      <a
+        type="button"
+        class="submitBtn downloadBtn"
+        href="/uploads/<%= data.file_name %>"
+        download="<%= data.file_name %>"
+        >Download</a
+      >
+    </div>
+  </div>
+  <% } else{ %>
+  <form class="fileDownloadForm popoverForm" action="/download" method="POST">
     <div class="inputField">
       <label for="shareCode">
-        <img src="/assets/icons/threeDot.svg" alt="" /> Enter share code:</label
+        <img src="/assets/icons/threeDot.svg" alt="" />Enter share code:</label
       >
       <input type="text" name="shareCode" id="shareCode" />
     </div>
+
+    <div class="inputField">
+      <label for="postPassword">
+        <img src="/assets/icons/lock.svg" alt="" />Enter password (If
+        applicable):</label
+      >
+      <div class="passwordInputField">
+        <input
+          type="password"
+          name="filePasswordInput"
+          id="filePasswordInput"
+          maxlength="8"
+          autocomplete="off"
+        />
+        <button type="button" class="passwordVisibilityBtn passwordInvisible">
+          <img
+            src="/assets/icons/password_not_visible.svg"
+            alt="show password"
+          />
+        </button>
+      </div>
+    </div>
+
     <button type="submit" class="submitBtn">Submit</button>
   </form>
+  <% } %>
 </dialog>
