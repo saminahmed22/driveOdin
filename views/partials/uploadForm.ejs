@@ -1,4 +1,4 @@
-<% if (uploadModalOpen) { %>
+<% if (modalOpen === "upload") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("uploadPopover").showModal();
@@ -6,10 +6,10 @@
 </script>
 <% } %>
 
-<dialog id="uploadPopover" class="<%- !modalContent ? 'slideIn' : '' %>">
+<dialog id="uploadPopover" class="slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
-      <% if (uploadModalOpen && modalContent === "sharePage") { %>
+      <% if (modalOpen === "upload" && modalContent === "sharePage") { %>
       <img src="/assets/icons/share.svg" alt="Share icon" draggable="false" />
       <p class="popverTitle">Share the image</p>
       <% } else{ %>
@@ -22,33 +22,30 @@
     </button>
   </div>
 
-  <% if (modalContent === "sharePage") { %>
+  <% if (modalOpen==="upload" && modalContent === "sharePage") { %>
   <div class="uploadFormSharePage">
-    <!-- <img src="<%= uploadData.file.path %>" alt="" /> -->
     <div class="sharePagePreview">
       <img
         class="sharePagePreivewImage"
-        src="/uploads/<%= uploadData.post.file_name%>"
+        src="/uploads/<%= data.post.file_name%>"
         alt=""
       />
       <div class="sharePagePreviewInfo">
         <table class="sharePagePreviewInfoTable">
           <tr>
             <th>File name:</th>
-            <td class="sharePagePreviewTitle">
-              <%= uploadData.post.file_name %>
-            </td>
+            <td class="sharePagePreviewTitle"><%= data.post.file_name %></td>
           </tr>
 
           <tr>
             <th>File size:</th>
-            <td class="sharePagePreviewSize"><%= uploadData.file.size %></td>
+            <td class="sharePagePreviewSize"><%= data.file.size %></td>
           </tr>
 
           <tr>
             <th>Expires at:</th>
             <td class="sharePagePreviewSize">
-              <%= uploadData.body.readableExpiryDate %>
+              <%= data.body.readableExpiryDate %>
             </td>
           </tr>
         </table>
@@ -58,7 +55,7 @@
     <div class="shareCodeContainer">
       <p class="shareCodeLabel">Share code:</p>
       <div class="shareCodeShow">
-        <p class="shareCode"><%= uploadData.post.id %></p>
+        <p class="shareCode"><%= data.post.id %></p>
         <button class="shareCodeCopyBtn" type="button">
           <img src="/assets/icons/copy.svg" alt="" draggable="false" />
         </button>
