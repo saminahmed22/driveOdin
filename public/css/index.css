@@ -55,6 +55,8 @@ nav button {
   flex-grow: 1;
 
   width: 100%;
+
+  overflow: hidden;
 }
 
 #uploadPopover,
@@ -408,4 +410,199 @@ nav button {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.downloadBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: black;
+  font-weight: 500;
+
+  margin: 0 20px 0 0;
+
+  border: 2px solid black;
+
+  text-decoration: none;
+}
+
+/* file system */
+
+.fileList {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.folder {
+  width: 90%;
+  min-height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+
+  background-color: rgb(49, 49, 49);
+
+  border-radius: 5px;
+  padding-bottom: 10px;
+}
+
+.fileList > .folder:last-child {
+  margin-bottom: 50px;
+}
+
+.folderHeader {
+  height: 40px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: white;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.folderTitleContainer {
+  height: 100%;
+  width: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.folderHeaderActions {
+  height: 100%;
+  width: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  padding-right: 10px;
+}
+
+.folderDeleteBtn,
+.fileDeleteBtn {
+  height: 30px;
+  width: 30px;
+
+  background-color: transparent;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.folderHeader:hover {
+  background-color: rgb(79, 78, 78);
+}
+
+.fileContainer {
+  min-width: 100%;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file {
+  height: 40px;
+  width: 95%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  color: white;
+  background-color: rgb(91, 91, 91);
+
+  border-radius: 5px;
+}
+
+.fileTitle {
+  height: 100%;
+  width: 40%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+
+  padding-left: 10px;
+}
+
+.fileSize,
+.fileShareCode {
+  height: 100%;
+  width: 10%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fileCreationDate,
+.fileExpirationDate {
+  height: 100%;
+  width: 18%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fileAction {
+  height: 100%;
+  width: 5%;
+
+  display: inline;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .fileSize,
+  .fileShareCode,
+  .fileCreationDate,
+  .fileExpirationDate {
+    display: none;
+  }
+
+  .fileTitle {
+    width: 85%;
+  }
+
+  .fileTitleText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .fileAction {
+    flex-grow: 1;
+  }
 }
