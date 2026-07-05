@@ -22,14 +22,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-export function renderSharePage(req, res) {
-  res.render("index", {
-    uploadData: req,
-    uploadModalOpen: true,
-    modalContent: "sharePage",
-  });
-}
-
 export function uploadImage(req, res, next) {
   const singleUpload = upload.single("selected_image");
 
@@ -65,7 +57,7 @@ export async function uploadPost(req, res, next) {
 
   let location;
   if (isProtected) {
-    location = CryptoJS.HmacSHA256(
+    location = CryptoJS.AES.encrypt(
       req.file.path,
       req.body.filePasswordInput,
     ).toString();
@@ -80,11 +72,13 @@ export async function uploadPost(req, res, next) {
   req.body.readableExpiryDate = readableExpiryDate;
 
   req.file.size = fileSize(req.file.size).human("si");
+
   try {
     const post = await prisma.post.create({
       data: {
         userId,
         file_name,
+        file_size: req.file.size,
         isProtected,
         location,
         expires_at,
