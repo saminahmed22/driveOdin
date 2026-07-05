@@ -21,6 +21,7 @@ model Post {
   user        User     @relation(fields: [userId], references: [id])
   userId      String
   file_name   String
+  file_size   String
   location    String
   isProtected Boolean  @default(false)
   uploaded_at DateTime @default(now())
