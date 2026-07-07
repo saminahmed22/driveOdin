@@ -60,7 +60,8 @@ nav button {
 }
 
 #uploadPopover,
-#downloadPopover {
+#downloadPopover,
+#downloadPagePopover {
   height: fit-content;
   width: 500px;
 
@@ -75,7 +76,8 @@ nav button {
 }
 
 #uploadPopover:modal:open,
-#downloadPopover:modal:open {
+#downloadPopover:modal:open,
+#downloadPagePopover:modal:open {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -307,6 +309,9 @@ nav button {
 #downloadPopover .submitBtn:hover {
   background-color: var(--downloadTheme);
 }
+#downloadPagePopover .submitBtn:hover {
+  background-color: var(--downloadTheme);
+}
 
 /* Upload page step-2 */
 
@@ -328,7 +333,9 @@ nav button {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
 
+.shareCodeLabel {
   margin-left: 20px;
 }
 
@@ -358,6 +365,13 @@ nav button {
   background-color: transparent;
   border: none;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shareQRCode {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,6 +409,7 @@ nav button {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 10px;
 }
 
 .sharePagePreviewInfoTable th {
@@ -402,14 +417,11 @@ nav button {
 
   display: flex;
   align-items: center;
-  justify-self: flex-start;
+  justify-content: space-between;
 }
 
 .sharePagePreviewInfoTable td {
   max-width: 350px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .downloadBtn {
