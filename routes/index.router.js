@@ -3,7 +3,7 @@ import Router from "express";
 export const indexRouter = Router();
 
 // Controllers
-import { renderIndex } from "../controllers/index.controller.js";
+import { renderIndex, createFolder } from "../controllers/index.controller.js";
 
 // Middlewares
 import { authenticationStatus } from "../middlewares/authenticationStatus.js";
@@ -12,3 +12,6 @@ import { authenticationStatus } from "../middlewares/authenticationStatus.js";
 
 //____get
 indexRouter.get("/", authenticationStatus, renderIndex);
+
+//____post
+indexRouter.post("/new_folder", authenticationStatus, createFolder);
