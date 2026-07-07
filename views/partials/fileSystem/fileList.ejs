@@ -1,5 +1,13 @@
 <div class="fileList">
-  <%- include('./folder.ejs') %><%- include('./folder.ejs') %><%-
-  include('./folder.ejs') %><%- include('./folder.ejs') %><%-
-  include('./folder.ejs') %><%- include('./folder.ejs') %>
+  <div class="fileListHeader">
+    <button class="createFolderBtn">
+      <img src="/assets/icons/newFolder.svg" alt="" />
+      Create a new folder
+    </button>
+  </div>
+
+  <%-include('../forms/createFolderForm.ejs') %>
+  <% data?.folders?.forEach(folder => { %>
+  <%-include('./folder.ejs', {folderData: folder}) %>
+  <% }) %>
 </div>

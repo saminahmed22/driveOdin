@@ -1,19 +1,43 @@
-<div class="folder">
+<div class="folder <%- folderData.posts.length < 1 && 'collapse'%>">
   <div class="folderHeader">
     <div class="folderTitleContainer">
-      <img src="/assets/icons/folder.svg" alt="" />
-      <p class="folderTitle">Folder</p>
+      <img src="/assets/icons/folderWhite.svg" alt="" />
+      <p class="folderTitle"><%= folderData.folder_name %></p>
     </div>
 
     <div class="folderHeaderActions">
-      <button class="folderDeleteBtn">
-        <img src="/assets/icons/delete.svg" alt="" />
+      <button class="folderOptionsBtn" popovertarget="folderOptions">
+        <img src="/assets/icons/threeDot.svg" alt="" />
+      </button>
+
+      <div id="folderOptions" popover>
+        <button class="folderShareBtn">
+          <img src="/assets/icons/edit.svg" alt="" />
+          Edit
+        </button>
+        <button class="folderShareBtn">
+          <img src="/assets/icons/share.svg" alt="" />
+          Share
+        </button>
+        <button class="folderDeleteBtn">
+          <img src="/assets/icons/delete.svg" alt="" />
+          Delete
+        </button>
+      </div>
+
+      <button class="folderCollapseBtn">
+        <img src="/assets/icons/downBlack.svg" alt="Collapse icon" />
       </button>
     </div>
   </div>
 
   <div class="fileContainer">
-    <%- include('./file.ejs') %><%- include('./file.ejs') %><%-
-    include('./file.ejs') %><%- include('./file.ejs') %>
+    <% if (folderData.posts.length < 1) { %>
+    <p class="nofileText">This folder is empty.</p>
+    <% } else{%>
+    <% folderData.posts.forEach(post => { %>
+    <%- include('./file.ejs', {postData: post}) %>
+    <% }) %>
+    <% } %>
   </div>
 </div>
