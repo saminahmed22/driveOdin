@@ -41,10 +41,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
-import { indexRouter } from "./routes/indexRouter.js";
-import { authRouter } from "./routes/authRouter.js";
+import { indexRouter } from "./routes/index.router.js";
+import { authRouter } from "./routes/auth.router.js";
+import { postRouter } from "./routes/post.router.js";
 
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
 app.use("/", indexRouter);
 
 // View
