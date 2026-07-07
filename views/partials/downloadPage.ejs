@@ -1,0 +1,82 @@
+<% if (modalOpen === "downloadPage") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("downloadPagePopover");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
+<dialog id="downloadPagePopover" class="slideIn">
+  <div class="popoverHeader">
+    <div class="popoverTitleContainer">
+      <img
+        src="/assets/icons/download.svg"
+        alt="Download icon"
+        draggable="false"
+      />
+      <p class="popverTitle">Download the image</p>
+    </div>
+
+    <button class="closeBtn">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <div class="uploadFormSharePage" class="slideIn">
+    <div class="sharePagePreview">
+      <img
+        class="sharePagePreivewImage"
+        src="/uploads/<%= data.file_name%>"
+        alt=""
+      />
+      <div class="sharePagePreviewInfo">
+        <table class="sharePagePreviewInfoTable">
+          <tr>
+            <th>File name<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewTitle"><%= data.file_name_short %></td>
+          </tr>
+
+          <tr>
+            <th>File size<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewSize"><%= data.file_size %></td>
+          </tr>
+
+          <tr>
+            <th>Created at<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewSize"><%= data.uploaded_at %></td>
+          </tr>
+
+          <tr>
+            <th>Expires at<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewSize"><%= data.expires_at %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="shareCodeContainer">
+      <p class="shareCodeLabel">Share code:</p>
+      <div class="shareCodeShow">
+        <p class="shareCode"><%= data.id %></p>
+        <button class="shareCodeCopyBtn" type="button">
+          <img src="/assets/icons/copy.svg" alt="" draggable="false" />
+        </button>
+      </div>
+      <div class="shareQRCode"><%- data.qrcode %></div>
+    </div>
+
+    <a
+      type="button"
+      class="submitBtn downloadBtn"
+      href="/uploads/<%= data.file_name %>"
+      download="<%= data.file_name %>"
+      >Download</a
+    >
+  </div>
+</dialog>
