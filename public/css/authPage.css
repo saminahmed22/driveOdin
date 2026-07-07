@@ -59,7 +59,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 
   border-radius: 20px;
 }
@@ -71,7 +71,7 @@ form {
   justify-content: center;
   gap: 10px;
 
-  margin: 30px;
+  margin: 30px 30px 0 30px;
 }
 
 .inputContainer {
@@ -136,6 +136,34 @@ input {
   border: none;
 
   margin-top: 25px;
+}
+
+.authFromRedirect {
+  height: 30px;
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  color: white;
+
+  padding: 0 10px;
+
+  margin-bottom: 30px;
+}
+
+.authFromRedirect a {
+  color: white;
+}
+
+.authFromRedirect a:hover {
+  color: lightcoral;
+}
+
+.authFromRedirect a:visited {
+  color: lightblue;
 }
 
 @media (max-width: 600px) {
