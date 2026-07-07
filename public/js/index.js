@@ -2,6 +2,7 @@ const nav = document.querySelector("nav");
 
 const uploadPopover = document.getElementById("uploadPopover");
 const downloadPopover = document.getElementById("downloadPopover");
+const downloadPagePopover = document.getElementById("downloadPagePopover");
 
 nav.addEventListener("click", (event) => {
   const button = event.target.closest("button");
@@ -36,14 +37,23 @@ uploadPopover.addEventListener("click", (event) => {
       uploadBtnInstruction.style.textShadow = "none";
       uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
     }
-  } else if (button.classList.contains("shareCodeCopyBtn")) {
-    const code = document.querySelector(".shareCode").textContent;
-
-    navigator.clipboard.writeText(code);
   }
 });
 
 downloadPopover.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+
+  if (!button) return;
+
+  if (button.classList.contains("closeBtn")) {
+    downloadPopover.close();
+    uploadPopover.querySelector("form").reset();
+
+    window.location.href = "/";
+  }
+});
+
+downloadPagePopover.addEventListener("click", (event) => {
   const button = event.target.closest("button");
 
   if (!button) return;
@@ -107,5 +117,23 @@ if (uploadSelectBtn) {
     };
 
     reader.readAsDataURL(selectedImage);
+  });
+}
+
+// Copy button
+
+const shareCodeContainer = document.querySelector(".shareCodeContainer");
+
+if (shareCodeContainer) {
+  shareCodeContainer.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+
+    if (!button) return;
+
+    if (button.classList.contains("shareCodeCopyBtn")) {
+      const code = document.querySelector(".shareCode").textContent;
+
+      navigator.clipboard.writeText(code);
+    }
   });
 }
