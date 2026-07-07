@@ -4,20 +4,9 @@ import { prisma } from "../lib/prisma.js";
 // Crypto
 import CryptoJS from "crypto-js";
 
-function formatReadableDate(isoString) {
-  const date = new Date(isoString);
-
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-
-  return formatter.format(date).replace(/am|pm/, (m) => m.toUpperCase());
-}
+// Utils
+import { formatReadableDate } from "../utils/readableDate.utils.js";
+import { generateQR } from "../utils/generateQRcode.utils.js";
 
 export async function getPost(postId, password = false) {
   const post = await prisma.post.findUnique({
@@ -25,6 +14,10 @@ export async function getPost(postId, password = false) {
   });
 
   const isProtected = post.isProtected;
+
+  if (isProtected && !password) {
+    return new Error("password");
+  }
 
   if (isProtected) {
     const decryptedLocation = CryptoJS.AES.decrypt(
@@ -39,9 +32,8 @@ export async function getPost(postId, password = false) {
     post.location = decryptedLocation;
   }
 
+  post.uploaded_at = formatReadableDate(post.uploaded_at);
   post.expires_at = formatReadableDate(post.expires_at);
-
-  console.log(post);
 
   return post;
 }
@@ -55,4 +47,14 @@ export async function isPostProtected(postId) {
   const status = post.isProtected;
 
   return status;
+}
+
+export async function createPost(data) {
+  try {
+    const post = await prisma.post.create({ data });
+
+    return post;
+  } catch (error) {
+    return new Error(error);
+  }
 }
