@@ -24,9 +24,7 @@ uploadPopover.addEventListener("click", (event) => {
   if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
-    uploadPopover.close();
-
-    window.location.href = `/`;
+    closeModal(uploadPopover);
 
     if (uploadSelectBtn && uploadBtnInstruction) {
       uploadPopover.querySelector("form").reset();
@@ -46,10 +44,10 @@ downloadPopover.addEventListener("click", (event) => {
   if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
-    downloadPopover.close();
+    closeModal(downloadPopover);
     uploadPopover.querySelector("form").reset();
 
-    window.location.href = "/";
+    window.location.href = `/`;
   }
 });
 
@@ -59,12 +57,25 @@ downloadPagePopover.addEventListener("click", (event) => {
   if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
-    downloadPopover.close();
-    uploadPopover.querySelector("form").reset();
+    closeModal(downloadPagePopover);
 
     window.location.href = "/";
   }
 });
+
+function closeModal(modal) {
+  modal.classList.add("slideOut");
+
+  modal.addEventListener(
+    "animationend",
+    (event) => {
+      modal.classList.remove("slideOut");
+
+      modal.close();
+    },
+    { once: true },
+  );
+}
 
 const passwordInputContainer = document.querySelectorAll(".passwordInputField");
 
