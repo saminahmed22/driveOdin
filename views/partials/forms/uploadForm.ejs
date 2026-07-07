@@ -42,12 +42,20 @@
         <img src="/assets/icons/folder.svg" alt="" draggable="false" />
         Select a folder</label
       >
+
       <select name="selected_folder" id="selected_folder_option">
-        <% data?.folders?.forEach(folder => { %>
+        <% data?.folders?.forEach((folder, index) => { %>
+        <% if (index === 0) { %>
+        <option value="<%= folder.id %>" selected>
+          <span class="directoryMark">/</span
+          ><%= folder.folder_name %>
+        </option>
+        <% } else{%>
         <option value="<%= folder.id %>">
           <span class="directoryMark">/</span
           ><%= folder.folder_name %>
         </option>
+        <% } %>
 
         <% }) %>
       </select>
