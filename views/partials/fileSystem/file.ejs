@@ -2,17 +2,25 @@
   <div class="fileTitle">
     <img src="/assets/icons/image.svg" alt="" />
     <p class="fileDetail fileTitleText" title="Name">
-      danny-greenberg-tnL9CSDgiJE-unsplash.jpg
+      <%= postData.file_name %>
     </p>
+    <% if (postData.isProtected) { %>
+    <img
+      class="postLockIcon"
+      src="/assets/icons/lock.svg"
+      alt="Lock icon"
+      title="This post is password protected"
+    />
+    <% } %>
   </div>
 
-  <p class="fileDetail fileSize" title="size">7.88 MB</p>
-  <p class="fileDetail fileShareCode" title="Share code">sCdFz</p>
+  <p class="fileDetail fileSize" title="size"><%= postData.file_size%></p>
+  <p class="fileDetail fileShareCode" title="Share code"><%= postData.id %></p>
   <p class="fileDetail fileCreationDate" title="Creation date">
-    08 July 2026 at 6:59 PM
+    <%= postData.uploaded_at %>
   </p>
   <p class="fileDetail fileExpirationDate" title="Expiration date">
-    08 July 2026 at 6:59 PM
+    <%= postData.expires_at %>
   </p>
 
   <div class="fileAction">
