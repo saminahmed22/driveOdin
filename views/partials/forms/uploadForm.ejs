@@ -1,7 +1,13 @@
-<% if (modalOpen === "upload") { %>
+<% if (modalOpen === "uploadForm") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("uploadPopover").showModal();
+    const popover = document.getElementById("uploadPopover");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
   });
 </script>
 <% } %>
@@ -9,65 +15,18 @@
 <dialog id="uploadPopover" class="slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
-      <% if (modalOpen === "upload" && modalContent === "sharePage") { %>
-      <img src="/assets/icons/share.svg" alt="Share icon" draggable="false" />
-      <p class="popverTitle">Share the image</p>
-      <% } else{ %>
       <img src="/assets/icons/upload.svg" alt="Upload icon" draggable="false" />
       <p class="popverTitle">Upload an image</p>
-      <% } %>
     </div>
     <button class="closeBtn">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
 
-  <% if (modalOpen==="upload" && modalContent === "sharePage") { %>
-  <div class="uploadFormSharePage">
-    <div class="sharePagePreview">
-      <img
-        class="sharePagePreivewImage"
-        src="/uploads/<%= data.post.file_name%>"
-        alt=""
-      />
-      <div class="sharePagePreviewInfo">
-        <table class="sharePagePreviewInfoTable">
-          <tr>
-            <th>File name:</th>
-            <td class="sharePagePreviewTitle"><%= data.post.file_name %></td>
-          </tr>
-
-          <tr>
-            <th>File size:</th>
-            <td class="sharePagePreviewSize"><%= data.file.size %></td>
-          </tr>
-
-          <tr>
-            <th>Expires at:</th>
-            <td class="sharePagePreviewSize">
-              <%= data.body.readableExpiryDate %>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="shareCodeContainer">
-      <p class="shareCodeLabel">Share code:</p>
-      <div class="shareCodeShow">
-        <p class="shareCode"><%= data.post.id %></p>
-        <button class="shareCodeCopyBtn" type="button">
-          <img src="/assets/icons/copy.svg" alt="" draggable="false" />
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <% } else{%>
   <form
     class="fileUploadForm popoverForm"
     method="POST"
-    action="/upload"
+    action="/post/upload"
     enctype="multipart/form-data"
   >
     <button class="uploadSelectBtn" type="button">
@@ -79,17 +38,16 @@
     <input type="file" name="selected_image" id="imagePicker" />
 
     <div class="inputField">
-      <label for="filePasswordInput">
+      <label for="postPassword">
         <img src="/assets/icons/lock.svg" alt="" /> Secure with a password
         (Optional)</label
       >
       <div class="passwordInputField">
         <input
           type="password"
-          name="filePasswordInput"
+          name="postPassword"
           id="filePasswordInput"
           maxlength="8"
-          autocomplete="off"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
           <img
@@ -121,5 +79,4 @@
     </div>
     <button type="submit" class="submitBtn">Upload</button>
   </form>
-  <% } %>
 </dialog>
