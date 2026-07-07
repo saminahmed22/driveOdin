@@ -4,8 +4,13 @@ import fileSize from "file-size";
 // Crypto
 import CryptoJS from "crypto-js";
 
-// Modles
-import { isPostProtected, getPost, createPost } from "../models/post.model.js";
+// Models
+import {
+  isPostProtected,
+  getPost,
+  createPost,
+  getFolders,
+} from "../models/post.model.js";
 
 // Utils
 import { formatReadableDate } from "../utils/readableDate.utils.js";
@@ -56,6 +61,8 @@ export async function uploadPost(req, res, next) {
     location = req.file.path;
   }
 
+  const folderId = req.body.selected_folder;
+
   const expires_at = new Date();
   expires_at.setDate(expires_at.getDate() + parseInt(req.body.expiryDate));
 
@@ -71,6 +78,7 @@ export async function uploadPost(req, res, next) {
     isProtected,
     location,
     expires_at,
+    folderId,
   };
 
   const post = await createPost(data);
@@ -131,27 +139,40 @@ export async function getImage(req, res, next) {
   next();
 }
 
-export function renderUploadForm(req, res) {
+export async function renderUploadForm(req, res) {
+  let folders;
+  if (req.user) {
+    folders = await getFolders(req.user.id);
+  }
+
   res.render("index", {
-    data: {},
+    data: { folders },
     modalOpen: "uploadForm",
     errors: {},
   });
 }
 
-export function renderDownloadForm(req, res) {
-  const requirePassword = !!req.data.passwordRequired;
+export async function renderDownloadForm(req, res) {
+  let folders;
+  if (req.user) {
+    folders = await getFolders(req.user.id);
+  }
 
   res.render("index", {
-    data: req.data,
+    data: { postData: req.data, folders },
     modalOpen: "downloadForm",
     errors: {},
   });
 }
 
-export function renderDownloadPage(req, res) {
+export async function renderDownloadPage(req, res) {
+  let folders;
+  if (req.user) {
+    folders = await getFolders(req.user.id);
+  }
+
   res.render("index", {
-    data: req.post,
+    data: { post: req.post, folders },
     modalOpen: "downloadPage",
     errors: {},
   });
@@ -159,8 +180,10 @@ export function renderDownloadPage(req, res) {
 
 export function addDataToSession(req, res, next) {
   req.session.password = req.body.postPassword;
-
-  next();
+  req.session.save((err) => {
+    if (err) return next(err);
+    next();
+  });
 }
 
 export async function removeDataFromSession(req, res) {
