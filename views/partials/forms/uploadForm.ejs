@@ -37,6 +37,22 @@
     </button>
     <input type="file" name="selected_image" id="imagePicker" />
 
+    <div class="folderSelectInputContainer">
+      <label for="selected_folder_option">
+        <img src="/assets/icons/folder.svg" alt="" draggable="false" />
+        Select a folder</label
+      >
+      <select name="selected_folder" id="selected_folder_option">
+        <% data?.folders?.forEach(folder => { %>
+        <option value="<%= folder.id %>">
+          <span class="directoryMark">/</span
+          ><%= folder.folder_name %>
+        </option>
+
+        <% }) %>
+      </select>
+    </div>
+
     <div class="inputField">
       <label for="postPassword">
         <img src="/assets/icons/lock.svg" alt="" /> Secure with a password
@@ -46,7 +62,7 @@
         <input
           type="password"
           name="postPassword"
-          id="filePasswordInput"
+          id="postPassword"
           maxlength="8"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
