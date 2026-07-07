@@ -1,23 +1,14 @@
 import { prisma } from "../lib/prisma.js";
-import { hashPassword } from "../utils/password.utils.js";
 
-export async function registerUser(req, res, next) {
-  const userSubmittedData = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    username: req.body.username,
-    password_hash: await hashPassword(req.body.password),
-  };
-
+export async function registerUserDB(userSubmittedData) {
   try {
     const user = await prisma.user.create({
       data: userSubmittedData,
     });
 
-    req.user = user;
-    next();
+    return user;
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 }
 
