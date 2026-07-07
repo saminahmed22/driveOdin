@@ -5,9 +5,7 @@
 export function middleEllipsis(str, maxLen = 35) {
   if (str.length > maxLen) {
     return (
-      str.substring(0, 20) +
-      " ... " +
-      str.substring(str.length - 10, str.length)
+      str.substring(0, 20) + " ... " + str.substring(str.length - 5, str.length)
     );
   }
   return str;
