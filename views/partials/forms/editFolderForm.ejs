@@ -1,4 +1,4 @@
-<dialog id="createFolderPopover" class="slideIn">
+<dialog id="editFolderPopover" class="popover slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
       <img
@@ -14,22 +14,13 @@
     </button>
   </div>
 
-  <form
-    class="newFolderForm popoverForm"
-    action="/folder/edit/<%= data.folderId %>"
-    method="POST"
-  >
+  <form class="newFolderForm popoverForm" action="/folder/edit/0" method="POST">
     <div class="folderFormInputField">
       <label for="folderName">
         <img src="/assets/icons/folder.svg" alt="Folder icon" />Folder
         name:</label
       >
-      <input
-        type="text"
-        name="folderName"
-        id="folderName"
-        value="<%= data.folderName %>"
-      />
+      <input type="text" name="folderName" id="folderName" value="" />
     </div>
 
     <button type="submit" class="submitBtn">Submit</button>
