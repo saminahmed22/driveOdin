@@ -1,0 +1,21 @@
+<dialog id="deleteFolderPopover" class="popover slideIn">
+  <div class="popoverHeader">
+    <div class="popoverTitleContainer">
+      <img
+        src="/assets/icons/delete.svg"
+        alt="New folder icon"
+        draggable="false"
+        style="filter: invert()"
+      />
+      <p class="popverTitle">Are you sure?</p>
+    </div>
+
+    <button class="closeBtn">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <form class="newFolderForm popoverForm" action="/" method="POST">
+    <button type="submit" class="submitBtn submitDeleteBtn">Delete</button>
+  </form>
+</dialog>
