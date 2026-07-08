@@ -13,7 +13,10 @@ import {
 } from "../controllers/post.controller.js";
 
 // Middlewares
-import { authenticationStatus } from "../middlewares/authenticationStatus.js";
+import {
+  authenticationStatus,
+  isAuthor,
+} from "../middlewares/authenticationStatus.js";
 
 function redirectToPostView(req, res, next) {
   const id = req?.post?.id || req?.body?.shareCode;
@@ -49,5 +52,5 @@ postRouter.post(
   addDataToSession,
   redirectToPostView,
 ); // upload image is a multer function
-
+postRouter.post("/edit", isAuthor);
 postRouter.post("/download", addDataToSession, redirectToPostView);
