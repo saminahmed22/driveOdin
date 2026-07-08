@@ -26,7 +26,7 @@ function redirectToFolderView(req, res, next) {
 // Routes
 
 //____get
-folderRouter.post("/:id", findFolder, renderFolderPage);
+folderRouter.get("/:id", findFolder, renderFolderPage);
 
 //____post
 folderRouter.post("/new", authenticationStatus, createFolder);
@@ -37,10 +37,4 @@ folderRouter.post(
   editFolder,
   redirectToFolderView,
 );
-folderRouter.post(
-  "/delete/:id",
-  authenticationStatus,
-  isAuthor,
-  deleteFolder,
-  redirectToFolderView,
-);
+folderRouter.post("/delete/:id", authenticationStatus, isAuthor, deleteFolder);
