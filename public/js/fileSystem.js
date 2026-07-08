@@ -135,7 +135,25 @@ folders.forEach((folder) => {
   };
 
   const handleFolderActClick = (event, folder) => {
-    console.log(event.target.closest("button"));
+    const button = event.target.closest("button");
+
+    if (!button) return;
+
+    const folderID = folder.dataset.folderid;
+
+    if (button.classList.contains("folderEditBtn")) {
+      return null;
+    } else if (button.classList.contains("folderShareBtn")) {
+      return null;
+    } else if (button.classList.contains("folderDeleteBtn")) {
+      const deleteModal = document.getElementById("deleteFolderPopover");
+
+      const deleteForm = deleteModal.querySelector("form");
+
+      deleteForm.action = `/folder/delete/${folderID}`;
+
+      deleteModal.showModal();
+    }
   };
 
   folder.addEventListener("click", (event) => {
