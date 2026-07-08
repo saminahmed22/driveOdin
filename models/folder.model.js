@@ -18,22 +18,24 @@ export async function submitCreateFolder(data) {
 
 export async function getFolder(id) {
   try {
-    const folders = await prisma.folder.findUnique({
+    const folder = await prisma.folder.findUnique({
       where: { id },
       include: {
         posts: true,
       },
     });
 
-    folders.forEach((folder) => {
+    if (folder) {
       folder.posts.forEach((post) => {
         post.file_name = middleEllipsis(post.file_name);
         post.uploaded_at = formatReadableDate(post.uploaded_at);
         post.expires_at = formatReadableDate(post.expires_at);
       });
-    });
 
-    return folders;
+      return folder;
+    } else {
+      return null;
+    }
   } catch (error) {
     throw error;
   }
@@ -96,13 +98,13 @@ export async function findFolderAuthor(id) {
       select: {
         user: {
           select: {
-            id,
+            id: true,
           },
         },
       },
     });
 
-    return authorID;
+    return authorID?.user?.id;
   } catch (error) {
     throw error;
   }
