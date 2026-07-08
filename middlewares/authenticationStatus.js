@@ -30,24 +30,20 @@ export function forceLogout(req, res, next) {
 }
 
 export async function isAuthor(req, res, next) {
-  req.logout(req.user, (error) => {
-    error ? next(error) : res.redirect("/auth/login");
-  });
-
   const requester = req.user?.id;
 
   if (!requester) {
     res.redirect("/auth/login");
   }
 
-  const urlArr = req.path.split("/");
+  const urlArr = req.originalUrl.split("/");
 
   let authorID;
-  if (urlArr.contains("post")) {
-    authorID = await findPostAuthor(req.params.id).id;
-  } else if (urlArr.contains("folder")) {
-    authorID = await findFolderAuthor(req.params.id).id;
+  if (urlArr.includes("post")) {
+    authorID = await findPostAuthor(req.params.id);
+  } else if (urlArr.includes("folder")) {
+    authorID = await findFolderAuthor(req.params.id);
   }
 
-  return requester === authorID;
+  requester === authorID ? next() : res.send("Denied");
 }
