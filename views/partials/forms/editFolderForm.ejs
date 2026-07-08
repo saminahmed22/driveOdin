@@ -1,0 +1,37 @@
+<dialog id="createFolderPopover" class="slideIn">
+  <div class="popoverHeader">
+    <div class="popoverTitleContainer">
+      <img
+        src="/assets/icons/edit.svg"
+        alt="New folder icon"
+        draggable="false"
+      />
+      <p class="popverTitle">Edit folder name</p>
+    </div>
+
+    <button class="closeBtn">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <form
+    class="newFolderForm popoverForm"
+    action="/folder/edit/<%= data.folderId %>"
+    method="POST"
+  >
+    <div class="folderFormInputField">
+      <label for="folderName">
+        <img src="/assets/icons/folder.svg" alt="Folder icon" />Folder
+        name:</label
+      >
+      <input
+        type="text"
+        name="folderName"
+        id="folderName"
+        value="<%= data.folderName %>"
+      />
+    </div>
+
+    <button type="submit" class="submitBtn">Submit</button>
+  </form>
+</dialog>
