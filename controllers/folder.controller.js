@@ -33,7 +33,9 @@ export async function editFolder(req, res, next) {
 }
 
 export async function deleteFolder(req, res, next) {
-  return null;
+  await submitDeleteFolder(req.params.id);
+
+  res.redirect("/");
 }
 
 export async function renderFolderPage(data) {
