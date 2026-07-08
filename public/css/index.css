@@ -72,10 +72,7 @@ nav button {
   overflow: hidden;
 }
 
-#uploadPopover,
-#downloadPopover,
-#downloadPagePopover,
-#createFolderPopover {
+.popover {
   height: fit-content;
   width: 500px;
 
@@ -89,10 +86,7 @@ nav button {
   overflow: hidden;
 }
 
-#uploadPopover:modal:open,
-#downloadPopover:modal:open,
-#downloadPagePopover:modal:open,
-#createFolderPopover:modal:open {
+.popover:modal:open {
   display: flex;
   flex-direction: column;
   align-items: center;
