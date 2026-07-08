@@ -44,8 +44,10 @@ app.use(express.urlencoded({ extended: true }));
 import { indexRouter } from "./routes/index.router.js";
 import { authRouter } from "./routes/auth.router.js";
 import { postRouter } from "./routes/post.router.js";
+import { folderRouter } from "./routes/folder.router.js";
 
 app.use("/auth", authRouter);
+app.use("/folder", folderRouter);
 app.use("/post", postRouter);
 app.use("/", indexRouter);
 
