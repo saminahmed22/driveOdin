@@ -1,4 +1,7 @@
-<div class="folder <%- folderData.posts.length < 1 && 'collapse'%>">
+<div
+  class="folder <%- folderData.posts.length < 1 && 'collapse' %>"
+  data-folderId="<%= folderData.id %>"
+>
   <div class="folderHeader">
     <div class="folderTitleContainer">
       <img src="/assets/icons/folderWhite.svg" alt="" />
@@ -6,24 +9,21 @@
     </div>
 
     <div class="folderHeaderActions">
-      <button class="folderOptionsBtn" popovertarget="folderOptions">
-        <img src="/assets/icons/threeDot.svg" alt="" />
-      </button>
-
-      <div id="folderOptions" popover>
-        <button class="folderShareBtn">
-          <img src="/assets/icons/edit.svg" alt="" />
-          Edit
+      <div class="folderOptions">
+        <button class="folderEditBtn folderActBtn">
+          <img src="/assets/icons/edit.svg" alt="Edit icon" />
         </button>
-        <button class="folderShareBtn">
-          <img src="/assets/icons/share.svg" alt="" />
-          Share
+        <button class="folderShareBtn folderActBtn">
+          <img src="/assets/icons/share.svg" alt="Share icon" />
         </button>
-        <button class="folderDeleteBtn">
-          <img src="/assets/icons/delete.svg" alt="" />
-          Delete
+        <button class="folderDeleteBtn folderActBtn">
+          <img src="/assets/icons/delete.svg" alt="Delete icon" />
         </button>
       </div>
+
+      <button class="folderOptionsBtn">
+        <img src="/assets/icons/left.svg" alt="" />
+      </button>
 
       <button class="folderCollapseBtn">
         <img src="/assets/icons/downBlack.svg" alt="Collapse icon" />
