@@ -49,20 +49,96 @@ fileDivs.forEach((fileDiv) => {
 const folders = document.querySelectorAll(".folder");
 
 folders.forEach((folder) => {
-  folder.addEventListener("click", (event) => {
+  const folderCollapseStatus = (folder) => {
+    const foldersLocalStorage = JSON.parse(localStorage.getItem("folders"));
+
+    if (!foldersLocalStorage) return;
+
+    const folderID = folder.dataset.folderid;
+
+    const status = foldersLocalStorage[folderID]?.collapse;
+
+    if (status) {
+      folder.classList.add("preLoad", "collapse");
+
+      const folderCollapseBtn = folder.querySelector(" .folderCollapseBtn");
+      const img = folderCollapseBtn.querySelector("img");
+
+      img.classList.add("preLoad");
+    }
+  };
+
+  folderCollapseStatus(folder);
+
+  const handleFolderClick = (event, folder) => {
     const element = event.target;
+    const elementClassList = element.classList;
+
+    const elementClosestBtn = event.target.closest("button");
+    const elementClosestBtnClassList = elementClosestBtn?.classList;
 
     if (
-      element.closest("button") &&
-      !element.closest("button").classList.contains("folderCollapseBtn")
+      elementClassList.contains("folderHeader") ||
+      elementClosestBtnClassList.contains("folderCollapseBtn")
     ) {
-      return;
+      handleFolderCollapseClick(event, folder);
+    } else if (elementClosestBtnClassList.contains("folderOptionsBtn")) {
+      handleFolderOptionsClick(event, folder);
+    } else if (elementClosestBtnClassList.contains("folderActBtn")) {
+      handleFolderActClick(event, folder);
+    }
+  };
+
+  const handleFolderCollapseClick = (event, folder) => {
+    if (folder.classList.contains("preLoad")) {
+      folder.classList.remove("preLoad");
+
+      const folderCollapseBtn = folder.querySelector(" .folderCollapseBtn");
+
+      const img = folderCollapseBtn.querySelector("img");
+      img.classList.remove("preLoad");
     }
 
-    if (!folder.classList.contains("collapse")) {
-      folder.classList.add("collapse");
-    } else {
+    const folderID = folder.dataset.folderid;
+
+    let collapse = false;
+
+    if (folder.classList.contains("collapse")) {
       folder.classList.remove("collapse");
+      collapse = false;
+    } else {
+      folder.classList.add("collapse");
+      collapse = true;
     }
+
+    const existingFolders = JSON.parse(localStorage.getItem("folders")) || {};
+
+    localStorage.setItem(
+      "folders",
+      JSON.stringify({
+        ...existingFolders,
+        [folderID]: { ...existingFolders[folderID], collapse },
+      }),
+    );
+  };
+
+  const handleFolderOptionsClick = (event, folder) => {
+    const folderOptionsDiv = folder.querySelector(".folderOptions");
+
+    if (folderOptionsDiv.classList.contains("expand")) {
+      folderOptionsDiv.classList.replace("expand", "shrink");
+    } else if (folderOptionsDiv.classList.contains("shrink")) {
+      folderOptionsDiv.classList.replace("shrink", "expand");
+    } else {
+      folderOptionsDiv.classList.add("expand");
+    }
+  };
+
+  const handleFolderActClick = (event, folder) => {
+    console.log(event.target.closest("button"));
+  };
+
+  folder.addEventListener("click", (event) => {
+    handleFolderClick(event, folder);
   });
 });
