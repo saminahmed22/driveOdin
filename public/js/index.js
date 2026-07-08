@@ -45,9 +45,10 @@ downloadPopover.addEventListener("click", (event) => {
 
   if (button.classList.contains("closeBtn")) {
     closeModal(downloadPopover);
+
     uploadPopover.querySelector("form").reset();
 
-    window.location.href = `/`;
+    window.history.pushState({}, document.title, "/");
   }
 });
 
@@ -59,7 +60,11 @@ downloadPagePopover.addEventListener("click", (event) => {
   if (button.classList.contains("closeBtn")) {
     closeModal(downloadPagePopover);
 
-    window.location.href = "/";
+    // Source - https://stackoverflow.com/a/22753103
+    // Posted by Mohammed Joraid, modified by community. See post 'Timeline' for change history
+    // Retrieved 2026-07-09, License - CC BY-SA 4.0
+
+    window.history.pushState({}, document.title, "/");
   }
 });
 
