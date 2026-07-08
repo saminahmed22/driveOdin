@@ -60,35 +60,47 @@ export async function createPost(data) {
   }
 }
 
-// Folder related functions
-export async function createFolderDB(data) {
+export async function editPost(id, data) {
   try {
-    const folder = await prisma.folder.create({ data });
+    const post = await prisma.post.update({
+      where: {
+        id: id,
+      },
+      data: { data },
+    });
 
-    return folder;
+    return post;
   } catch (error) {
     throw error;
   }
 }
 
-export async function getFolders(userId) {
+export async function deletePost(id) {
   try {
-    const folders = await prisma.folder.findMany({
-      where: { userId: userId },
-      include: {
-        posts: true,
+    const post = await prisma.post.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function findPostAuthor(id) {
+  try {
+    const authorID = await prisma.post.findUnique({
+      where: { id },
+      select: {
+        user: {
+          select: {
+            id,
+          },
+        },
       },
     });
 
-    folders.forEach((folder) => {
-      folder.posts.forEach((post) => {
-        post.file_name = middleEllipsis(post.file_name);
-        post.uploaded_at = formatReadableDate(post.uploaded_at);
-        post.expires_at = formatReadableDate(post.expires_at);
-      });
-    });
-
-    return folders;
+    return authorID;
   } catch (error) {
     throw error;
   }

@@ -1,5 +1,5 @@
 // Modles
-import { createFolderDB, getFolders } from "../models/post.model.js";
+import { getFolders } from "../models/folder.model.js";
 
 export async function renderIndex(req, res) {
   let folders;
@@ -12,15 +12,4 @@ export async function renderIndex(req, res) {
     modalOpen: null,
     errors: {},
   });
-}
-
-export async function createFolder(req, res, next) {
-  const folder_name = req.body.folderName;
-  const userId = req.user.id;
-
-  const data = { folder_name, userId };
-
-  await createFolderDB(data);
-
-  res.redirect("/");
 }
