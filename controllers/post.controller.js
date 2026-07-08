@@ -5,12 +5,9 @@ import fileSize from "file-size";
 import CryptoJS from "crypto-js";
 
 // Models
-import {
-  isPostProtected,
-  getPost,
-  createPost,
-  getFolders,
-} from "../models/post.model.js";
+import { isPostProtected, getPost, createPost } from "../models/post.model.js";
+
+import { getFolders } from "../models/folder.model.js";
 
 // Utils
 import { formatReadableDate } from "../utils/readableDate.utils.js";
