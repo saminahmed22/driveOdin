@@ -1,3 +1,17 @@
+<% if (modalOpen === "downloadForm") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("downloadPopover");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
 <dialog id="deleteFolderPopover" class="popover slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
