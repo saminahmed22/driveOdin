@@ -1,49 +1,3 @@
-.fileList {
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  scrollbar-gutter: stable;
-
-  background: #00050a;
-  padding-top: 20px;
-}
-
-.fileListHeader {
-  height: 50px;
-  width: 90%;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-shrink: 0;
-
-  margin-bottom: 15px;
-}
-
-.createFolderBtn {
-  height: 40px;
-  width: 170px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  border: none;
-  border-radius: 18px;
-
-  background: white;
-}
-
 .folder {
   height: calc-size(fit-content, size);
   width: 90%;
@@ -63,6 +17,7 @@
 
   transition: height 0.5s ease;
 }
+
 .folder.collapse {
   height: 40px;
 }
@@ -232,71 +187,6 @@
   padding: 0 0 10px 0;
 }
 
-.file {
-  height: 40px;
-  width: 90%;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  color: white;
-  background-color: rgb(46 47 49);
-
-  border-radius: 5px;
-}
-
-.folder .file {
-  width: 95%;
-}
-
-.fileTitle {
-  height: 100%;
-  width: 40%;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 5px;
-
-  padding-left: 10px;
-}
-
-.postLockIcon {
-  filter: invert();
-}
-
-.fileSize,
-.fileShareCode {
-  height: 100%;
-  width: 10%;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.fileCreationDate,
-.fileExpirationDate {
-  height: 100%;
-  width: 18%;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.fileAction {
-  height: 100%;
-  width: 5%;
-
-  display: inline;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .newFolderForm {
   display: flex;
   flex-direction: column;
@@ -330,27 +220,4 @@
 
   border: 2px solid black;
   border-radius: 10px;
-}
-
-@media (max-width: 1300px) {
-  .fileSize,
-  .fileShareCode,
-  .fileCreationDate,
-  .fileExpirationDate {
-    display: none;
-  }
-
-  .fileTitle {
-    width: 85%;
-  }
-
-  .fileTitleText {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .fileAction {
-    flex-grow: 1;
-  }
 }

@@ -1,0 +1,160 @@
+.file {
+  height: 40px;
+  width: 95%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  color: white;
+  background-color: rgb(46 47 49);
+
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.fileTitle {
+  height: 100%;
+  width: 40%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+
+  padding-left: 10px;
+}
+
+.postLockIcon {
+  filter: invert();
+}
+
+.fileSize,
+.fileShareCode {
+  height: 100%;
+  width: 10%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fileCreationDate,
+.fileExpirationDate {
+  height: 100%;
+  width: 18%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fileAction {
+  height: 100%;
+  width: 5%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fileAction {
+  height: 100%;
+  width: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  padding-right: 10px;
+}
+
+.fileOptionsBtn {
+  z-index: 2;
+}
+
+.fileOptionsBtn img {
+  transition: transform 0.45s ease;
+}
+
+.fileAction:has(.fileOptions.expand) .fileOptionsBtn img {
+  transform: rotate(180deg);
+}
+
+.fileOptions {
+  display: grid;
+  grid-template-areas: "pile";
+  justify-items: center;
+  align-items: center;
+
+  opacity: 0;
+  transform: translateX(51px);
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+
+  z-index: 1;
+}
+
+.fileOptions.expand {
+  transform: translateX(20px);
+  opacity: 1;
+  z-index: 2;
+}
+
+.fileOptions.shrink {
+  transform: translateX(51px);
+  opacity: 0;
+}
+
+.fileOptions button {
+  width: 50px;
+
+  grid-area: pile;
+  transform: translateX(0);
+
+  transition: transform 0.3s ease;
+}
+
+.fileOptions.expand button:nth-child(1) {
+  transform: translateX(0);
+}
+.fileOptions.expand button:nth-child(2) {
+  transform: translateX(-50px);
+}
+.fileOptions.expand button:nth-child(3) {
+  transform: translateX(-100px);
+}
+
+.fileOptions.shrink button {
+  transform: translateX(0);
+}
+
+.fileEditBtn img {
+  filter: invert();
+}
+
+@media (max-width: 1300px) {
+  .fileSize,
+  .fileShareCode,
+  .fileCreationDate,
+  .fileExpirationDate {
+    display: none;
+  }
+
+  .fileTitle {
+    width: 85%;
+  }
+
+  .fileTitleText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .fileAction {
+    flex-grow: 1;
+  }
+}
