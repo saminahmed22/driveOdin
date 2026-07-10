@@ -1,3 +1,17 @@
+<% if (modalOpen === "editFolderForm") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("editFolderPopover");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
 <dialog id="editFolderPopover" class="popover slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
@@ -20,7 +34,12 @@
         <img src="/assets/icons/folder.svg" alt="Folder icon" />Folder
         name:</label
       >
-      <input type="text" name="folderName" id="folderName" value="" />
+      <input
+        type="text"
+        name="folderName"
+        id="folderName"
+        value="<%= values?.folder_name %>"
+      />
     </div>
 
     <button type="submit" class="submitBtn">Submit</button>
