@@ -1,8 +1,8 @@
 // Models
-import { registerUserDB } from "../models/user.model.js";
+import { registerUserDB } from "../models/userModel.js";
 
 // Utils
-import { hashPassword } from "../utils/password.utils.js";
+import { hashString } from "../utils/crypto.js";
 
 export async function renderLoginPage(req, res) {
   const passportErrors = req?.flash("error");
@@ -28,7 +28,7 @@ export async function registerUser(req, res, next) {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     username: req.body.username,
-    password_hash: await hashPassword(req.body.password),
+    password_hash: await hashString(req.body.password),
   };
 
   const user = await registerUserDB(userSubmittedData);

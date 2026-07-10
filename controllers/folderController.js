@@ -5,7 +5,10 @@ import {
   getFolders,
   submitEditFolder,
   submitDeleteFolder,
-} from "../models/folder.model.js";
+} from "../models/folderModel.js";
+
+// Utils
+import { findFolderFromAllData } from "../utils/iterateObject.utils.js";
 
 export async function createFolder(req, res, next) {
   const folder_name = req.body.folderName;
@@ -18,24 +21,21 @@ export async function createFolder(req, res, next) {
   res.redirect("/");
 }
 
-export async function findFolder(req, res, next) {
-  const id = req.params.id;
-
-  const folder = await getFolder(id);
-
-  req.folder = folder;
-
-  next();
-}
-
 export async function editFolder(req, res, next) {
   return null;
 }
 
 export async function deleteFolder(req, res, next) {
-  await submitDeleteFolder(req.params.id);
+  const allFolders = req.data.folders;
 
-  res.redirect("/");
+  console.log(`All folders: ${allFolders}`);
+  if (allFolders.length > 1) {
+    await submitDeleteFolder(req.params.id);
+
+    res.redirect("/");
+  } else {
+    throw new Error("Cannot delete last folder.");
+  }
 }
 
 export async function renderFolderPage(data) {

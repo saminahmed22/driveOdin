@@ -10,13 +10,13 @@ import {
   renderDownloadForm,
   renderDownloadPage,
   addDataToSession,
-} from "../controllers/post.controller.js";
+} from "../controllers/postController.js";
+
+// Models
+import { authenticationStatus, isAuthor } from "../models/authModel.js";
 
 // Middlewares
-import {
-  authenticationStatus,
-  isAuthor,
-} from "../middlewares/authenticationStatus.js";
+import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 
 function redirectToPostView(req, res, next) {
   const id = req?.post?.id || req?.body?.shareCode;
@@ -27,21 +27,11 @@ function redirectToPostView(req, res, next) {
 // Routes
 
 //____get
-postRouter.get("/:id", getImage, renderDownloadPage);
+postRouter.get("/:id", fetchAlluserData, getImage, renderDownloadPage);
 
-postRouter.get(
-  "/passwordRequired/:id/",
-  (req, res, next) => {
-    req.data = {
-      passwordRequired: true,
-      shareCode: req.params.id,
-      error: "password",
-    };
-
-    next();
-  },
-  renderDownloadForm,
-);
+postRouter.get("/passwordRequired/:id", fetchAlluserData, (req, res) => {
+  renderDownloadForm(req, res, "password");
+});
 
 //____post
 postRouter.post(

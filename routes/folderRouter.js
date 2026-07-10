@@ -6,16 +6,14 @@ export const folderRouter = Router();
 import {
   createFolder,
   renderFolderPage,
-  findFolder,
   editFolder,
   deleteFolder,
-} from "../controllers/folder.controller.js";
+} from "../controllers/folderController.js";
 
-// Middlewares
-import {
-  authenticationStatus,
-  isAuthor,
-} from "../middlewares/authenticationStatus.js";
+// Models
+import { authenticationStatus, isAuthor } from "../models/authModel.js";
+
+import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 
 function redirectToFolderView(req, res, next) {
   const id = req.params.id;
@@ -26,7 +24,7 @@ function redirectToFolderView(req, res, next) {
 // Routes
 
 //____get
-folderRouter.get("/:id", findFolder, renderFolderPage);
+folderRouter.get("/:id", fetchAlluserData, renderFolderPage);
 
 //____post
 folderRouter.post("/new", authenticationStatus, createFolder);
@@ -34,7 +32,14 @@ folderRouter.post(
   "/edit/:id",
   authenticationStatus,
   isAuthor,
+  fetchAlluserData,
   editFolder,
   redirectToFolderView,
 );
-folderRouter.post("/delete/:id", authenticationStatus, isAuthor, deleteFolder);
+folderRouter.post(
+  "/delete/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  deleteFolder,
+);
