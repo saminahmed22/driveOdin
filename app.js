@@ -40,30 +40,30 @@ app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routers
-import { indexRouter } from "./routes/index.router.js";
-import { authRouter } from "./routes/auth.router.js";
-import { postRouter } from "./routes/post.router.js";
-import { folderRouter } from "./routes/folder.router.js";
-
-app.use("/auth", authRouter);
-app.use("/folder", folderRouter);
-app.use("/post", postRouter);
-app.use("/", indexRouter);
-
-// View
-app.set("/views");
-app.set("view engine", "ejs");
-
+// Static files
 import { fileURLToPath } from "url";
 import path from "path";
 
-// Static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// View
+app.set("/views");
+app.set("view engine", "ejs");
+
+// Routers
+import { indexRouter } from "./routes/indexRouter.js";
+import { authRouter } from "./routes/authRouter.js";
+import { postRouter } from "./routes/postRouter.js";
+import { folderRouter } from "./routes/folderRouter.js";
+
+app.use("/auth", authRouter);
+app.use("/folder", folderRouter);
+app.use("/post", postRouter);
+app.use("/", indexRouter);
 
 // Listen
 const port = process.env.PORT || 3000;
