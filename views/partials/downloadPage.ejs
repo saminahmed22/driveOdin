@@ -15,12 +15,25 @@
 <dialog id="downloadPagePopover" class="popover slideIn">
   <div class="popoverHeader">
     <div class="popoverTitleContainer">
+      <% if ( values.userId === allData?.id ) { %>
+      <img
+        src="/assets/icons/share.svg"
+        alt="Download icon"
+        draggable="false"
+      />
+      <% }else{
+        %>
       <img
         src="/assets/icons/download.svg"
         alt="Download icon"
         draggable="false"
       />
-      <p class="popverTitle">Download the image</p>
+      <% } %>
+
+      <p class="popverTitle">
+        <% if ( values.userId === allData?.id ) { %> Share this image <% }else{
+        %> Download this image <% } %>
+      </p>
     </div>
 
     <button class="closeBtn">
@@ -32,7 +45,7 @@
     <div class="sharePagePreview">
       <img
         class="sharePagePreivewImage"
-        src="/uploads/<%= data?.post?.file_name%>"
+        src="/uploads/<%= values?.file_name%>"
         alt=""
       />
       <div class="sharePagePreviewInfo">
@@ -40,44 +53,60 @@
           <tr>
             <th>File name<span class="fileDetailsTitleColon">:</span></th>
             <td class="sharePagePreviewTitle">
-              <%= data?.post?.file_name_short %>
+              <span class="fileNameContainer"
+                ><span class="fileName"><%= values?.file_name_short %></span
+                >.<span class="fileExtension"
+                  ><%= values.file_ext %></span
+                ></span
+              >
             </td>
           </tr>
 
           <tr>
             <th>File size<span class="fileDetailsTitleColon">:</span></th>
-            <td class="sharePagePreviewSize"><%= data?.post?.file_size %></td>
+            <td class="sharePagePreviewSize"><%= values?.file_size %></td>
           </tr>
 
           <tr>
             <th>Created at<span class="fileDetailsTitleColon">:</span></th>
-            <td class="sharePagePreviewSize"><%= data?.post?.uploaded_at %></td>
+            <td class="sharePagePreviewSize">
+              <%= values?.readableCreationDate %>
+            </td>
           </tr>
 
           <tr>
             <th>Expires at<span class="fileDetailsTitleColon">:</span></th>
-            <td class="sharePagePreviewSize"><%= data?.post?.expires_at %></td>
+            <td class="sharePagePreviewSize">
+              <%= values?.readableExpiryDate %>
+            </td>
           </tr>
         </table>
       </div>
     </div>
 
-    <div class="shareCodeContainer">
-      <p class="shareCodeLabel">Share code:</p>
-      <div class="shareCodeShow">
-        <p class="shareCode"><%= data?.post?.id %></p>
+    <div class="shareContainer">
+      <p class="shareContainerLabel">Share code:</p>
+      <div class="shareCodeContainer containerWithCopyBtn">
+        <p class="shareCode"><%= values?.id %></p>
         <button class="shareCodeCopyBtn" type="button">
           <img src="/assets/icons/copy.svg" alt="" draggable="false" />
         </button>
       </div>
-      <div class="shareQRCode"><%- data?.post?.qrcode %></div>
+      <div class="shareQRCode"><%- values?.qrcode %></div>
+
+      <div class="shareUrlContainer containerWithCopyBtn">
+        <div class="shareUrl"><%- values?.shareUrl %></div>
+        <button class="shareUrlCopyBtn" type="button">
+          <img src="/assets/icons/copy.svg" alt="" draggable="false" />
+        </button>
+      </div>
     </div>
 
     <a
       type="button"
       class="submitBtn downloadBtn"
-      href="/uploads/<%= data?.post?.file_name %>"
-      download="<%= data?.post?.file_name %>"
+      href="/uploads/<%= values?.file_name %>"
+      download="<%= values?.file_name %>"
       >Download</a
     >
   </div>
