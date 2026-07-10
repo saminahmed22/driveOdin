@@ -1,4 +1,4 @@
-import { formatReadableDate } from "./readableDate.utils.js";
+import { formatReadableDate } from "./readableDate.js";
 import { middleEllipsis } from "./stringEllipsisMiddle.js";
 
 export function reformatAllDataObject(allData) {

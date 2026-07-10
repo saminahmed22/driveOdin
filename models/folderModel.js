@@ -2,8 +2,8 @@
 import { prisma } from "../lib/prisma.js";
 
 // Utils
-import { formatReadableDate } from "../utils/readableDate.utils.js";
-import { generateQR } from "../utils/generateQRcode.utils.js";
+import { formatReadableDate } from "../utils/readableDate.js";
+import { generateQR } from "../utils/generateQRcode.js";
 import { middleEllipsis } from "../utils/stringEllipsisMiddle.js";
 
 export async function submitCreateFolder(data) {

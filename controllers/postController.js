@@ -10,14 +10,14 @@ import { getFolders } from "../models/folderModel.js";
 
 // Utils
 
-import { generateQR } from "../utils/generateQRcode.utils.js";
+import { generateQR } from "../utils/generateQRcode.js";
 import { middleEllipsis } from "../utils/stringEllipsisMiddle.js";
-import { formatReadableSize } from "../utils/readableFileSize.utils.js";
+import { formatReadableSize } from "../utils/readableFileSize.js";
 import { encryptString } from "../utils/crypto.js";
 import {
   findPostFromAllData,
   findFolderFromAllData,
-} from "../utils/iterateObject.utils.js";
+} from "../utils/iterateObject.js";
 
 import { reformatPostDataObject } from "../utils/reformatAllDataObject.js";
 

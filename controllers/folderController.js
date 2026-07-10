@@ -8,7 +8,7 @@ import {
 } from "../models/folderModel.js";
 
 // Utils
-import { findFolderFromAllData } from "../utils/iterateObject.utils.js";
+import { findFolderFromAllData } from "../utils/iterateObject.js";
 
 export async function createFolder(req, res, next) {
   const folder_name = req.body.folderName;
