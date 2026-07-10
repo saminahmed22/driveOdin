@@ -10,7 +10,7 @@
   <%-include('../forms/editFolderForm.ejs') %>
   <%-include('../forms/deleteFolderForm.ejs') %>
   <%-include('../forms/createFolderForm.ejs') %>
-  <% data?.folders?.forEach(folder => { %>
+  <% allData?.folders?.forEach(folder => { %>
   <%-include('./folder.ejs', {folderData: folder}) %>
   <% }) %>
 </div>
