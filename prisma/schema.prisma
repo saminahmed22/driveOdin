@@ -19,21 +19,22 @@ model User {
 
 model Post {
   id          String   @id @default(nanoid(5))
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   file_name   String
   file_size   String
+  file_ext    String
   location    String
   isProtected Boolean  @default(false)
   uploaded_at DateTime @default(now())
   expires_at  DateTime
-  folder      Folder?  @relation(fields: [folderId], references: [id])
+  folder      Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
   folderId    String?
 }
 
 model Folder {
   id          String @id @default(nanoid(5))
-  user        User   @relation(fields: [userId], references: [id])
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   folder_name String
   posts       Post[]
