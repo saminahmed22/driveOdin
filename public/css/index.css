@@ -30,7 +30,7 @@ nav {
 
 nav button {
   height: 50px;
-  min-width: 150px;
+  width: 150px;
 
   display: flex;
   align-items: center;
@@ -461,44 +461,39 @@ nav button {
   width: 100%;
 
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
-.shareCodeLabel {
+.containerWithCopyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.containerWithCopyBtn button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shareContainerLabel {
+  font-size: 1.2rem;
+  font-weight: 600;
+
+  align-self: flex-start;
+
   margin-left: 20px;
 }
 
-.shareCodeContainer .shareCodeLabel {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.shareCodeShow {
-  align-self: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: fit-content;
-  min-width: fit-content;
-}
 .shareCodeContainer .shareCode {
   font-size: 1.5rem;
   font-weight: 600;
-  margin: 10px;
+  margin: 10px 0 10px 10px;
   letter-spacing: 0.5rem;
-}
-
-.shareCodeCopyBtn {
-  background-color: transparent;
-  border: none;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .shareQRCode {
@@ -506,6 +501,13 @@ nav button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.shareUrl {
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .sharePagePreview {
@@ -567,5 +569,33 @@ nav button {
     justify-content: space-evenly;
 
     margin: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  nav {
+    min-height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin: 0;
+  }
+
+  .uploadBtn,
+  .downloadBtn {
+    height: 60px;
+    width: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+
+    font-size: 0;
+
+    margin: 0 !important;
   }
 }
