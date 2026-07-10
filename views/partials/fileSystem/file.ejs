@@ -1,15 +1,16 @@
-<div class="file" title="File">
+<div class="file" title="File" data-postId="<%= postData.id %>">
   <div class="fileTitle">
     <img src="/assets/icons/image.svg" alt="" />
     <p class="fileDetail fileTitleText" title="Name">
-      <%= postData.file_name %>
+      <%= postData.file_name_short %>
     </p>
+
     <% if (postData.isProtected) { %>
     <img
       class="postLockIcon"
       src="/assets/icons/lock.svg"
       alt="Lock icon"
-      title="This post is password protected"
+      title="This image is password protected"
     />
     <% } %>
   </div>
@@ -17,15 +18,26 @@
   <p class="fileDetail fileSize" title="size"><%= postData.file_size%></p>
   <p class="fileDetail fileShareCode" title="Share code"><%= postData.id %></p>
   <p class="fileDetail fileCreationDate" title="Creation date">
-    <%= postData.uploaded_at %>
+    <%= postData.readableCreationDate %>
   </p>
   <p class="fileDetail fileExpirationDate" title="Expiration date">
-    <%= postData.expires_at %>
+    <%= postData.readableExpiryDate %>
   </p>
 
   <div class="fileAction">
-    <button class="fileDeleteBtn" title="Delete">
-      <img src="/assets/icons/delete.svg" alt="Delete icon" />
+    <div class="fileOptions">
+      <button class="fileDeleteBtn fileActBtn">
+        <img src="/assets/icons/delete.svg" alt="Delete icon" />
+      </button>
+      <%  %>
+
+      <button class="fileEditBtn fileActBtn">
+        <img src="/assets/icons/edit.svg" alt="Edit icon" />
+      </button>
+    </div>
+
+    <button class="fileOptionsBtn">
+      <img src="/assets/icons/left.svg" alt="" />
     </button>
   </div>
 </div>
