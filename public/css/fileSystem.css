@@ -170,14 +170,14 @@
   transition: transform 0.3s ease;
 }
 
-.folderOptions.expand .folderEditBtn {
-  transform: translateX(-100px);
+.folderOptions.expand button:nth-child(1) {
+  transform: translateX(0);
 }
-.folderOptions.expand .folderShareBtn {
+.folderOptions.expand button:nth-child(2) {
   transform: translateX(-50px);
 }
-.folderOptions.expand .folderDeleteBtn {
-  transform: translateX(0);
+.folderOptions.expand button:nth-child(3) {
+  transform: translateX(-100px);
 }
 
 .folderOptions.shrink button {
