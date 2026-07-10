@@ -64,3 +64,7 @@ body {
   animation: none !important;
   transition: none !important;
 }
+
+img {
+  pointer-events: none;
+}
