@@ -1,8 +1,5 @@
+// Event listeners for the navbar
 const nav = document.querySelector("nav");
-
-const uploadPopover = document.getElementById("uploadPopover");
-const downloadPopover = document.getElementById("downloadPopover");
-const downloadPagePopover = document.getElementById("downloadPagePopover");
 
 nav.addEventListener("click", (event) => {
   const button = event.target.closest("button");
@@ -16,31 +13,34 @@ nav.addEventListener("click", (event) => {
   }
 });
 
+// Event listeners for the popovers
+const uploadPopover = document.getElementById("uploadPopover");
+const downloadPopover = document.getElementById("downloadPopover");
+const downloadPagePopover = document.getElementById("downloadPagePopover");
+
 uploadPopover.addEventListener("click", (event) => {
   const button = event.target.closest("button");
+  if (!button) return;
+
   const uploadSelectBtn = document.querySelector(".uploadSelectBtn");
   const uploadBtnInstruction = document.querySelector(".uploadBtnInstruction");
-
-  if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
     closeModal(uploadPopover);
 
-    if (uploadSelectBtn && uploadBtnInstruction) {
-      uploadPopover.querySelector("form").reset();
+    // Reset upload form and styles
+    uploadPopover.querySelector("form").reset();
 
-      uploadSelectBtn.style.backgroundImage = "";
-      uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
-      uploadBtnInstruction.style.color = "black";
-      uploadBtnInstruction.style.textShadow = "none";
-      uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
-    }
+    uploadSelectBtn.style.backgroundImage = "";
+    uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
+    uploadBtnInstruction.style.color = "black";
+    uploadBtnInstruction.style.textShadow = "none";
+    uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
   }
 });
 
 downloadPopover.addEventListener("click", (event) => {
   const button = event.target.closest("button");
-
   if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
@@ -54,7 +54,6 @@ downloadPopover.addEventListener("click", (event) => {
 
 downloadPagePopover.addEventListener("click", (event) => {
   const button = event.target.closest("button");
-
   if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
@@ -82,6 +81,7 @@ function closeModal(modal) {
   );
 }
 
+// Event listener for the password input container
 const passwordInputContainer = document.querySelectorAll(".passwordInputField");
 
 if (passwordInputContainer) {
@@ -108,7 +108,6 @@ if (passwordInputContainer) {
 }
 
 // upload button click
-
 const uploadSelectBtn = document.querySelector(".uploadSelectBtn");
 const imagePicker = document.getElementById("imagePicker");
 const uploadBtnInstruction = document.querySelector(".uploadBtnInstruction");
@@ -137,11 +136,10 @@ if (uploadSelectBtn) {
 }
 
 // Copy button
+const shareContainer = document.querySelector(".shareContainer");
 
-const shareCodeContainer = document.querySelector(".shareCodeContainer");
-
-if (shareCodeContainer) {
-  shareCodeContainer.addEventListener("click", (event) => {
+if (shareContainer) {
+  shareContainer.addEventListener("click", (event) => {
     const button = event.target.closest("button");
 
     if (!button) return;
@@ -150,6 +148,10 @@ if (shareCodeContainer) {
       const code = document.querySelector(".shareCode").textContent;
 
       navigator.clipboard.writeText(code);
+    } else if (button.classList.contains("shareUrlCopyBtn")) {
+      const url = document.querySelector(".shareUrl").textContent;
+
+      navigator.clipboard.writeText(url);
     }
   });
 }
