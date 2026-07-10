@@ -10,14 +10,18 @@
 
     <div class="folderHeaderActions">
       <div class="folderOptions">
-        <button class="folderEditBtn folderActBtn">
-          <img src="/assets/icons/edit.svg" alt="Edit icon" />
+        <% if (allData.folders.length > 1) { %>
+        <button class="folderDeleteBtn folderActBtn">
+          <img src="/assets/icons/delete.svg" alt="Delete icon" />
         </button>
+        <% } %>
+
         <button class="folderShareBtn folderActBtn">
           <img src="/assets/icons/share.svg" alt="Share icon" />
         </button>
-        <button class="folderDeleteBtn folderActBtn">
-          <img src="/assets/icons/delete.svg" alt="Delete icon" />
+
+        <button class="folderEditBtn folderActBtn">
+          <img src="/assets/icons/edit.svg" alt="Edit icon" />
         </button>
       </div>
 
