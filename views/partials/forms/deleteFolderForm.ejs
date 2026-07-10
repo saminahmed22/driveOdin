@@ -14,8 +14,17 @@
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
+  <p class="deleteFormWarning">
+    You are about to delete the folder [folder name]
+  </p>
+  <div class="deleteFolderPopupFileList">
+    <div class="deleteFolderPopupFileListTitle">
+      <p>All these files will also be deleted</p>
+    </div>
+    <div class="deleteFolderPopupFileCard"></div>
+  </div>
 
-  <form class="newFolderForm popoverForm" action="/" method="POST">
+  <form class="deleteFolderForm popoverForm" action="/" method="POST">
     <button type="submit" class="submitBtn submitDeleteBtn">Delete</button>
   </form>
 </dialog>
