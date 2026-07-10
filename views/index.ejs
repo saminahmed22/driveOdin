@@ -13,10 +13,11 @@
     <script src="/js/index.js" defer></script>
     <script src="/js/fileSystem.js" defer></script>
 
-    <title>Sharodin</title>
+    <title>Share-odin</title>
   </head>
 
   <body>
+    <% if (allData?.id) { %>
     <header>
       <nav>
         <button class="uploadBtn">
@@ -44,5 +45,12 @@
       include('./partials/downloadPage.ejs') %> <%-
       include('./partials/fileSystem/fileList.ejs') %>
     </div>
+    <% } else{ %>
+
+    <%-
+      include('./partials/forms/downloadForm.ejs') %>
+    <%-
+      include('./partials/downloadPage.ejs') %>
+    <% } %>
   </body>
 </html>
