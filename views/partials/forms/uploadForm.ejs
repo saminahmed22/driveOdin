@@ -44,7 +44,7 @@
       >
 
       <select name="selected_folder" id="selected_folder_option">
-        <% data?.folders?.forEach((folder, index) => { %>
+        <% allData?.folders?.forEach((folder, index) => { %>
         <% if (index === 0) { %>
         <option value="<%= folder.id %>" selected>
           <span class="directoryMark">/</span
