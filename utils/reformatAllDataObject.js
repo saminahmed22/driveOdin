@@ -45,9 +45,10 @@ export function reformatPostDataObject(post) {
     0,
     fileName.lastIndexOf("."),
   ); // removes the extension
+
   post.file_name_without_extension = file_name_without_extension;
 
-  post.file_name_short = middleEllipsis(fileName);
+  post.file_name_short = `${middleEllipsis(file_name_without_extension)}.${extension}`;
   //#endregion
 
   //#region Converts ISO dates into readble dates
