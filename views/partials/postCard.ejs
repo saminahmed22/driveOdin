@@ -1,0 +1,10 @@
+<div class="postCard">
+  <div class="postCardImg <%- post?.isProtected && 'protectedPost' %>">
+    <% if (post?.isProtected) { %>
+    <img src="/assets/icons/lock.svg" alt="" />
+    <% }else{ %>
+    <img src="/uploads/<%=post?.file_name %>" alt="" />
+    <% } %>
+  </div>
+  <p class="postCardTitle"><%= post?.file_name_short%></p>
+</div>
