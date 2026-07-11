@@ -44,7 +44,11 @@
     </div>
   </div>
 
-  <form class="deleteFolderForm popoverForm" action="/" method="POST">
+  <form
+    class="deleteFolderForm popoverForm"
+    action="/folder/delete/<%= values?.folder?.id %>"
+    method="POST"
+  >
     <button type="submit" class="submitBtn submitDeleteBtn">Delete</button>
   </form>
 </dialog>
