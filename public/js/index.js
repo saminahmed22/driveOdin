@@ -155,3 +155,22 @@ if (shareContainer) {
     }
   });
 }
+
+// Folder Delete confimation popover
+const folderDeleteConfirmPopover = document.getElementById(
+  "deleteFolderPopover",
+);
+
+if (folderDeleteConfirmPopover) {
+  folderDeleteConfirmPopover.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+
+    if (button) {
+      if (button.classList.contains("closeBtn")) {
+        closeModal(folderDeleteConfirmPopover);
+
+        window.history.pushState({}, document.title, "/");
+      }
+    }
+  });
+}
