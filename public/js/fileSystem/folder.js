@@ -94,22 +94,20 @@ function expnadFolderOptions(folder) {
 // Folder CRUD operation
 function editFolder(folder) {
   const folderID = folder.dataset.folderid;
+
+  window.location.href = `/folder/edit/${folderID}`;
 }
 
 function shareFolder(folder) {
   const folderID = folder.dataset.folderid;
+
+  window.location.href = `/folder/share/${folderID}`;
 }
 
 function deleteFolder(folder) {
   const folderID = folder.dataset.folderid;
 
-  const deleteModal = document.getElementById("deleteFolderPopover");
-
-  const deleteForm = deleteModal.querySelector("form");
-
-  deleteForm.action = `/folder/delete/${folderID}`;
-
-  deleteModal.showModal();
+  window.location.href = `/folder/delete/${folderID}`;
 }
 
 // Click event listener for each folder
