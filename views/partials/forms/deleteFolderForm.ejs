@@ -1,7 +1,7 @@
-<% if (modalOpen === "downloadForm") { %>
+<% if (modalOpen === "deleteFolder") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const popover = document.getElementById("downloadPopover");
+    const popover = document.getElementById("deleteFolderPopover");
 
     popover.inert = true;
 
@@ -29,13 +29,19 @@
     </button>
   </div>
   <p class="deleteFormWarning">
-    You are about to delete the folder [folder name]
+    You are about to delete the folder
+    <span class="folderName"><%= values?.folder?.folder_name%></span>
   </p>
   <div class="deleteFolderPopupFileList">
     <div class="deleteFolderPopupFileListTitle">
-      <p>All these files will also be deleted</p>
+      <img src="/assets/icons/warning.svg" alt="" />
+      <p>All these files will also be deleted:</p>
     </div>
-    <div class="deleteFolderPopupFileCard"></div>
+    <div class="deleteFolderPopupFileCard">
+      <% values?.folder?.posts.forEach(post => { %>
+      <%- include('../postCard.ejs', {post}) %>
+      <% }) %>
+    </div>
   </div>
 
   <form class="deleteFolderForm popoverForm" action="/" method="POST">
