@@ -23,10 +23,10 @@ export function findFolderFromAllData(targetFolderID, allData) {
     throw new Error(`No folder is available to iterate through.`);
   }
 
-  const targetFolder = folders?.targetFolderID;
-
-  if (targetFolder) {
-    return targetFolder;
+  for (const folder of folders) {
+    if (folder.id === targetFolderID) {
+      return folder;
+    }
   }
 
   throw new Error(`Cannot find the folder with folder ID: ${targetFolderID}`);
