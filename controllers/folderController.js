@@ -21,8 +21,25 @@ export async function createFolder(req, res, next) {
   res.redirect("/");
 }
 
+export async function renderFolderEditPopver(req, res, next) {
+  const folder = findFolderFromAllData(req.params.id);
+
+  next();
+}
+
 export async function editFolder(req, res, next) {
   return null;
+}
+
+export async function renderFolderDeletePopver(req, res, next) {
+  const folder = findFolderFromAllData(req.params.id, req.data);
+
+  res.render("index", {
+    allData: req.data,
+    modalOpen: "deleteFolder",
+    values: { folder },
+    errors: {},
+  });
 }
 
 export async function deleteFolder(req, res, next) {
