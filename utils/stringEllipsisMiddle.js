@@ -2,7 +2,7 @@
 // Posted by Stefan Lundström, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-07-06, License - CC BY-SA 4.0
 
-export function middleEllipsis(str, maxLen = 35) {
+export function middleEllipsis(str, maxLen = 25) {
   if (!str) {
     throw new Error("No string has been provided.");
   }
