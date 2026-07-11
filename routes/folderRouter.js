@@ -8,6 +8,8 @@ import {
   renderFolderPage,
   editFolder,
   deleteFolder,
+  renderFolderEditPopver,
+  renderFolderDeletePopver,
 } from "../controllers/folderController.js";
 
 // Models
@@ -25,6 +27,20 @@ function redirectToFolderView(req, res, next) {
 
 //____get
 folderRouter.get("/:id", fetchAlluserData, renderFolderPage);
+folderRouter.get(
+  "/edit/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  renderFolderEditPopver,
+);
+folderRouter.get(
+  "/delete/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  renderFolderDeletePopver,
+);
 
 //____post
 folderRouter.post("/new", authenticationStatus, createFolder);
