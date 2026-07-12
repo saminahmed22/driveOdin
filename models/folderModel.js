@@ -64,13 +64,11 @@ export async function getFolders(userId) {
   }
 }
 
-export async function submitEditFolder(id, data) {
+export async function submitEditFolder(id, folder_name) {
   try {
     const folder = await prisma.folder.update({
-      where: {
-        id: id,
-      },
-      data: { data },
+      where: { id },
+      data: { folder_name },
     });
 
     return folder;
