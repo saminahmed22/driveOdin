@@ -1,4 +1,4 @@
-<% if (modalOpen === "editFolderForm") { %>
+<% if (modalOpen === "editFolder") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const popover = document.getElementById("editFolderPopover");
@@ -28,7 +28,11 @@
     </button>
   </div>
 
-  <form class="newFolderForm popoverForm" action="/folder/edit/0" method="POST">
+  <form
+    class="newFolderForm popoverForm"
+    action="/folder/edit/<%= values?.folder?.id %>"
+    method="POST"
+  >
     <div class="folderFormInputField">
       <label for="folderName">
         <img src="/assets/icons/folder.svg" alt="Folder icon" />Folder
@@ -36,9 +40,9 @@
       >
       <input
         type="text"
-        name="folderName"
+        name="folder_name"
         id="folderName"
-        value="<%= values?.folder_name %>"
+        value="<%= values?.folder?.folder_name %>"
       />
     </div>
 
