@@ -174,3 +174,20 @@ if (folderDeleteConfirmPopover) {
     }
   });
 }
+
+// Folder Edit  popover
+const folderEditPopover = document.getElementById("editFolderPopover");
+
+if (folderEditPopover) {
+  folderEditPopover.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+
+    if (button) {
+      if (button.classList.contains("closeBtn")) {
+        closeModal(folderEditPopover);
+
+        window.history.pushState({}, document.title, "/");
+      }
+    }
+  });
+}
