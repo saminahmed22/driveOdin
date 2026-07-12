@@ -32,6 +32,8 @@
     You are about to delete the folder
     <span class="folderName"><%= values?.folder?.folder_name%></span>
   </p>
+
+  <% if (values?.folder?.posts?.length > 0) { %>
   <div class="deleteFolderPopupFileList">
     <div class="deleteFolderPopupFileListTitle">
       <img src="/assets/icons/warning.svg" alt="" />
@@ -43,6 +45,7 @@
       <% }) %>
     </div>
   </div>
+  <% } %>
 
   <form
     class="deleteFolderForm popoverForm"
