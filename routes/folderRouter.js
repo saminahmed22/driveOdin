@@ -50,7 +50,6 @@ folderRouter.post(
   isAuthor,
   fetchAlluserData,
   editFolder,
-  redirectToFolderView,
 );
 folderRouter.post(
   "/delete/:id",
