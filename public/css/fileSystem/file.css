@@ -137,6 +137,34 @@
 }
 
 @media (max-width: 1300px) {
+  .fileTitle {
+    width: fit-content;
+
+    align-self: flex-start;
+
+    margin-bottom: 5px;
+    padding-left: 10px;
+  }
+
+  .fileSize,
+  .fileShareCode,
+  .fileCreationDate,
+  .fileExpirationDate {
+    display: none;
+  }
+
+  .fileTitleText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .fileAction {
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 600px) {
   .file {
     flex-direction: column;
 
