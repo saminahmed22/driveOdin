@@ -23,21 +23,21 @@
     <% if (allData?.id) { %>
     <header>
       <nav>
-        <button class="uploadBtn">
-          <img
-            src="/assets/icons/upload.svg"
-            alt="Upload icon"
-            draggable="false"
-          />
-          Upload an image
+        <button
+          class="uploadBtn"
+          commandfor="uploadDialog"
+          command="show-modal"
+        >
+          <img src="/assets/icons/upload.svg" alt="Upload icon" />
+          Upload
         </button>
-        <button class="downloadBtn">
-          <img
-            src="/assets/icons/download.svg"
-            alt="Download icon"
-            draggable="false"
-          />
-          Receive an image
+        <button
+          class="downloadBtn"
+          commandfor="downloadDialog"
+          command="show-modal"
+        >
+          <img src="/assets/icons/download.svg" alt="Download icon" />
+          Receive
         </button>
       </nav>
     </header>
