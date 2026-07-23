@@ -1,7 +1,7 @@
 <% if (modalOpen === "downloadForm") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const popover = document.getElementById("downloadPopover");
+    const popover = document.getElementById("downloadDialog");
 
     popover.inert = true;
 
@@ -12,18 +12,18 @@
 </script>
 <% } %>
 
-<dialog id="downloadPopover" class="popover slideIn">
-  <div class="popoverHeader">
-    <div class="popoverTitleContainer">
+<dialog id="downloadDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
       <img
         src="/assets/icons/download.svg"
         alt="Download icon"
         draggable="false"
       />
-      <p class="popverTitle">Receive an image</p>
+      <p class="dialogTitle">Receive an image</p>
     </div>
 
-    <button class="closeBtn">
+    <button class="closeBtn" commandfor="downloadDialog" command="close">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
@@ -33,11 +33,12 @@
     action="/post/download"
     method="POST"
   >
-    <div class="inputField">
+    <div class="inputContainer">
       <label for="shareCode">
         <img src="/assets/icons/shareCode.svg" alt="" />Enter share code:</label
       >
       <input
+        class="codeInputField"
         type="text"
         name="shareCode"
         id="shareCode"
@@ -47,13 +48,14 @@
       />
     </div>
 
-    <div class="inputField">
+    <div class="inputContainer">
       <label for="postPassword">
         <img src="/assets/icons/lock.svg" alt="" />Enter password (If
         applicable):</label
       >
-      <div class="passwordInputField">
+      <div>
         <input
+          class="codeInputField"
           type="password"
           name="postPassword"
           id="filePasswordInput"

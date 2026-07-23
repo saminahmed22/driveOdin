@@ -1,7 +1,7 @@
 <% if (modalOpen === "downloadPage") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const popover = document.getElementById("downloadPagePopover");
+    const popover = document.getElementById("downloadPageDialog");
 
     popover.inert = true;
 
@@ -12,36 +12,28 @@
 </script>
 <% } %>
 
-<dialog id="downloadPagePopover" class="popover slideIn">
-  <div class="popoverHeader">
-    <div class="popoverTitleContainer">
+<dialog id="downloadPageDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
       <% if ( values.userId === allData?.id ) { %>
-      <img
-        src="/assets/icons/share.svg"
-        alt="Download icon"
-        draggable="false"
-      />
+      <img src="/assets/icons/share.svg" alt="Download icon" />
       <% }else{
         %>
-      <img
-        src="/assets/icons/download.svg"
-        alt="Download icon"
-        draggable="false"
-      />
+      <img src="/assets/icons/download.svg" alt="Download icon" />
       <% } %>
 
-      <p class="popverTitle">
+      <p class="dialogTitle">
         <% if ( values.userId === allData?.id ) { %> Share this image <% }else{
         %> Download this image <% } %>
       </p>
     </div>
 
-    <button class="closeBtn">
+    <button class="closeBtn" commandfor="downloadPageDialog" command="close">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
 
-  <div class="uploadFormSharePage" class="slideIn">
+  <div class="sharePageContainer">
     <div class="sharePagePreview">
       <img
         class="sharePagePreivewImage"
@@ -82,17 +74,27 @@
     <div class="shareContainer">
       <p class="shareContainerLabel">Share code:</p>
       <div class="shareCodeContainer containerWithCopyBtn">
-        <p class="shareCode"><%= values?.id %></p>
-        <button class="shareCodeCopyBtn" type="button">
+        <p class="shareCode" id="fileShareCode"><%= values?.id %></p>
+        <button
+          class="shareCodeCopyBtn"
+          type="button"
+          commandfor="fileShareCode"
+          command="--copy"
+        >
           <img src="/assets/icons/copy.svg" alt="" draggable="false" />
         </button>
       </div>
       <div class="shareQRCode"><%- values?.qrcode %></div>
 
       <div class="shareUrlContainer containerWithCopyBtn">
-        <div class="shareUrl"><%- values?.shareUrl %></div>
-        <button class="shareUrlCopyBtn" type="button">
-          <img src="/assets/icons/copy.svg" alt="" draggable="false" />
+        <div class="shareUrl" id="fileUrl"><%- values?.shareUrl %></div>
+        <button
+          class="shareUrlCopyBtn"
+          type="button"
+          commandfor="fileUrl"
+          command="--copy"
+        >
+          <img src="/assets/icons/copy.svg" alt="" />
         </button>
       </div>
     </div>

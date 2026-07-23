@@ -1,26 +1,27 @@
-<dialog id="createFolderPopover" class="popover slideIn">
-  <div class="popoverHeader">
-    <div class="popoverTitleContainer">
-      <img
-        src="/assets/icons/newFolder.svg"
-        alt="New folder icon"
-        draggable="false"
-      />
+<dialog id="createFolderDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
+      <img src="/assets/icons/newFolder.svg" alt="New folder icon" />
       <p class="popverTitle">Create a new folder</p>
     </div>
 
-    <button class="closeBtn">
+    <button class="closeBtn" commandfor="createFolderDialog" command="close">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
 
-  <form class="newFolderForm popoverForm" action="/folder/new" method="POST">
-    <div class="folderFormInputField">
-      <label for="folderName">
+  <form
+    id="newFolderForm"
+    class="popoverForm"
+    action="/folder/new"
+    method="POST"
+  >
+    <div class="inputContainer">
+      <label for="folder_name">
         <img src="/assets/icons/folder.svg" alt="Folder icon" />Folder
         name:</label
       >
-      <input type="text" name="folderName" id="folderName" />
+      <input type="text" name="folder_name" id="folder_name" />
     </div>
 
     <button type="submit" class="submitBtn">Submit</button>

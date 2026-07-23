@@ -1,7 +1,7 @@
 <% if (modalOpen === "deleteFolder") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const popover = document.getElementById("deleteFolderPopover");
+    const popover = document.getElementById("deleteFolderDialog");
 
     popover.inert = true;
 
@@ -12,19 +12,18 @@
 </script>
 <% } %>
 
-<dialog id="deleteFolderPopover" class="popover slideIn">
-  <div class="popoverHeader">
-    <div class="popoverTitleContainer">
+<dialog id="deleteFolderDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
       <img
         src="/assets/icons/delete.svg"
         alt="New folder icon"
-        draggable="false"
-        style="filter: invert()"
+        class="invertImg"
       />
-      <p class="popverTitle">Are you sure?</p>
+      <p class="dialogTitle">Are you sure?</p>
     </div>
 
-    <button class="closeBtn">
+    <button class="closeBtn" commandfor="deleteFolderDialog" command="close">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
@@ -40,11 +39,13 @@
       <p>All these files will also be deleted:</p>
     </div>
     <div class="deleteFolderPopupFileCard">
-      <% values?.folder?.posts.forEach(post => { %>
+      <% values?.folder?.posts?.forEach(post => { %>
       <%- include('../postCard.ejs', {post}) %>
       <% }) %>
     </div>
   </div>
+  <% } else {%>
+  <p class="emptyFolderMessage">This folder contains no files.</p>
   <% } %>
 
   <form

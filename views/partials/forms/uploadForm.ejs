@@ -1,7 +1,7 @@
 <% if (modalOpen === "uploadForm") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const popover = document.getElementById("uploadPopover");
+    const popover = document.getElementById("uploadDialog");
 
     popover.inert = true;
 
@@ -12,13 +12,13 @@
 </script>
 <% } %>
 
-<dialog id="uploadPopover" class="popover slideIn">
-  <div class="popoverHeader">
-    <div class="popoverTitleContainer">
-      <img src="/assets/icons/upload.svg" alt="Upload icon" draggable="false" />
-      <p class="popverTitle">Upload an image</p>
+<dialog id="uploadDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
+      <img src="/assets/icons/upload.svg" alt="Upload icon" />
+      <p class="dialogTitle">Upload an image</p>
     </div>
-    <button class="closeBtn">
+    <button class="closeBtn" commandfor="uploadDialog" command="close">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
@@ -36,6 +36,15 @@
       </div>
     </button>
     <input type="file" name="selected_image" id="imagePicker" />
+
+    <div class="inputContainer">
+      <label for="postName">
+        <img src="/assets/icons/shareCode.svg" alt="" />File name</label
+      >
+      <div class="inputField">
+        <input type="text" name="postName" id="postName" maxlength="50" />
+      </div>
+    </div>
 
     <div class="folderSelectInputContainer">
       <label for="selected_folder_option">
@@ -61,7 +70,7 @@
       </select>
     </div>
 
-    <div class="inputField">
+    <div class="inputContainer">
       <label for="postPassword">
         <img src="/assets/icons/lock.svg" alt="" /> Secure with a password
         (Optional)</label
@@ -72,6 +81,7 @@
           name="postPassword"
           id="postPassword"
           maxlength="8"
+          class="codeInputField"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
           <img

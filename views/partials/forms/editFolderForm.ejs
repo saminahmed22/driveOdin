@@ -1,7 +1,7 @@
 <% if (modalOpen === "editFolder") { %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const popover = document.getElementById("editFolderPopover");
+    const popover = document.getElementById("editFolderDialog");
 
     popover.inert = true;
 
@@ -12,18 +12,18 @@
 </script>
 <% } %>
 
-<dialog id="editFolderPopover" class="popover slideIn">
-  <div class="popoverHeader">
-    <div class="popoverTitleContainer">
+<dialog id="editFolderDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
       <img
         src="/assets/icons/edit.svg"
         alt="New folder icon"
         draggable="false"
       />
-      <p class="popverTitle">Edit folder name</p>
+      <p class="dialogTitle">Edit folder name</p>
     </div>
 
-    <button class="closeBtn">
+    <button class="closeBtn" commandfor="editFolderDialog" command="close">
       <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
   </div>
