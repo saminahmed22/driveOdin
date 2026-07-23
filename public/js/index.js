@@ -19,6 +19,12 @@ uploadDialog.addEventListener("click", (event) => {
     uploadBtnInstruction.style.color = "black";
     uploadBtnInstruction.style.textShadow = "none";
     uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
+
+    const postName = document.getElementById("postName");
+
+    if (postName) {
+      postName.disabled = true;
+    }
   }
 });
 
@@ -83,11 +89,22 @@ if (uploadSelectBtn) {
 
     reader.readAsDataURL(selectedImage);
 
-    // Injects file name input field
+    // Injects file name in the input field
     const postName = document.getElementById("postName");
+    const fileNameExtension = document.querySelector(".fileNameExtension");
 
     if (postName) {
-      postName.value = selectedImage.name;
+      const fileName = selectedImage.name;
+
+      const indexOfFileExt = fileName.lastIndexOf(".");
+
+      const fileNameWithoutExt = fileName.substring(0, indexOfFileExt);
+      const fileExt = fileName.substring(indexOfFileExt);
+
+      postName.disabled = false;
+      postName.value = fileNameWithoutExt;
+
+      fileNameExtension.textContent = fileExt;
     }
   });
 }

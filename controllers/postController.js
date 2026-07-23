@@ -30,7 +30,21 @@ const storage = multer.diskStorage({
   },
 
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    //#region File name
+    const originalFileName = file.originalname;
+
+    const indexOfFileExt = originalFileName.lastIndexOf(".");
+    const fileNameWithoutExt = originalFileName.substring(0, indexOfFileExt);
+
+    const fileExt = originalFileName.substring(indexOfFileExt);
+
+    const givenFileName = req.body.postName;
+    const modifiedFileName = givenFileName.split(" ").join("_");
+
+    const file_name = `${modifiedFileName}${fileExt}`;
+    //#endregion
+
+    cb(null, file_name);
   },
 });
 
@@ -52,7 +66,19 @@ export function uploadImage(req, res, next) {
 export async function uploadPost(req, res, next) {
   const userId = req.user.id;
 
-  const file_name = req.file.originalname;
+  //#region File name
+  const originalFileName = req.file.originalname;
+
+  const indexOfFileExt = originalFileName.lastIndexOf(".");
+  const fileNameWithoutExt = originalFileName.substring(0, indexOfFileExt);
+
+  const fileExt = originalFileName.substring(indexOfFileExt);
+
+  const givenFileName = req.body.postName;
+  const modifiedFileName = givenFileName.split(" ").join("_");
+
+  const file_name = `${modifiedFileName}${fileExt}`;
+  //#endregion
 
   const isProtected = req.body.postPassword.length > 0;
 

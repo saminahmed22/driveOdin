@@ -143,6 +143,46 @@ nav button {
   display: none;
 }
 
+/* Styles for file name Input field in forms */
+.fileNameInputField {
+  display: flex;
+
+  input {
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .fileNameExtension {
+    height: 25px;
+    min-width: 50px;
+    max-width: fit-content;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid black;
+    border-left: 0;
+
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    padding: 0 5px;
+
+    background: #8080803e;
+  }
+
+  input:disabled {
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .fileNameExtension {
+    cursor: not-allowed;
+  }
+}
+
 .folderSelectInputContainer {
   width: 100%;
 

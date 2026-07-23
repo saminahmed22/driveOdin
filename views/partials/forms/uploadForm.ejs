@@ -35,14 +35,20 @@
         <p>Click here to select an image</p>
       </div>
     </button>
-    <input type="file" name="selected_image" id="imagePicker" />
 
     <div class="inputContainer">
       <label for="postName">
         <img src="/assets/icons/shareCode.svg" alt="" />File name</label
       >
-      <div class="inputField">
-        <input type="text" name="postName" id="postName" maxlength="50" />
+      <div class="fileNameInputField">
+        <input
+          type="text"
+          name="postName"
+          id="postName"
+          maxlength="50"
+          disabled
+        />
+        <span><p class="fileNameExtension">.ext</p></span>
       </div>
     </div>
 
@@ -111,6 +117,7 @@
         <label class="radio_label" for="radio_4">15 days</label>
       </div>
     </div>
+    <input type="file" name="selected_image" id="imagePicker" />
     <button type="submit" class="submitBtn">Upload</button>
   </form>
 </dialog>
