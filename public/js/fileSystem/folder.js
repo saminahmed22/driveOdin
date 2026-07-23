@@ -1,6 +1,8 @@
 const folders = document.querySelectorAll(".folder");
 
 function handleFolderClick(event, folder) {
+  const folderID = folder.dataset.folderid;
+
   const button = event.target.closest("button");
 
   if (button) {
@@ -9,63 +11,49 @@ function handleFolderClick(event, folder) {
     if (buttonClassList.contains("folderOptionsBtn")) {
       expnadFolderOptions(folder);
     } else if (buttonClassList.contains("folderEditBtn")) {
-      editFolder(folder);
+      editFolder(folderID);
     } else if (buttonClassList.contains("folderShareBtn")) {
-      shareFolder(folder);
+      shareFolder(folderID);
     } else if (buttonClassList.contains("folderDeleteBtn")) {
-      deleteFolder(folder);
+      deleteFolder(folderID);
     } else if (buttonClassList.contains("folderCollapseBtn")) {
-      handleFolderCollapseClick(event, folder);
+      handleFolderCollapseClick(event, folder, folderID);
     }
   } else {
     if (event.target.closest(".folderHeader")) {
-      handleFolderCollapseClick(event, folder);
+      handleFolderCollapseClick(event, folder, folderID);
     }
   }
 }
 
 // Adding user action on folder/collapse status to the localStorage
 function folderCollapseStatus(folder) {
+  const folderID = folder.dataset.folderid;
+
   const foldersLocalStorage = JSON.parse(localStorage.getItem("folders"));
 
   if (!foldersLocalStorage) return;
 
-  const folderID = folder.dataset.folderid;
-
   const status = foldersLocalStorage[folderID]?.collapse;
 
   if (status) {
-    folder.classList.add("preLoad", "collapse");
+    folder.classList.add("collapse");
+  }
 
-    const folderCollapseBtn = folder.querySelector(" .folderCollapseBtn");
-    const img = folderCollapseBtn.querySelector("img");
+  const folderOptionStatus = foldersLocalStorage[folderID]?.folderOptionsExpand;
 
-    img.classList.add("preLoad");
+  if (folderOptionStatus) {
+    folder.querySelector(".folderOptions").classList.add("expand");
   }
 }
 
 // Folder expand/collapse
-function handleFolderCollapseClick(event, folder) {
-  if (folder.classList.contains("preLoad")) {
-    folder.classList.remove("preLoad");
+function handleFolderCollapseClick(event, folder, folderID) {
+  let collapse = !folder.classList.contains("collapse");
 
-    const folderCollapseBtn = folder.querySelector(" .folderCollapseBtn");
-
-    const img = folderCollapseBtn.querySelector("img");
-    img.classList.remove("preLoad");
-  }
-
-  const folderID = folder.dataset.folderid;
-
-  let collapse = false;
-
-  if (folder.classList.contains("collapse")) {
-    folder.classList.remove("collapse");
-    collapse = false;
-  } else {
-    folder.classList.add("collapse");
-    collapse = true;
-  }
+  collapse
+    ? folder.classList.add("collapse")
+    : folder.classList.remove("collapse");
 
   const existingFolders = JSON.parse(localStorage.getItem("folders")) || {};
 
@@ -81,32 +69,45 @@ function handleFolderCollapseClick(event, folder) {
 // Folder option expand/shrink
 function expnadFolderOptions(folder) {
   const folderOptions = folder.querySelector(".folderOptions");
+  const folderID = folder.dataset.folderid;
+
+  let status;
 
   if (folderOptions.classList.contains("expand")) {
     folderOptions.classList.replace("expand", "shrink");
+    status = false;
   } else if (folderOptions.classList.contains("shrink")) {
     folderOptions.classList.replace("shrink", "expand");
+    status = true;
   } else {
     folderOptions.classList.add("expand");
+    status = true;
   }
+
+  const existingFolders = JSON.parse(localStorage.getItem("folders")) || {};
+
+  localStorage.setItem(
+    "folders",
+    JSON.stringify({
+      ...existingFolders,
+      [folderID]: {
+        ...existingFolders[folderID],
+        folderOptionsExpand: status,
+      },
+    }),
+  );
 }
 
 // Folder CRUD operation
-function editFolder(folder) {
-  const folderID = folder.dataset.folderid;
-
+function editFolder(folderID) {
   window.location.href = `/folder/edit/${folderID}`;
 }
 
-function shareFolder(folder) {
-  const folderID = folder.dataset.folderid;
-
+function shareFolder(folderID) {
   window.location.href = `/folder/share/${folderID}`;
 }
 
-function deleteFolder(folder) {
-  const folderID = folder.dataset.folderid;
-
+function deleteFolder(folderID) {
   window.location.href = `/folder/delete/${folderID}`;
 }
 
