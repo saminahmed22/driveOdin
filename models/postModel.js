@@ -76,13 +76,13 @@ export async function findPostAuthor(id) {
       select: {
         user: {
           select: {
-            id,
+            id: true,
           },
         },
       },
     });
 
-    return authorID;
+    return authorID?.user?.id;
   } catch (error) {
     throw error;
   }
@@ -106,4 +106,17 @@ export async function decryptPost(post, password) {
   }
 
   post.location = decryptedLocation;
+}
+
+export async function submitEditFile(id, file_name) {
+  try {
+    const post = await prisma.post.update({
+      where: { id },
+      data: { file_name },
+    });
+
+    return folder;
+  } catch (error) {
+    throw error;
+  }
 }
