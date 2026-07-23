@@ -270,3 +270,20 @@ export async function editFile(req, res, next) {
 
   res.redirect("/");
 }
+
+export async function renderFileDeleteModal(req, res) {
+  const post = findPostFromAllData(req.params.id, req.data);
+
+  res.render("index", {
+    allData: req.data,
+    modalOpen: "deleteFile",
+    values: { post },
+    errors: {},
+  });
+}
+
+export async function deleteFile(req, res, next) {
+  await submitDeleteFile(req.params.id, req.body.file_name);
+
+  res.redirect("/");
+}
