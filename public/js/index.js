@@ -1,24 +1,9 @@
-// Event listeners for the navbar
-const nav = document.querySelector("nav");
-
-nav.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-
-  if (button.classList.contains("uploadBtn")) {
-    uploadPopover.showModal();
-  }
-
-  if (button.classList.contains("downloadBtn")) {
-    downloadPopover.showModal();
-  }
-});
-
 // Event listeners for the popovers
-const uploadPopover = document.getElementById("uploadPopover");
-const downloadPopover = document.getElementById("downloadPopover");
+const uploadDialog = document.getElementById("uploadDialog");
+const downloadDialog = document.getElementById("downloadDialog");
 const downloadPagePopover = document.getElementById("downloadPagePopover");
 
-uploadPopover.addEventListener("click", (event) => {
+uploadDialog.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
 
@@ -26,10 +11,8 @@ uploadPopover.addEventListener("click", (event) => {
   const uploadBtnInstruction = document.querySelector(".uploadBtnInstruction");
 
   if (button.classList.contains("closeBtn")) {
-    closeModal(uploadPopover);
-
     // Reset upload form and styles
-    uploadPopover.querySelector("form").reset();
+    uploadDialog.querySelector("form").reset();
 
     uploadSelectBtn.style.backgroundImage = "";
     uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
@@ -39,47 +22,14 @@ uploadPopover.addEventListener("click", (event) => {
   }
 });
 
-downloadPopover.addEventListener("click", (event) => {
+downloadDialog.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
 
   if (button.classList.contains("closeBtn")) {
-    closeModal(downloadPopover);
-
     uploadPopover.querySelector("form").reset();
-
-    window.history.pushState({}, document.title, "/");
   }
 });
-
-downloadPagePopover.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-  if (!button) return;
-
-  if (button.classList.contains("closeBtn")) {
-    closeModal(downloadPagePopover);
-
-    // Source - https://stackoverflow.com/a/22753103
-    // Posted by Mohammed Joraid, modified by community. See post 'Timeline' for change history
-    // Retrieved 2026-07-09, License - CC BY-SA 4.0
-
-    window.history.pushState({}, document.title, "/");
-  }
-});
-
-function closeModal(modal) {
-  modal.classList.add("slideOut");
-
-  modal.addEventListener(
-    "animationend",
-    (event) => {
-      modal.classList.remove("slideOut");
-
-      modal.close();
-    },
-    { once: true },
-  );
-}
 
 // Event listener for the password input container
 const passwordInputContainer = document.querySelectorAll(".passwordInputField");
@@ -132,62 +82,47 @@ if (uploadSelectBtn) {
     };
 
     reader.readAsDataURL(selectedImage);
-  });
-}
 
-// Copy button
-const shareContainer = document.querySelector(".shareContainer");
+    // Injects file name input field
+    const postName = document.getElementById("postName");
 
-if (shareContainer) {
-  shareContainer.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
-
-    if (!button) return;
-
-    if (button.classList.contains("shareCodeCopyBtn")) {
-      const code = document.querySelector(".shareCode").textContent;
-
-      navigator.clipboard.writeText(code);
-    } else if (button.classList.contains("shareUrlCopyBtn")) {
-      const url = document.querySelector(".shareUrl").textContent;
-
-      navigator.clipboard.writeText(url);
+    if (postName) {
+      postName.value = selectedImage.name;
     }
   });
 }
 
-// Folder Delete confimation popover
-const folderDeleteConfirmPopover = document.getElementById(
-  "deleteFolderPopover",
+// Disables transitions and animations at loading
+window.addEventListener("load", () => {
+  const elements = document.querySelectorAll(".preload");
+
+  elements.forEach((element) => {
+    element.classList.remove("preload");
+  });
+});
+
+// Listener for the HTML invoker commands
+document.addEventListener(
+  "command",
+  (event) => {
+    if (event.command === "close") {
+      window.history.pushState({}, document.title, "/");
+    } else if (event.command === "--copy") {
+      const text = event.target.textContent;
+
+      navigator.clipboard.writeText(text);
+    }
+  },
+  { capture: true },
 );
 
-if (folderDeleteConfirmPopover) {
-  folderDeleteConfirmPopover.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
+// Post cards event listeners
+const postCards = document.querySelectorAll(".postCard");
 
-    if (button) {
-      if (button.classList.contains("closeBtn")) {
-        closeModal(folderDeleteConfirmPopover);
+postCards.forEach((postCard) => {
+  postCard.addEventListener("click", (event) => {
+    const postID = postCard.dataset.postid;
 
-        window.history.pushState({}, document.title, "/");
-      }
-    }
+    window.location.href = `/post/${postID}`;
   });
-}
-
-// Folder Edit  popover
-const folderEditPopover = document.getElementById("editFolderPopover");
-
-if (folderEditPopover) {
-  folderEditPopover.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
-
-    if (button) {
-      if (button.classList.contains("closeBtn")) {
-        closeModal(folderEditPopover);
-
-        window.history.pushState({}, document.title, "/");
-      }
-    }
-  });
-}
+});
