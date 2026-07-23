@@ -120,3 +120,15 @@ export async function submitEditFile(id, file_name) {
     throw error;
   }
 }
+
+export async function submitDeleteFile(id) {
+  try {
+    await prisma.post.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}
