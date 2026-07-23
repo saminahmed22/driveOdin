@@ -10,6 +10,8 @@ import {
   renderDownloadForm,
   renderDownloadPage,
   addDataToSession,
+  renderFileEditModal,
+  renderFileDeleteModal,
 } from "../controllers/postController.js";
 
 // Models
@@ -33,6 +35,14 @@ postRouter.get("/passwordRequired/:id", fetchAlluserData, (req, res) => {
   renderDownloadForm(req, res, "password");
 });
 
+postRouter.get(
+  "/edit/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  renderFileEditModal,
+);
+
 //____post
 postRouter.post(
   "/upload",
@@ -42,5 +52,13 @@ postRouter.post(
   addDataToSession,
   redirectToPostView,
 ); // upload image is a multer function
-postRouter.post("/edit", isAuthor);
+
+postRouter.post(
+  "/edit/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  editFile,
+);
+
 postRouter.post("/download", addDataToSession, redirectToPostView);
