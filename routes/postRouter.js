@@ -42,6 +42,13 @@ postRouter.get(
   fetchAlluserData,
   renderFileEditModal,
 );
+postRouter.get(
+  "/delete/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  renderFileDeleteModal,
+);
 
 //____post
 postRouter.post(
@@ -59,6 +66,13 @@ postRouter.post(
   isAuthor,
   fetchAlluserData,
   editFile,
+);
+postRouter.post(
+  "/delete/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  deleteFile,
 );
 
 postRouter.post("/download", addDataToSession, redirectToPostView);
