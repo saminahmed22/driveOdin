@@ -1,4 +1,4 @@
-<div class="postCard">
+<div class="postCard" data-postId="<%= post?.id %>">
   <div class="postCardImg <%- post?.isProtected && 'protectedPost' %>">
     <% if (post?.isProtected) { %>
     <img src="/assets/icons/lock.svg" alt="" />
