@@ -166,9 +166,9 @@
 
 @media (max-width: 600px) {
   .file {
-    flex-direction: column;
-
     height: fit-content;
+
+    flex-direction: column;
   }
 
   .fileAction {
@@ -178,31 +178,5 @@
     order: -1;
 
     padding: 0;
-  }
-
-  .fileTitle {
-    width: fit-content;
-
-    align-self: flex-start;
-
-    margin-bottom: 5px;
-    padding-left: 10px;
-  }
-
-  .fileSize,
-  .fileShareCode,
-  .fileCreationDate,
-  .fileExpirationDate {
-    display: none;
-  }
-
-  .fileTitleText {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .fileAction {
-    flex-grow: 1;
   }
 }
