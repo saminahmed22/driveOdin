@@ -11,7 +11,7 @@ import {
 import { findFolderFromAllData } from "../utils/iterateObject.js";
 
 export async function createFolder(req, res, next) {
-  const folder_name = req.body.folderName;
+  const folder_name = req.body.folder_name;
   const userId = req.user.id;
 
   const data = { folder_name, userId };
