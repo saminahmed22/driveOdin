@@ -1,11 +1,11 @@
 <div
-  class="folder <%- folderData.posts.length < 1 && 'collapse' %>"
-  data-folderId="<%= folderData.id %>"
+  class="folder preload <%- folder.posts.length < 1 && 'collapse' %>"
+  data-folderId="<%= folder.id %>"
 >
   <div class="folderHeader">
     <div class="folderTitleContainer">
       <img src="/assets/icons/folderWhite.svg" alt="" />
-      <p class="folderTitle"><%= folderData.folder_name %></p>
+      <p class="folderTitle"><%= folder.folder_name %></p>
     </div>
 
     <div class="folderHeaderActions">
@@ -36,10 +36,10 @@
   </div>
 
   <div class="fileContainer">
-    <% if (folderData.posts.length < 1) { %>
+    <% if (folder.posts.length < 1) { %>
     <p class="nofileText">This folder is empty.</p>
     <% } else{%>
-    <% folderData.posts.forEach(post => { %>
+    <% folder.posts.forEach(post => { %>
     <%- include('./file.ejs', {postData: post}) %>
     <% }) %>
     <% } %>
