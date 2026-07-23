@@ -11,9 +11,9 @@ function handleFileClick(event, file) {
     if (buttonClassList.contains("fileOptionsBtn")) {
       handleFileOptionsClick(file);
     } else if (buttonClassList.contains("fileEditBtn")) {
-      editFile(file);
+      editFile(postID);
     } else if (buttonClassList.contains("fileDeleteBtn")) {
-      deleteFile(file);
+      deleteFile(postID);
     }
   } else {
     if (postID) {
@@ -34,9 +34,13 @@ function handleFileOptionsClick(file) {
   }
 }
 
-function editFile(file) {}
+function editFile(postID) {
+  window.location.href = `/file/edit/${postID}`;
+}
 
-function deleteFile(file) {}
+function deleteFile(postID) {
+  window.location.href = `/file/delete/${postID}`;
+}
 
 files.forEach((file) => {
   file.addEventListener("click", (event) => {
