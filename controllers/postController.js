@@ -253,3 +253,20 @@ export async function removeDataFromSession(req, res) {
   return;
 }
 //#endregion
+
+export async function renderFileEditModal(req, res) {
+  const post = findPostFromAllData(req.params.id, req.data);
+
+  res.render("index", {
+    allData: req.data,
+    modalOpen: "editFile",
+    values: { post },
+    errors: {},
+  });
+}
+
+export async function editFile(req, res, next) {
+  await submitEditFile(req.params.id, req.body.file_name);
+
+  res.redirect("/");
+}
