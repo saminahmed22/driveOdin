@@ -52,6 +52,8 @@
 
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+
+  transition: height 0.2s ease;
 }
 
 .folderTitleContainer {
@@ -64,6 +66,14 @@
   gap: 5px;
 
   margin-left: 20px;
+}
+
+.folderTitle {
+  max-width: 100ch;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .folderHeaderActions {
@@ -215,9 +225,49 @@
 .folderFormInputField input {
   height: 25px;
 
+  width: 300px;
+
   margin-left: 20px;
   padding-left: 5px;
 
   border: 2px solid black;
   border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .folder.collapse .folderTitle {
+    max-width: 20ch;
+  }
+
+  .folder.collapse:has(.folderOptions.expand) .folderTitle {
+    max-width: 10ch;
+  }
+
+  .folder:not(.collapse) {
+    .folderHeader {
+      height: 80px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .folderHeaderActions {
+      width: 100%;
+
+      order: 1;
+
+      margin-top: 10px;
+    }
+
+    .folderTitleContainer {
+      align-self: flex-start;
+
+      order: 2;
+
+      margin-bottom: 10px;
+    }
+
+    .folderTitle {
+      max-width: 25ch;
+    }
+  }
 }
