@@ -1,16 +1,25 @@
 <div class="fileList">
   <div class="fileListHeader">
-    <button class="createFolderBtn">
+    <button
+      class="createFolderBtn"
+      commandfor="createFolderDialog"
+      command="show-modal"
+    >
       <img src="/assets/icons/newFolder.svg" alt="" />
       Create a new folder
     </button>
   </div>
 
   <%-include('../forms/createFolderForm.ejs') %>
+
+  <% if (allData?.folders?.length > 0) { %>
   <%-include('../forms/editFolderForm.ejs') %>
   <%-include('../forms/deleteFolderForm.ejs') %>
-  <%-include('../forms/createFolderForm.ejs') %>
+
   <% allData?.folders?.forEach(folder => { %>
-  <%-include('./folder.ejs', {folderData: folder}) %>
+  <%-include('./folder.ejs', {folder}) %>
   <% }) %>
+  <% } else {%>
+  <p class="emptyFileListMessage">No folders has been created yet.</p>
+  <% } %>
 </div>
