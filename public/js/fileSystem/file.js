@@ -35,11 +35,11 @@ function handleFileOptionsClick(file) {
 }
 
 function editFile(postID) {
-  window.location.href = `/file/edit/${postID}`;
+  window.location.href = `/post/edit/${postID}`;
 }
 
 function deleteFile(postID) {
-  window.location.href = `/file/delete/${postID}`;
+  window.location.href = `/post/delete/${postID}`;
 }
 
 files.forEach((file) => {
