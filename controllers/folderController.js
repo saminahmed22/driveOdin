@@ -9,7 +9,10 @@ import {
 
 // Utils
 import { findFolderFromAllData } from "../utils/iterateObject.js";
+import { reformatAllDataObject } from "../utils/reformatAllDataObject.js";
+import { generateQR } from "../utils/generateQRcode.js";
 
+//#region Create folder
 export async function handleCreateFolderRequest(req, res, next) {
   const folder_name = req.body.folder_name;
   const userId = req.user.id;
@@ -20,7 +23,9 @@ export async function handleCreateFolderRequest(req, res, next) {
 
   res.redirect("/");
 }
+//#endregion
 
+//#region Edit folder
 export async function renderFolderEditPopver(req, res, next) {
   if (!req.isAuthor) {
     res.redirect("/");
@@ -53,7 +58,9 @@ export async function handleEditFolderRequest(req, res, next) {
 
   res.redirect("/");
 }
+//#endregion
 
+//#region Delete folder
 export async function renderFolderDeletePopver(req, res, next) {
   if (!req.isAuthor) {
     res.redirect("/");
@@ -91,7 +98,45 @@ export async function handleDeleteFolderRequest(req, res, next) {
     throw new Error("Cannot delete last folder.");
   }
 }
+//#endregion
 
-export async function renderFolderPage(data) {
-  return null;
+//#region Share folder
+export async function renderFolderPage(req, res, next) {
+  const folderID = req.params.id;
+  const folder = req.folder;
+
+  res.render("index", {
+    allData: req.data,
+    modalOpen: "folderSharePage",
+    values: { folder },
+    errors: {},
+  });
 }
+
+export async function getFolder(req, res, next) {
+  const authorStatus = req.isAuthor;
+
+  const folderID = req.params.id;
+
+  const folder = authorStatus
+    ? findFolderFromAllData(folderID, req.data)
+    : await findFolder(folderID);
+
+  if (!folder) {
+    throw new Error(`No folder has been found with the folder ID: ${folderID}`);
+  }
+
+  // Source - https://stackoverflow.com/a/10185427
+  // Posted by Peter Lyons, modified by community. See post 'Timeline' for change history
+  // Retrieved 2026-07-06, License - CC BY-SA 3.0
+  var fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+  folder.shareUrl = fullUrl;
+
+  const qrcode = await generateQR(fullUrl);
+  folder.qrcode = qrcode;
+
+  req.folder = folder;
+  console.log(req.folder);
+  next();
+}
+//#endregion
