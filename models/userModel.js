@@ -37,7 +37,12 @@ export async function getAllUserData(userId) {
 
   const allData = await prisma.user.findUnique({
     where: { id: userId },
-    include: { folders: { include: { posts: true } } },
+    include: {
+      folders: {
+        include: { posts: { orderBy: { uploaded_at: "asc" } } },
+        orderBy: { created_at: "asc" },
+      },
+    },
   });
 
   if (!allData) {
