@@ -33,7 +33,10 @@ export function encryptString(string, password) {
     );
   }
 
-  const encryptedString = CryptoJS.AES.encrypt(string, password).toString();
+  const encryptedString = CryptoJS.AES.encrypt(
+    JSON.stringify({ string }),
+    password,
+  ).toString();
 
   return encryptedString;
 }
@@ -45,7 +48,11 @@ export function decryptString(string, password) {
     );
   }
 
-  const decryptedString = CryptoJS.AES.decrypt(string, password).toString();
+  const decryptedStringJSON = CryptoJS.AES.decrypt(string, password).toString(
+    CryptoJS.enc.Utf8,
+  );
+
+  const decryptedString = decryptedStringJSON.string;
 
   return decryptedString;
 }
