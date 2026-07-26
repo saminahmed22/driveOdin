@@ -16,6 +16,11 @@
   <%-include('../forms/editFolderForm.ejs') %>
   <%-include('../forms/deleteFolderForm.ejs') %>
 
+  <%-include('../forms/editFileForm.ejs') %>
+  <%-include('../forms/editFIlePasswordForm.ejs') %>
+
+  <%-include('../forms/deleteFileForm.ejs') %>
+
   <% allData?.folders?.forEach(folder => { %>
   <%-include('./folder.ejs', {folder}) %>
   <% }) %>
