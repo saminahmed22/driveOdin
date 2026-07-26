@@ -253,3 +253,7 @@ dialog[open]::backdrop {
 .authPageInput {
   margin: 0 !important;
 }
+
+#folderSharePageDialog .postCard {
+  background-color: #ffb52133;
+}
