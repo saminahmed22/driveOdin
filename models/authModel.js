@@ -33,11 +33,14 @@ export function forceLogout(req, res, next) {
   }
 }
 
+// the use parameter lets this middleware act as a function that returns the compared value
 export async function isAuthor(req, res, next) {
   const requester = req.user?.id;
 
   if (!requester) {
-    res.redirect("/auth/login");
+    req.isAuthor = false;
+
+    next();
   }
 
   const urlArr = req.originalUrl.split("/");
@@ -48,5 +51,9 @@ export async function isAuthor(req, res, next) {
     ? await findPostAuthor(requestID)
     : await findFolderAuthor(requestID);
 
-  requester === authorID ? next() : res.redirect("/");
+  const status = requester === authorID;
+
+  req.isAuthor = status;
+
+  next();
 }
