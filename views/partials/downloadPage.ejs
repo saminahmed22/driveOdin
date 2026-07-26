@@ -15,7 +15,7 @@
 <dialog id="downloadPageDialog" class="modal">
   <div class="dialogHeader">
     <div class="dialogTitleContainer">
-      <% if ( values.userId === allData?.id ) { %>
+      <% if ( values?.post?.userId === allData?.id ) { %>
       <img src="/assets/icons/share.svg" alt="Download icon" />
       <% }else{
         %>
@@ -23,8 +23,8 @@
       <% } %>
 
       <p class="dialogTitle">
-        <% if ( values.userId === allData?.id ) { %> Share this image <% }else{
-        %> Download this image <% } %>
+        <% if ( values?.post?.userId === allData?.id ) { %> Share this image <%
+        }else{ %> Download this image <% } %>
       </p>
     </div>
 
@@ -37,7 +37,7 @@
     <div class="sharePagePreview">
       <img
         class="sharePagePreivewImage"
-        src="/uploads/<%= values?.file_name%>"
+        src="/uploads/<%= values?.post?.file_name%>"
         alt=""
       />
       <div class="sharePagePreviewInfo">
@@ -45,26 +45,26 @@
           <tr>
             <th>File name<span class="fileDetailsTitleColon">:</span></th>
             <td class="sharePagePreviewTitle">
-              <%= values?.file_name_short %>
+              <%= values?.post?.file_name_short %>
             </td>
           </tr>
 
           <tr>
             <th>File size<span class="fileDetailsTitleColon">:</span></th>
-            <td class="sharePagePreviewSize"><%= values?.file_size %></td>
+            <td class="sharePagePreviewSize"><%= values?.post?.file_size %></td>
           </tr>
 
           <tr>
             <th>Created at<span class="fileDetailsTitleColon">:</span></th>
             <td class="sharePagePreviewSize">
-              <%= values?.readableCreationDate %>
+              <%= values?.post?.readableCreationDate %>
             </td>
           </tr>
 
           <tr>
             <th>Expires at<span class="fileDetailsTitleColon">:</span></th>
             <td class="sharePagePreviewSize">
-              <%= values?.readableExpiryDate %>
+              <%= values?.post?.readableExpiryDate %>
             </td>
           </tr>
         </table>
@@ -74,7 +74,7 @@
     <div class="shareContainer">
       <p class="shareContainerLabel">Share code:</p>
       <div class="shareCodeContainer containerWithCopyBtn">
-        <p class="shareCode" id="fileShareCode"><%= values?.id %></p>
+        <p class="shareCode" id="fileShareCode"><%= values?.post?.id %></p>
         <button
           class="shareCodeCopyBtn"
           type="button"
@@ -84,10 +84,10 @@
           <img src="/assets/icons/copy.svg" alt="" draggable="false" />
         </button>
       </div>
-      <div class="shareQRCode"><%- values?.qrcode %></div>
+      <div class="shareQRCode"><%- values?.post?.qrcode %></div>
 
       <div class="shareUrlContainer containerWithCopyBtn">
-        <div class="shareUrl" id="fileUrl"><%- values?.shareUrl %></div>
+        <div class="shareUrl" id="fileUrl"><%- values?.post?.shareUrl %></div>
         <button
           class="shareUrlCopyBtn"
           type="button"
@@ -98,13 +98,14 @@
         </button>
       </div>
     </div>
-
-    <a
-      type="button"
-      class="submitBtn downloadBtn"
-      href="/uploads/<%= values?.file_name %>"
-      download="<%= values?.file_name %>"
-      >Download</a
-    >
+    <div class="downloadBtnContainer">
+      <a
+        type="button"
+        class="submitBtn downloadFileBtn"
+        href="/uploads/<%= values?.post?.file_name %>"
+        download="<%= values?.post?.file_name %>"
+        >Download</a
+      >
+    </div>
   </div>
 </dialog>
