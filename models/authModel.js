@@ -48,5 +48,5 @@ export async function isAuthor(req, res, next) {
     ? await findPostAuthor(requestID)
     : await findFolderAuthor(requestID);
 
-  requester === authorID ? next() : res.send("Denied");
+  requester === authorID ? next() : res.redirect("/");
 }
