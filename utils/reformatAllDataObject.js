@@ -21,11 +21,12 @@ export function reformatPostDataObject(post) {
   //#region Creates different versions of the file name
   const fileName = post.file_name;
 
-  const file_name_without_extension = path.basename(fileName, post.file_ext);
+  post.file_ext = path.extname(fileName);
 
-  post.file_name_without_extension = file_name_without_extension;
+  post.file_name_without_extension = path.basename(fileName, post.file_ext);
 
-  post.file_name_short = `${middleEllipsis(file_name_without_extension)}${post.file_ext}`;
+  post.file_name_short = `${middleEllipsis(post.file_name_without_extension)}${post.file_ext}`;
+
   //#endregion
 
   //#region Converts ISO dates into readble dates
