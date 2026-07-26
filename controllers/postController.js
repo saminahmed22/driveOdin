@@ -204,8 +204,6 @@ export async function getImage(req, res, next) {
   const isProtected = post.isProtected;
 
   if (isProtected) {
-    console.log(`HERE 1312: ${isProtected}`);
-    console.log(`HERE 1312: ${authorStatus}`);
     if (!authorStatus) {
       const givenPassword = req?.session?.password;
 
