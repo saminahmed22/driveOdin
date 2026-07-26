@@ -1,0 +1,86 @@
+<% if (modalOpen === "folderSharePage") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("folderSharePageDialog");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
+<dialog id="folderSharePageDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
+      <% if ( values?.folder?.userId === allData?.id ) { %>
+      <img src="/assets/icons/share.svg" alt="Share icon" />
+      <% }else{
+        %>
+      <img src="/assets/icons/download.svg" alt="Download icon" />
+      <% } %>
+
+      <p class="popverTitle">
+        <% if ( values?.folder?.userId === allData?.id ) { %> Share this folder
+        <% }else{ %> Download this folder <% } %>
+      </p>
+    </div>
+
+    <button class="closeBtn" commandfor="folderSharePageDialog" command="close">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <% if (values?.folder?.posts?.length > 0) { %>
+  <div class="popupFileListContainer">
+    <div class="popupFileListtTitle">
+      <p>This folder contain these files:</p>
+    </div>
+    <div class="popupFileList">
+      <% values?.folder?.posts?.forEach(post => { %>
+      <%- include('./postCard.ejs', {post}) %>
+      <% }) %>
+    </div>
+  </div>
+  <% } else {%>
+  <p class="emptyFolderMessage">This folder contains no files.</p>
+  <% } %>
+
+  <div class="shareContainer">
+    <p class="shareContainerLabel">Share code:</p>
+    <div class="shareCodeContainer containerWithCopyBtn">
+      <p class="shareCode" id="fileShareCode"><%= values?.folder?.id %></p>
+      <button
+        class="shareCodeCopyBtn"
+        type="button"
+        commandfor="fileShareCode"
+        command="--copy"
+      >
+        <img src="/assets/icons/copy.svg" alt="" draggable="false" />
+      </button>
+    </div>
+    <div class="shareQRCode"><%- values?.folder?.qrcode %></div>
+
+    <div class="shareUrlContainer containerWithCopyBtn">
+      <div class="shareUrl" id="fileUrl"><%- values?.folder?.shareUrl %></div>
+      <button
+        class="shareUrlCopyBtn"
+        type="button"
+        commandfor="fileUrl"
+        command="--copy"
+      >
+        <img src="/assets/icons/copy.svg" alt="" />
+      </button>
+    </div>
+  </div>
+
+  <a
+    type="button"
+    class="submitBtn downloadFolderBtn"
+    href="/folder/download/<%= values?.folder?.folder_name %>"
+    download="<%= values?.folder?.file_name %>"
+    >Download</a
+  >
+</dialog>
