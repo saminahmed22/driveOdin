@@ -28,13 +28,11 @@ export async function createPost(data) {
   }
 }
 
-export async function editPost(id, data) {
+export async function submitEditFile(id, file_name, location) {
   try {
     const post = await prisma.post.update({
-      where: {
-        id: id,
-      },
-      data: { data },
+      where: { id },
+      data: { file_name, location },
     });
 
     return post;
@@ -43,9 +41,9 @@ export async function editPost(id, data) {
   }
 }
 
-export async function deletePost(id) {
+export async function submitDeleteFile(id) {
   try {
-    const post = await prisma.post.delete({
+    await prisma.post.delete({
       where: {
         id,
       },
@@ -88,7 +86,7 @@ export async function findPostAuthor(id) {
   }
 }
 
-export async function decryptPost(post, password) {
+export function decryptPost(post, password) {
   if (!post) {
     throw new Error("No post has been provided to decrypt.");
   }
@@ -106,29 +104,4 @@ export async function decryptPost(post, password) {
   }
 
   post.location = decryptedLocation;
-}
-
-export async function submitEditFile(id, file_name) {
-  try {
-    const post = await prisma.post.update({
-      where: { id },
-      data: { file_name },
-    });
-
-    return folder;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function submitDeleteFile(id) {
-  try {
-    await prisma.post.delete({
-      where: {
-        id,
-      },
-    });
-  } catch (error) {
-    throw error;
-  }
 }
