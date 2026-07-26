@@ -28,15 +28,6 @@ uploadDialog.addEventListener("click", (event) => {
   }
 });
 
-downloadDialog.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-  if (!button) return;
-
-  if (button.classList.contains("closeBtn")) {
-    uploadPopover.querySelector("form").reset();
-  }
-});
-
 // Event listener for the password input container
 const passwordInputContainer = document.querySelectorAll(".passwordInputField");
 
@@ -75,7 +66,6 @@ if (uploadSelectBtn) {
 
   imagePicker.addEventListener("change", (event) => {
     const selectedImage = event.target.files[0];
-    console.log(selectedImage);
 
     const reader = new FileReader();
 
