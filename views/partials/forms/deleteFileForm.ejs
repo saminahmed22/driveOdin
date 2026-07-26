@@ -1,0 +1,76 @@
+<% if (modalOpen === "deleteFile") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("deleteFileDialog");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
+<dialog id="deleteFileDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
+      <img
+        class="invertImg"
+        src="/assets/icons/delete.svg"
+        alt="Delete icon"
+        draggable="false"
+      />
+      <p class="dialogTitle">Delete file</p>
+    </div>
+
+    <button class="closeBtn" commandfor="deleteFileDialog" command="close">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <form
+    class="popoverForm"
+    action="/post/delete/<%= values?.post?.id %>"
+    method="POST"
+  >
+    <div class="sharePagePreview">
+      <img
+        class="sharePagePreivewImage"
+        src="/uploads/<%= values?.post?.file_name%>"
+        alt=""
+      />
+      <div class="sharePagePreviewInfo">
+        <table class="sharePagePreviewInfoTable">
+          <tr>
+            <th>File name<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewTitle">
+              <%= values?.post?.file_name_short %>
+            </td>
+          </tr>
+
+          <tr>
+            <th>File size<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewSize"><%= values?.post?.file_size %></td>
+          </tr>
+
+          <tr>
+            <th>Created at<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewSize">
+              <%= values?.post?.readableCreationDate %>
+            </td>
+          </tr>
+
+          <tr>
+            <th>Expires at<span class="fileDetailsTitleColon">:</span></th>
+            <td class="sharePagePreviewSize">
+              <%= values?.post?.readableExpiryDate %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <button type="submit" class="submitBtn">Delete</button>
+  </form>
+</dialog>
