@@ -4,6 +4,8 @@ import {
   decryptPost,
   createPost,
   getPost,
+  submitEditFile,
+  submitDeleteFile,
 } from "../models/postModel.js";
 
 import { getFolders } from "../models/folderModel.js";
@@ -18,8 +20,9 @@ import {
   findPostFromAllData,
   findFolderFromAllData,
 } from "../utils/iterateObject.js";
-
 import { reformatPostDataObject } from "../utils/reformatAllDataObject.js";
+import fs from "fs";
+import path from "path";
 
 // Multer
 import multer from "multer";
@@ -33,15 +36,11 @@ const storage = multer.diskStorage({
     //#region File name
     const originalFileName = file.originalname;
 
-    const indexOfFileExt = originalFileName.lastIndexOf(".");
-    const fileNameWithoutExt = originalFileName.substring(0, indexOfFileExt);
+    const file_ext = path.extname(originalFileName);
 
-    const fileExt = originalFileName.substring(indexOfFileExt);
+    const givenFileName = req.body.file_name;
 
-    const givenFileName = req.body.postName;
-    const modifiedFileName = givenFileName.split(" ").join("_");
-
-    const file_name = `${modifiedFileName}${fileExt}`;
+    const file_name = `${givenFileName}${file_ext}`;
     //#endregion
 
     cb(null, file_name);
@@ -65,28 +64,7 @@ export function uploadImage(req, res, next) {
 
 export async function uploadPost(req, res, next) {
   const userId = req.user.id;
-
-  //#region File name
   const originalFileName = req.file.originalname;
-
-  const indexOfFileExt = originalFileName.lastIndexOf(".");
-  const fileNameWithoutExt = originalFileName.substring(0, indexOfFileExt);
-
-  const fileExt = originalFileName.substring(indexOfFileExt);
-
-  const givenFileName = req.body.postName;
-  const modifiedFileName = givenFileName.split(" ").join("_");
-
-  const file_name = `${modifiedFileName}${fileExt}`;
-  //#endregion
-
-  const isProtected = req.body.postPassword.length > 0;
-
-  const path = req.file.path;
-  const password = req.body.postPassword;
-  const location = isProtected ? encryptString(path, password) : path;
-
-  const file_size = formatReadableSize(req.file.size);
 
   //#region File extension type
   const fileMime = req.file.mimetype;
@@ -112,8 +90,29 @@ export async function uploadPost(req, res, next) {
     throw new Error("Unsupported photo extension.");
   }
 
-  const file_ext = fileMimeSplit[1];
+  const file_ext = path.extname(originalFileName);
   //#endregion
+
+  //#region File name
+  const givenFileName = req.body.file_name;
+
+  const file_name = `${givenFileName}${file_ext}`;
+  //#endregion
+
+  //#region File path
+  const isProtected = req.body.postPassword.length > 0;
+
+  const dir = path.dirname(req.file.path);
+  const file_location = `${dir}/${file_name}`;
+
+  const password = req.body.postPassword;
+
+  const location = isProtected
+    ? encryptString(file_location, password)
+    : file_location;
+  //#endregion
+
+  const file_size = formatReadableSize(req.file.size);
 
   const expires_at = new Date();
   expires_at.setDate(expires_at.getDate() + parseInt(req.body.expiryDate));
@@ -132,10 +131,6 @@ export async function uploadPost(req, res, next) {
   };
 
   const post = await createPost(data);
-
-  if (post instanceof Error) {
-    throw new Error(post.message);
-  }
 
   req.post = post;
 
@@ -158,7 +153,7 @@ export async function renderDownloadForm(req, res, error) {
     allData: req.data,
     modalOpen: "downloadForm",
     values: { shareCode: req?.params?.id },
-    errors: [error],
+    errors: { error: error },
   });
 }
 
@@ -254,8 +249,39 @@ export async function removeDataFromSession(req, res) {
 }
 //#endregion
 
-export async function renderFileEditModal(req, res) {
-  const post = findPostFromAllData(req.params.id, req.data);
+export async function renderFileEditModal(req, res, next) {
+  const postID = req.params.id;
+  const post = findPostFromAllData(postID, req.data);
+
+  const isProtected = post.isProtected;
+
+  let givenPassword, decryptedPost;
+  if (isProtected) {
+    givenPassword = req?.session?.password;
+
+    if (!givenPassword) {
+      res.redirect(`/post/edit/passwordRequired/${postID}`);
+
+      return;
+    }
+
+    // /*
+    // Removes password stored in the session after 5 minutes
+    // */
+    // setTimeout((req, res) => {
+    //   removeDataFromSession(req, res);
+    // }, 300000);
+
+    decryptedPost = decryptPost(post, givenPassword);
+
+    if (decryptedPost instanceof Error) {
+      if (post.message === "password") {
+        res.redirect(`/post/edit/passwordRequired/${postID}`);
+
+        return;
+      }
+    }
+  }
 
   res.render("index", {
     allData: req.data,
@@ -265,13 +291,68 @@ export async function renderFileEditModal(req, res) {
   });
 }
 
+export async function renderEditFilePasswordRequiredModal(req, res, next) {
+  const postID = req.params.id;
+  const post = findPostFromAllData(postID, req.data);
+
+  res.render("index", {
+    allData: req.data,
+    modalOpen: "editPostPasswordRequired",
+    values: { post },
+    errors: {},
+  });
+}
+
 export async function editFile(req, res, next) {
-  await submitEditFile(req.params.id, req.body.file_name);
+  const post = findPostFromAllData(req.params.id, req.data);
+
+  const isPostProtected = post.isProtected;
+
+  let givenPassword;
+  if (isPostProtected) {
+    givenPassword = req?.session?.password;
+
+    if (!givenPassword) {
+      res.redirect(`/post/edit/passwordRequired/${postID}`);
+
+      return;
+    }
+
+    /*
+    Removes password stored in the session
+    after accessing it the first time
+    */
+    removeDataFromSession(req, res);
+
+    const decryptedPost = decryptPost(post, givenPassword);
+
+    if (decryptedPost instanceof Error) {
+      if (post.message === "password") {
+        res.redirect(`/post/edit/passwordRequired/${postID}`);
+
+        return;
+      }
+    }
+  }
+
+  const file_ext = post.file_ext;
+
+  const file_name = `${req.body.file_name}${file_ext}`;
+
+  const dir = path.dirname(post.location);
+  const newPath = `${dir}/${file_name}`;
+  fs.rename(post.location, newPath, (err) => {
+    if (err) {
+      throw new Error(err);
+    }
+  });
+
+  await submitEditFile(req.params.id, file_name, newPath);
 
   res.redirect("/");
 }
 
-export async function renderFileDeleteModal(req, res) {
+export async function renderFileDeleteModal(req, res, next) {
   const post = findPostFromAllData(req.params.id, req.data);
 
   res.render("index", {
