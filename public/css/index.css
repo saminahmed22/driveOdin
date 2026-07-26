@@ -102,7 +102,7 @@ nav button {
 }
 
 .fileUploadForm {
-  width: 500px;
+  width: 400px;
 }
 
 .uploadSelectBtn {
@@ -491,6 +491,28 @@ nav button {
   max-width: 350px;
 }
 
+.downloadBtnContainer {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.downloadFileBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+
+  color: black;
+
+  border: 2px solid black;
+
+  margin-right: 20px;
+}
+
 /* Delete confirmation popover */
 
 #deleteFolderPopover {
@@ -555,6 +577,14 @@ nav button {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.deleteFolderForm {
+  width: 100%;
+}
+
+.deleteFolderForm button {
+  margin-right: 15px;
 }
 
 /* Post card */
@@ -629,6 +659,14 @@ nav button {
 
   .downloadBtn {
     margin: 0;
+  }
+
+  .downloadFileBtn {
+    margin-right: 40px;
+  }
+
+  .fileUploadForm {
+    width: 95%;
   }
 }
 
