@@ -58,7 +58,7 @@
         Select a folder</label
       >
 
-      <select name="selected_folder" id="selected_folder_option">
+      <select name="selected_folder" id="selected_folder_option" required>
         <% allData?.folders?.forEach((folder, index) => { %>
         <% if (index === 0) { %>
         <option value="<%= folder.id %>" selected>
