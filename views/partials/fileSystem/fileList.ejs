@@ -21,6 +21,8 @@
 
   <%-include('../forms/deleteFileForm.ejs') %>
 
+  <%-include('../folderSharePage.ejs') %>
+
   <% allData?.folders?.forEach(folder => { %>
   <%-include('./folder.ejs', {folder}) %>
   <% }) %>
