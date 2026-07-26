@@ -499,7 +499,8 @@ nav button {
   justify-content: flex-end;
 }
 
-.downloadFileBtn {
+.downloadFileBtn,
+.downloadFolderBtn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -513,7 +514,8 @@ nav button {
   margin-right: 20px;
 }
 
-.downloadFileBtn:hover {
+.downloadFileBtn:hover,
+.downloadFolderBtn:hover {
   background-color: var(--downloadTheme);
 }
 
@@ -558,11 +560,11 @@ nav button {
   text-align: center;
 }
 
-.deleteFolderPopupFileList {
+.popupFileListContainer {
   padding: 0 10px;
 }
 
-.deleteFolderPopupFileListTitle {
+.popupFileListtTitle {
   max-width: 100%;
 
   display: flex;
@@ -575,12 +577,17 @@ nav button {
   font-weight: 500;
 }
 
-.deleteFolderPopupFileCard {
+.popupFileList {
+  max-height: 300px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .deleteFolderForm {
@@ -601,6 +608,7 @@ nav button {
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
+  flex-shrink: 0;
 
   background-color: #ff003033;
 
@@ -665,7 +673,8 @@ nav button {
     margin: 0;
   }
 
-  .downloadFileBtn {
+  .downloadFileBtn,
+  .downloadFolderBtn {
     margin-right: 40px;
   }
 
