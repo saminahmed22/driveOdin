@@ -1,27 +1,33 @@
 // Modles
 import {
-  submitCreateFolder,
-  getFolder,
-  getFolders,
-  submitEditFolder,
-  submitDeleteFolder,
+  createFolder,
+  editFolder,
+  deleteFolder,
+  findFolder,
+  getAllFolders,
 } from "../models/folderModel.js";
 
 // Utils
 import { findFolderFromAllData } from "../utils/iterateObject.js";
 
-export async function createFolder(req, res, next) {
+export async function handleCreateFolderRequest(req, res, next) {
   const folder_name = req.body.folder_name;
   const userId = req.user.id;
 
   const data = { folder_name, userId };
 
-  await submitCreateFolder(data);
+  await createFolder(data);
 
   res.redirect("/");
 }
 
 export async function renderFolderEditPopver(req, res, next) {
+  if (!req.isAuthor) {
+    res.redirect("/");
+
+    return;
+  }
+
   const folder = findFolderFromAllData(req.params.id, req.data);
 
   res.render("index", {
@@ -32,13 +38,29 @@ export async function renderFolderEditPopver(req, res, next) {
   });
 }
 
-export async function editFolder(req, res, next) {
-  await submitEditFolder(req.params.id, req.body.folder_name);
+export async function handleEditFolderRequest(req, res, next) {
+  if (!req.isAuthor) {
+    res.redirect("/");
+
+    return;
+  }
+
+  const folderID = req.params.id;
+  const userID = req.user.id;
+  const data = { folder_name: req.body.folder_name };
+
+  await editFolder(folderID, userID, data);
 
   res.redirect("/");
 }
 
 export async function renderFolderDeletePopver(req, res, next) {
+  if (!req.isAuthor) {
+    res.redirect("/");
+
+    return;
+  }
+
   const folder = findFolderFromAllData(req.params.id, req.data);
 
   res.render("index", {
@@ -49,11 +71,20 @@ export async function renderFolderDeletePopver(req, res, next) {
   });
 }
 
-export async function deleteFolder(req, res, next) {
+export async function handleDeleteFolderRequest(req, res, next) {
+  if (!req.isAuthor) {
+    res.redirect("/");
+
+    return;
+  }
+
   const allFolders = req.data.folders;
 
   if (allFolders.length > 1) {
-    await submitDeleteFolder(req.params.id);
+    const folderID = req.params.id;
+    const userID = req.user.id;
+
+    await deleteFolder(folderID, userID);
 
     res.redirect("/");
   } else {
