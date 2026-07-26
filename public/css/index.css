@@ -513,6 +513,10 @@ nav button {
   margin-right: 20px;
 }
 
+.downloadFileBtn:hover {
+  background-color: var(--downloadTheme);
+}
+
 /* Delete confirmation popover */
 
 #deleteFolderPopover {
