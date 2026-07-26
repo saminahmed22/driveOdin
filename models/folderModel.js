@@ -89,10 +89,10 @@ export async function getAllFolders(userId) {
       where: { userId },
       include: {
         posts: {
-          orderBy: { uploaded_at: true },
+          orderBy: { uploaded_at: "asc" },
         },
       },
-      orderBy: { created_at: true },
+      orderBy: { created_at: "asc" },
     });
 
     folders.forEach((folder) => {
