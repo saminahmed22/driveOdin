@@ -22,37 +22,3 @@ export async function compareHash(string, hash) {
 
   return isCorrectString;
 }
-
-// Encrypt
-import CryptoJS from "crypto-js";
-
-export function encryptString(string, password) {
-  if (!string || !password) {
-    throw new Error(
-      `No ${!string ? "string" : "password"} has been provided to encrypt.`,
-    );
-  }
-
-  const encryptedString = CryptoJS.AES.encrypt(
-    JSON.stringify({ string }),
-    password,
-  ).toString();
-
-  return encryptedString;
-}
-
-export function decryptString(string, password) {
-  if (!string || !password) {
-    throw new Error(
-      `No ${!string ? "string" : "password"} has been provided to decrypt.`,
-    );
-  }
-
-  const decryptedStringJSON = CryptoJS.AES.decrypt(string, password).toString(
-    CryptoJS.enc.Utf8,
-  );
-
-  const decryptedString = decryptedStringJSON.string;
-
-  return decryptedString;
-}
