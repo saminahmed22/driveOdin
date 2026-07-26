@@ -1,0 +1,60 @@
+<% if (modalOpen === "editFile") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("editFileDialog");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
+<dialog id="editFileDialog" class="modal">
+  <div class="dialogHeader">
+    <div class="dialogTitleContainer">
+      <img src="/assets/icons/edit.svg" alt="Edit icon" draggable="false" />
+      <p class="dialogTitle">Edit file name</p>
+    </div>
+
+    <button class="closeBtn" commandfor="editFileDialog" command="close">
+      <img src="/assets/icons/close.svg" alt="Close icon" />
+    </button>
+  </div>
+
+  <div class="sharePagePreview">
+    <img
+      class="sharePagePreivewImage"
+      src="/uploads/<%= values?.post?.file_name%>"
+      alt=""
+    />
+  </div>
+
+  <form
+    class="popoverForm"
+    action="/post/edit/<%= values?.post?.id %>"
+    method="POST"
+  >
+    <div class="inputContainer">
+      <label for="file_name">
+        <img src="/assets/icons/shareCode.svg" alt="" />File name</label
+      >
+      <div class="fileNameInputField">
+        <input
+          type="text"
+          name="file_name"
+          id="file_name"
+          maxlength="50"
+          value="<%= values?.post?.file_name_without_extension %>"
+        />
+        <span
+          ><p class="fileNameExtension"><%= values?.post?.file_ext %></p></span
+        >
+      </div>
+    </div>
+
+    <button type="submit" class="submitBtn">Submit</button>
+  </form>
+</dialog>
