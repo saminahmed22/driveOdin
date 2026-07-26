@@ -104,7 +104,7 @@ function editFolder(folderID) {
 }
 
 function shareFolder(folderID) {
-  window.location.href = `/folder/share/${folderID}`;
+  window.location.href = `/folder/${folderID}`;
 }
 
 function deleteFolder(folderID) {
