@@ -20,10 +20,10 @@ uploadDialog.addEventListener("click", (event) => {
     uploadBtnInstruction.style.textShadow = "none";
     uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
 
-    const postName = document.getElementById("postName");
+    const file_name = document.getElementById("file_name");
 
-    if (postName) {
-      postName.disabled = true;
+    if (file_name) {
+      file_name.disabled = true;
     }
   }
 });
@@ -90,10 +90,10 @@ if (uploadSelectBtn) {
     reader.readAsDataURL(selectedImage);
 
     // Injects file name in the input field
-    const postName = document.getElementById("postName");
+    const file_name = document.getElementById("file_name");
     const fileNameExtension = document.querySelector(".fileNameExtension");
 
-    if (postName) {
+    if (file_name) {
       const fileName = selectedImage.name;
 
       const indexOfFileExt = fileName.lastIndexOf(".");
@@ -101,8 +101,8 @@ if (uploadSelectBtn) {
       const fileNameWithoutExt = fileName.substring(0, indexOfFileExt);
       const fileExt = fileName.substring(indexOfFileExt);
 
-      postName.disabled = false;
-      postName.value = fileNameWithoutExt;
+      file_name.disabled = false;
+      file_name.value = fileNameWithoutExt;
 
       fileNameExtension.textContent = fileExt;
     }
