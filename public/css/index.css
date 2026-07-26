@@ -91,15 +91,18 @@ nav button {
 }
 
 .popoverForm {
-  width: 90%;
-
   flex: 1;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
   gap: 20px;
+
+  padding: 0 20px;
+}
+
+.fileUploadForm {
+  width: 500px;
 }
 
 .uploadSelectBtn {
@@ -378,10 +381,8 @@ nav button {
   background-color: var(--downloadTheme);
 }
 
-/* Upload page step-2 */
-
 .sharePageContainer {
-  width: 100%;
+  width: fit-content;
 
   display: flex;
   flex-direction: column;
@@ -389,7 +390,7 @@ nav button {
 }
 
 .shareCodeContainer {
-  width: 100%;
+  width: 450px;
 
   display: flex;
   align-items: center;
@@ -517,23 +518,35 @@ nav button {
   overflow-y: auto;
 }
 
-.deleteFormWarning .folderName {
+.deleteFormWarning {
   display: block;
 
-  font-weight: 600;
+  font-weight: 500;
   width: 30ch;
 
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+
+  margin: 0 10px;
+
+  text-align: center;
+}
+
+.deleteFolderPopupFileList {
+  padding: 0 10px;
 }
 
 .deleteFolderPopupFileListTitle {
+  max-width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
+
   margin: 10px;
+
+  font-weight: 500;
 }
 
 .deleteFolderPopupFileCard {
@@ -607,6 +620,14 @@ nav button {
     align-items: center;
     justify-content: space-evenly;
 
+    margin: 0;
+  }
+
+  .shareContainerLabel {
+    margin-left: 30px;
+  }
+
+  .downloadBtn {
     margin: 0;
   }
 }
