@@ -2,11 +2,9 @@
 import { prisma } from "../lib/prisma.js";
 
 // Utils
-import { formatReadableDate } from "../utils/readableDate.js";
-import { generateQR } from "../utils/generateQRcode.js";
-import { middleEllipsis } from "../utils/stringEllipsisMiddle.js";
+import { reformatPostDataObject } from "../utils/reformatAllDataObject.js";
 
-export async function submitCreateFolder(data) {
+export async function createFolder(data) {
   try {
     const folder = await prisma.folder.create({ data });
 
@@ -16,7 +14,53 @@ export async function submitCreateFolder(data) {
   }
 }
 
-export async function getFolder(id) {
+export async function editFolder(folderID, userID, data) {
+  if (!folderID) {
+    throw new Error("Folder ID has not been provided");
+  }
+
+  if (!userID) {
+    throw new Error("User ID has not been provided");
+  }
+
+  if (!data) {
+    throw new Error("File name has not been provided");
+  }
+
+  try {
+    const folder = await prisma.folder.update({
+      where: { id: folderID, userId: userID },
+      data: { folder_name: data.folder_name },
+    });
+
+    return folder;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteFolder(folderID, userID) {
+  if (!folderID) {
+    throw new Error("Folder ID has not been provided");
+  }
+
+  if (!userID) {
+    throw new Error("User ID has not been provided");
+  }
+
+  try {
+    await prisma.folder.delete({
+      where: {
+        id: folderID,
+        userId: userID,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function findFolder(id) {
   try {
     const folder = await prisma.folder.findUnique({
       where: { id },
@@ -27,9 +71,7 @@ export async function getFolder(id) {
 
     if (folder) {
       folder.posts.forEach((post) => {
-        post.file_name = middleEllipsis(post.file_name);
-        post.uploaded_at = formatReadableDate(post.uploaded_at);
-        post.expires_at = formatReadableDate(post.expires_at);
+        reformatPostDataObject(post);
       });
 
       return folder;
@@ -41,49 +83,25 @@ export async function getFolder(id) {
   }
 }
 
-export async function getFolders(userId) {
+export async function getAllFolders(userId) {
   try {
     const folders = await prisma.folder.findMany({
       where: { userId },
       include: {
-        posts: true,
+        posts: {
+          orderBy: { uploaded_at: true },
+        },
       },
+      orderBy: { created_at: true },
     });
 
     folders.forEach((folder) => {
       folder.posts.forEach((post) => {
-        post.file_name = middleEllipsis(post.file_name);
-        post.uploaded_at = formatReadableDate(post.uploaded_at);
-        post.expires_at = formatReadableDate(post.expires_at);
+        reformatPostDataObject(post);
       });
     });
 
     return folders;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function submitEditFolder(id, folder_name) {
-  try {
-    const folder = await prisma.folder.update({
-      where: { id },
-      data: { folder_name },
-    });
-
-    return folder;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function submitDeleteFolder(id) {
-  try {
-    await prisma.folder.delete({
-      where: {
-        id,
-      },
-    });
   } catch (error) {
     throw error;
   }

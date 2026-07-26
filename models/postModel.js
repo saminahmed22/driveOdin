@@ -1,22 +1,4 @@
-// Prisma
 import { prisma } from "../lib/prisma.js";
-
-// Utils
-import { formatReadableDate } from "../utils/readableDate.js";
-import { generateQR } from "../utils/generateQRcode.js";
-import { middleEllipsis } from "../utils/stringEllipsisMiddle.js";
-import { decryptString } from "../utils/crypto.js";
-
-export async function isPostProtected(postId) {
-  const post = await prisma.post.findUnique({
-    where: { id: postId },
-    select: { isProtected: true },
-  });
-
-  const status = post.isProtected;
-
-  return status;
-}
 
 export async function createPost(data) {
   try {
@@ -28,11 +10,23 @@ export async function createPost(data) {
   }
 }
 
-export async function submitEditFile(id, file_name, location) {
+export async function editPost(postID, userID, data) {
+  if (!postID) {
+    throw new Error("Post ID has not been provided");
+  }
+
+  if (!userID) {
+    throw new Error("User ID has not been provided");
+  }
+
+  if (!data) {
+    throw new Error("No data has not been provided");
+  }
+
   try {
     const post = await prisma.post.update({
-      where: { id },
-      data: { file_name, location },
+      where: { id: postID, userId: userID },
+      data: { file_name: data.file_name },
     });
 
     return post;
@@ -41,11 +35,20 @@ export async function submitEditFile(id, file_name, location) {
   }
 }
 
-export async function submitDeleteFile(id) {
+export async function deletePost(postID, userID) {
+  if (!postID) {
+    throw new Error("Post ID has not been provided");
+  }
+
+  if (!userID) {
+    throw new Error("User ID has not been provided");
+  }
+
   try {
     await prisma.post.delete({
       where: {
-        id,
+        id: postID,
+        userId: userID,
       },
     });
   } catch (error) {
@@ -53,7 +56,7 @@ export async function submitDeleteFile(id) {
   }
 }
 
-export async function getPost(id) {
+export async function findPost(id) {
   try {
     const post = await prisma.post.findUnique({
       where: {
@@ -84,24 +87,4 @@ export async function findPostAuthor(id) {
   } catch (error) {
     throw error;
   }
-}
-
-export function decryptPost(post, password) {
-  if (!post) {
-    throw new Error("No post has been provided to decrypt.");
-  }
-
-  if (!password) {
-    throw new Error(
-      `No password has been provided to decrypt the post.\nPost ID: ${post.id}`,
-    );
-  }
-
-  const decryptedLocation = decryptString(post.location, password);
-
-  if (!decryptedLocation) {
-    return new Error("Wrong password, try again.");
-  }
-
-  post.location = decryptedLocation;
 }
