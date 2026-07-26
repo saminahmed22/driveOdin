@@ -4,18 +4,16 @@ export const postRouter = Router();
 
 // Controllers
 import {
-  uploadImage,
-  uploadPost,
+  handleCreatePostRequest,
   getImage,
   renderDownloadForm,
   renderDownloadPage,
-  addDataToSession,
-  removeDataFromSession,
   renderFileEditModal,
-  renderEditFilePasswordRequiredModal,
+  handleEditPostRequest,
   renderFileDeleteModal,
-  editFile,
-  deleteFile,
+  handleDeletePostRequest,
+  addDataToSession,
+  renderPasswordRequriedForm,
 } from "../controllers/postController.js";
 
 // Models
@@ -25,7 +23,7 @@ import { authenticationStatus, isAuthor } from "../models/authModel.js";
 import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 
 function redirectToPostView(req, res, next) {
-  const id = req?.post?.id || req?.body?.shareCode;
+  const id = req?.post?.id || req?.body?.shareCode || req.params.id;
 
   res.redirect(`/post/${id}`);
 }
@@ -33,11 +31,19 @@ function redirectToPostView(req, res, next) {
 // Routes
 
 //____get
-postRouter.get("/:id", fetchAlluserData, getImage, renderDownloadPage);
+postRouter.get(
+  "/:id",
+  isAuthor,
+  fetchAlluserData,
+  getImage,
+  renderDownloadPage,
+);
 
-postRouter.get("/passwordRequired/:id", fetchAlluserData, (req, res) => {
-  renderDownloadForm(req, res, "password");
-});
+postRouter.get(
+  "/passwordRequired/:id",
+  fetchAlluserData,
+  renderPasswordRequriedForm,
+);
 
 postRouter.get(
   "/edit/:id",
@@ -45,14 +51,6 @@ postRouter.get(
   isAuthor,
   fetchAlluserData,
   renderFileEditModal,
-);
-
-postRouter.get(
-  "/edit/passwordRequired/:id",
-  authenticationStatus,
-  isAuthor,
-  fetchAlluserData,
-  renderEditFilePasswordRequiredModal,
 );
 
 postRouter.get(
@@ -64,32 +62,21 @@ postRouter.get(
 );
 
 //____post
+postRouter.post("/passwordRequired/:id", addDataToSession, redirectToPostView);
+
 postRouter.post(
   "/upload",
   authenticationStatus,
-  uploadImage,
-  uploadPost,
-  addDataToSession,
+  handleCreatePostRequest,
   redirectToPostView,
-); // upload image is a multer function
+);
 
 postRouter.post(
   "/edit/:id",
   authenticationStatus,
   isAuthor,
   fetchAlluserData,
-  editFile,
-  removeDataFromSession,
-);
-postRouter.post(
-  "/edit/passwordRequired/:id",
-  authenticationStatus,
-  isAuthor,
-  fetchAlluserData,
-  addDataToSession,
-  (req, res, next) => {
-    res.redirect(`/post/edit/${req.params.id}`);
-  },
+  handleEditPostRequest,
 );
 
 postRouter.post(
@@ -97,7 +84,7 @@ postRouter.post(
   authenticationStatus,
   isAuthor,
   fetchAlluserData,
-  deleteFile,
+  handleDeletePostRequest,
 );
 
 postRouter.post("/download", addDataToSession, redirectToPostView);

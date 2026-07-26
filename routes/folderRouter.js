@@ -4,12 +4,12 @@ export const folderRouter = Router();
 
 // Controllers
 import {
-  createFolder,
-  renderFolderPage,
-  editFolder,
-  deleteFolder,
+  handleCreateFolderRequest,
+  handleEditFolderRequest,
+  handleDeleteFolderRequest,
   renderFolderEditPopver,
   renderFolderDeletePopver,
+  renderFolderPage,
 } from "../controllers/folderController.js";
 
 // Models
@@ -43,18 +43,18 @@ folderRouter.get(
 );
 
 //____post
-folderRouter.post("/new", authenticationStatus, createFolder);
+folderRouter.post("/new", authenticationStatus, handleCreateFolderRequest);
 folderRouter.post(
   "/edit/:id",
   authenticationStatus,
   isAuthor,
   fetchAlluserData,
-  editFolder,
+  handleEditFolderRequest,
 );
 folderRouter.post(
   "/delete/:id",
   authenticationStatus,
   isAuthor,
   fetchAlluserData,
-  deleteFolder,
+  handleDeleteFolderRequest,
 );
