@@ -33,12 +33,12 @@
   </p>
 
   <% if (values?.folder?.posts?.length > 0) { %>
-  <div class="deleteFolderPopupFileList">
-    <div class="deleteFolderPopupFileListTitle">
+  <div class="popupFileListContainer">
+    <div class="popupFileListtTitle">
       <img src="/assets/icons/warning.svg" alt="" />
       <p>All these files will also be deleted:</p>
     </div>
-    <div class="deleteFolderPopupFileCard">
+    <div class="popupFileList">
       <% values?.folder?.posts?.forEach(post => { %>
       <%- include('../postCard.ejs', {post}) %>
       <% }) %>
