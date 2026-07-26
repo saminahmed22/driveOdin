@@ -10,8 +10,12 @@ import {
   renderDownloadForm,
   renderDownloadPage,
   addDataToSession,
+  removeDataFromSession,
   renderFileEditModal,
+  renderEditFilePasswordRequiredModal,
   renderFileDeleteModal,
+  editFile,
+  deleteFile,
 } from "../controllers/postController.js";
 
 // Models
@@ -42,6 +46,15 @@ postRouter.get(
   fetchAlluserData,
   renderFileEditModal,
 );
+
+postRouter.get(
+  "/edit/passwordRequired/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  renderEditFilePasswordRequiredModal,
+);
+
 postRouter.get(
   "/delete/:id",
   authenticationStatus,
@@ -66,7 +79,19 @@ postRouter.post(
   isAuthor,
   fetchAlluserData,
   editFile,
+  removeDataFromSession,
 );
+postRouter.post(
+  "/edit/passwordRequired/:id",
+  authenticationStatus,
+  isAuthor,
+  fetchAlluserData,
+  addDataToSession,
+  (req, res, next) => {
+    res.redirect(`/post/edit/${req.params.id}`);
+  },
+);
+
 postRouter.post(
   "/delete/:id",
   authenticationStatus,
