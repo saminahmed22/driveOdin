@@ -12,6 +12,10 @@ import { findFolderFromAllData } from "../utils/iterateObject.js";
 import { reformatAllDataObject } from "../utils/reformatAllDataObject.js";
 import { generateQR } from "../utils/generateQRcode.js";
 
+import { ZipArchive } from "archiver";
+import fs from "fs";
+import path from "path";
+
 //#region Create folder
 export async function handleCreateFolderRequest(req, res, next) {
   const folder_name = req.body.folder_name;
@@ -138,5 +142,37 @@ export async function getFolder(req, res, next) {
   req.folder = folder;
 
   next();
+}
+
+export async function handleFolderDownloadRequest(req, res, next) {
+  const folderID = req.params.id;
+  const folder = await findFolder(folderID);
+
+  const zipName = `${folder.folder_name}.zip`;
+
+  const output = fs.createWriteStream(zipName);
+
+  const archive = new ZipArchive({
+    store: true,
+  });
+
+  output.on("close", () => {
+    res.download(zipName);
+  });
+
+  archive.on("error", (err) => {
+    throw new Error(err);
+  });
+
+  archive.pipe(output);
+
+  folder.posts.forEach((post) => {
+    const filePath = post.location;
+    const fileBuffer = fs.createReadStream(filePath);
+
+    archive.append(fileBuffer, { name: post.file_name });
+  });
+
+  archive.finalize();
 }
 //#endregion
