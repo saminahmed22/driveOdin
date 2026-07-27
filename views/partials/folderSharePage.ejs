@@ -76,11 +76,11 @@
     </div>
   </div>
 
-  <a
-    type="button"
-    class="submitBtn downloadFolderBtn"
-    href="/folder/download/<%= values?.folder?.folder_name %>"
-    download="<%= values?.folder?.file_name %>"
-    >Download</a
+  <form
+    class="popoverForm folderDownloadForm"
+    action="/folder/download/<%= values?.folder?.id%>"
+    method="post"
   >
+    <button type="submit" class="submitBtn downloadFolderBtn">Download</button>
+  </form>
 </dialog>
