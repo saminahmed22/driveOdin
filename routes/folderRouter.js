@@ -19,7 +19,7 @@ import { authenticationStatus, isAuthor } from "../models/authModel.js";
 import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 
 function redirectToFolderView(req, res, next) {
-  const id = req.params.id;
+  const id = req.params.id || req?.body?.shareCode;
 
   res.redirect(`/folder/${id}`);
 }
@@ -62,3 +62,5 @@ folderRouter.post(
   fetchAlluserData,
   handleDeleteFolderRequest,
 );
+
+folderRouter.post("/download", redirectToFolderView);
