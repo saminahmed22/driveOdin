@@ -136,7 +136,7 @@ export async function getFolder(req, res, next) {
   folder.qrcode = qrcode;
 
   req.folder = folder;
-  console.log(req.folder);
+
   next();
 }
 //#endregion
