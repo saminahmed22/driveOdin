@@ -60,10 +60,10 @@ export async function deleteFolder(folderID, userID) {
   }
 }
 
-export async function findFolder(id) {
+export async function findFolder(folderID) {
   try {
     const folder = await prisma.folder.findUnique({
-      where: { id },
+      where: { id: folderID },
       include: {
         posts: true,
       },
