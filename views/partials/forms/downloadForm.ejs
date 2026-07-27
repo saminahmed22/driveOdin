@@ -20,7 +20,7 @@
         alt="Download icon"
         draggable="false"
       />
-      <p class="dialogTitle">Receive an image</p>
+      <p class="dialogTitle">Receive an image or folder</p>
     </div>
 
     <button class="closeBtn" commandfor="downloadDialog" command="close">
@@ -28,11 +28,28 @@
     </button>
   </div>
 
-  <form
-    class="fileDownloadForm popoverForm"
-    action="/post/download"
-    method="POST"
-  >
+  <div class="downloadTypeOptionsContainer">
+    <div class="radioGroup">
+      <input
+        type="radio"
+        name="downloadType"
+        id="download_type_radio_1"
+        value="post"
+        checked
+      />
+      <label class="radio_label" for="download_type_radio_1">Image</label>
+
+      <input
+        type="radio"
+        name="downloadType"
+        id="download_type_radio_2"
+        value="folder"
+      />
+      <label class="radio_label" for="download_type_radio_2">Folder</label>
+    </div>
+  </div>
+
+  <form class="fileDownloadForm popoverForm" action="/" method="POST">
     <div class="inputContainer">
       <label for="shareCode">
         <img src="/assets/icons/shareCode.svg" alt="" />Enter share code:</label
@@ -48,7 +65,7 @@
       />
     </div>
 
-    <div class="inputContainer">
+    <div class="inputContainer downloadFormPasswordInputField">
       <label for="postPassword">
         <img src="/assets/icons/lock.svg" alt="" />Enter password (If
         applicable):</label
