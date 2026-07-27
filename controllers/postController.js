@@ -136,7 +136,7 @@ export async function handleEditPostRequest(req, res, next) {
 
   const postID = req.params.id;
   const userID = req.user.id;
-  const data = { file_name };
+  const data = { file_name, newPath };
 
   await editPost(postID, userID, data);
 
