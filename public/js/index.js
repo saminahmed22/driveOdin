@@ -11,9 +11,6 @@ uploadDialog.addEventListener("click", (event) => {
   const uploadBtnInstruction = document.querySelector(".uploadBtnInstruction");
 
   if (button.classList.contains("closeBtn")) {
-    // Reset upload form and styles
-    uploadDialog.querySelector("form").reset();
-
     uploadSelectBtn.style.backgroundImage = "";
     uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
     uploadBtnInstruction.style.color = "black";
@@ -26,6 +23,16 @@ uploadDialog.addEventListener("click", (event) => {
       file_name.disabled = true;
     }
   }
+});
+
+const downloadReqForm = downloadDialog.querySelector("form");
+
+downloadReqForm.addEventListener("submit", (event) => {
+  const checkedType = downloadDialog.querySelector(
+    'input[name="downloadType"]:checked',
+  ).value;
+
+  downloadReqForm.action = `/${checkedType}/download`;
 });
 
 // Event listener for the password input container
@@ -114,6 +121,13 @@ document.addEventListener(
   (event) => {
     if (event.command === "close") {
       window.history.pushState({}, document.title, "/");
+
+      const dialog = event.target.closest("dialog");
+
+      const form = dialog.querySelector("form");
+      if (form) {
+        form.reset();
+      }
     } else if (event.command === "--copy") {
       const text = event.target.textContent;
 
