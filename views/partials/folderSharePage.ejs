@@ -76,11 +76,11 @@
     </div>
   </div>
 
-  <form
-    class="popoverForm folderDownloadForm"
-    action="/folder/download/<%= values?.folder?.id%>"
-    method="post"
+  <a
+    type="button"
+    class="submitBtn downloadFolderBtn"
+    href="/folder/download/<%= values?.folder?.id%>"
+    download
+    >Download</a
   >
-    <button type="submit" class="submitBtn downloadFolderBtn">Download</button>
-  </form>
 </dialog>
