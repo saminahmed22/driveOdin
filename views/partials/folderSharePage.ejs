@@ -51,11 +51,11 @@
   <div class="shareContainer">
     <p class="shareContainerLabel">Share code:</p>
     <div class="shareCodeContainer containerWithCopyBtn">
-      <p class="shareCode" id="fileShareCode"><%= values?.folder?.id %></p>
+      <p class="shareCode" id="folderShareCode"><%= values?.folder?.id %></p>
       <button
         class="shareCodeCopyBtn"
         type="button"
-        commandfor="fileShareCode"
+        commandfor="folderShareCode"
         command="--copy"
       >
         <img src="/assets/icons/copy.svg" alt="" draggable="false" />
@@ -64,11 +64,11 @@
     <div class="shareQRCode"><%- values?.folder?.qrcode %></div>
 
     <div class="shareUrlContainer containerWithCopyBtn">
-      <div class="shareUrl" id="fileUrl"><%- values?.folder?.shareUrl %></div>
+      <div class="shareUrl" id="folderUrl"><%- values?.folder?.shareUrl %></div>
       <button
         class="shareUrlCopyBtn"
         type="button"
-        commandfor="fileUrl"
+        commandfor="folderUrl"
         command="--copy"
       >
         <img src="/assets/icons/copy.svg" alt="" />
