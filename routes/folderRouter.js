@@ -11,6 +11,7 @@ import {
   renderFolderDeletePopver,
   renderFolderPage,
   getFolder,
+  handleFolderDownloadRequest,
 } from "../controllers/folderController.js";
 
 // Models
@@ -44,6 +45,8 @@ folderRouter.get(
   fetchAlluserData,
   renderFolderDeletePopver,
 );
+
+folderRouter.get("/download/:id", handleFolderDownloadRequest);
 
 //____post
 folderRouter.post("/new", authenticationStatus, handleCreateFolderRequest);
