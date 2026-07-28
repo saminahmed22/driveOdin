@@ -43,3 +43,8 @@
 
   background: white;
 }
+
+.emptyFileListMessage {
+  color: silver;
+  margin: auto auto;
+}
