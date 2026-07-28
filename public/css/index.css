@@ -635,6 +635,10 @@ nav button {
   overflow-y: auto;
 }
 
+.popupFileList .postCard:last-child {
+  margin-bottom: 10px;
+}
+
 .deleteFolderForm {
   width: 100%;
 }
