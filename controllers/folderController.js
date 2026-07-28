@@ -15,6 +15,8 @@ import { generateQR } from "../utils/generateQRcode.js";
 import { ZipArchive } from "archiver";
 import fs from "fs";
 import path from "path";
+import os from "os";
+import crypto from "crypto";
 
 //#region Create folder
 export async function handleCreateFolderRequest(req, res, next) {
@@ -148,16 +150,31 @@ export async function handleFolderDownloadRequest(req, res, next) {
   const folderID = req.params.id;
   const folder = await findFolder(folderID);
 
-  const zipName = `${folder.folder_name}.zip`;
+  const zipNameUUID = `${folder.folder_name}-${crypto.randomUUID()}.zip`;
 
-  const output = fs.createWriteStream(zipName);
+  const outputPath = path.join(os.tmpdir(), zipNameUUID);
+
+  const output = fs.createWriteStream(outputPath);
 
   const archive = new ZipArchive({
     store: true,
   });
 
   output.on("close", () => {
-    res.download(zipName);
+    const zipName = `${folder.folder_name}.zip`;
+    res.download(outputPath, zipName, (err) => {
+      if (err) {
+        console.error(`Error in downloading the zip: ${err}`);
+      }
+
+      fs.unlink(outputPath, (unlinkErr) => {
+        if (unlinkErr) {
+          console.error(
+            `Failed to delete zip from temp directory: ${unlinkErr}`,
+          );
+        }
+      });
+    });
   });
 
   archive.on("error", (err) => {
