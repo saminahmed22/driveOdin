@@ -128,6 +128,13 @@ document.addEventListener(
       if (form) {
         form.reset();
       }
+
+      const errorFields = document.querySelectorAll(".fieldErrorMessage");
+      if (errorFields.length) {
+        errorFields.forEach((errorField) => {
+          errorField.remove();
+        });
+      }
     } else if (event.command === "--copy") {
       const text = event.target.textContent;
 
