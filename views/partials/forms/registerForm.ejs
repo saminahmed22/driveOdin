@@ -10,7 +10,13 @@
         id="first_name"
         autocomplete="given-name"
         autocapitalize="words"
+        value="<%= values?.firstName ?? '' %>"
       />
+      <% if (errorMessages?.validationErrors?.firstName?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.firstName %>
+      </p>
+      <% } %>
     </div>
     <div class="inputContainer">
       <label for="last_name">Last Name</label>
@@ -21,7 +27,13 @@
         id="last_name"
         autocomplete="family-name"
         autocapitalize="words"
+        value="<%= values?.lastName ?? '' %>"
       />
+      <% if (errorMessages?.validationErrors?.lastName?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.lastName %>
+      </p>
+      <% } %>
     </div>
     <div class="inputContainer">
       <label for="username">Username</label>
@@ -31,7 +43,13 @@
         name="username"
         id="username"
         autocomplete="username"
+        value="<%= values?.username ?? '' %>"
       />
+      <% if (errorMessages?.validationErrors?.username?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.username%>
+      </p>
+      <% } %>
     </div>
     <div class="inputContainer">
       <label for="password">Password</label>
@@ -42,6 +60,7 @@
           name="password"
           id="password"
           autocomplete="new-password"
+          value="<%= values?.password ?? '' %>"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
           <img
@@ -50,6 +69,11 @@
           />
         </button>
       </div>
+      <% if (errorMessages?.validationErrors?.password?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.password %>
+      </p>
+      <% } %>
     </div>
 
     <div class="inputContainer">
@@ -61,6 +85,7 @@
           name="rePassword"
           id="rePassword"
           autocomplete="new-password"
+          value="<%= values?.rePassword ?? '' %>"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
           <img
@@ -69,6 +94,11 @@
           />
         </button>
       </div>
+      <% if (errorMessages?.validationErrors?.rePassword?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.rePassword %>
+      </p>
+      <% } %>
     </div>
     <button class="submitBtn" type="submit">Submit</button>
   </form>

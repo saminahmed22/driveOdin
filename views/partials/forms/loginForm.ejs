@@ -1,9 +1,9 @@
 <div class="container">
   <h1 class="authPageHeader">Login</h1>
 
-  <% if (errorMessages.passportErrors.length > 0) { %>
-  <div class="errorContainer">
-    <p class="errorMessage"><%= errorMessages.passportErrors %></p>
+  <% if (errorMessages?.passportErrors.length > 0) { %>
+  <div class="passportErrorContainer">
+    <p class="passportErrorMessage"><%= errorMessages?.passportErrors %></p>
   </div>
   <% } %>
 
@@ -16,8 +16,14 @@
         name="username"
         id="username"
         autocomplete="username"
+        value="<%= values?.username ?? '' %>"
       />
-      <!-- <p class="fieldErrorMessage">Please enter a username.</p> -->
+
+      <% if (errorMessages?.validationErrors?.username?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.username %>
+      </p>
+      <% } %>
     </div>
     <div class="inputContainer">
       <label for="password">Password</label>
@@ -36,6 +42,13 @@
           />
         </button>
       </div>
+
+      <% if (errorMessages?.validationErrors?.password?.length > 0 &&
+      !errorMessages?.validationErrors?.username?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.password %>
+      </p>
+      <% } %>
     </div>
     <button class="submitBtn" type="submit">Submit</button>
   </form>
