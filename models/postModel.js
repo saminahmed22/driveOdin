@@ -26,7 +26,7 @@ export async function editPost(postID, userID, data) {
   try {
     const post = await prisma.post.update({
       where: { id: postID, userId: userID },
-      data: { file_name: data.file_name, location: data.newPath },
+      data: { file_name: data.file_name },
     });
 
     return post;
