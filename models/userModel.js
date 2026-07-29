@@ -13,19 +13,9 @@ export async function registerUserDB(userSubmittedData) {
 }
 
 export async function findUser({ id, username }) {
-  if (!id && !username) {
-    throw new Error("No ID or username has been provided.");
-  }
-
   const user = await prisma.user.findUnique(
     id ? { where: { id } } : { where: { username } },
   );
-
-  if (!user) {
-    throw new Error(
-      `No user has been found with the ID/Username: ${id || username}.`,
-    );
-  }
 
   return user;
 }
