@@ -17,8 +17,33 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import crypto from "crypto";
+import { validationResult } from "express-validator";
 
 //#region Create folder
+export async function renderFolderCreatePopver(req, res) {
+  const formValidationErrors = validationResult(req);
+
+  let folderNameValidationError;
+  formValidationErrors.errors.forEach((error) => {
+    if (error.path === "folder_name") {
+      folderNameValidationError = error.msg;
+    }
+  });
+
+  const hasErrors = !formValidationErrors.isEmpty();
+
+  res.status(hasErrors ? 400 : 200).render("index", {
+    allData: req.data,
+    modalOpen: "createFolder",
+    values: { folder_name: req?.body?.folder_name },
+    errorMessages: {
+      validationErrors: {
+        folder_name: folderNameValidationError,
+      },
+    },
+  });
+}
+
 export async function handleCreateFolderRequest(req, res, next) {
   const folder_name = req.body.folder_name;
   const userId = req.user.id;
@@ -32,7 +57,7 @@ export async function handleCreateFolderRequest(req, res, next) {
 //#endregion
 
 //#region Edit folder
-export async function renderFolderEditPopver(req, res, next) {
+export async function renderFolderEditPopver(req, res) {
   if (!req.isAuthor) {
     res.redirect("/");
 
@@ -41,12 +66,38 @@ export async function renderFolderEditPopver(req, res, next) {
 
   const folder = findFolderFromAllData(req.params.id, req.data);
 
-  res.render("index", {
-    allData: req.data,
-    modalOpen: "editFolder",
-    values: { folder },
-    errors: {},
+  const formValidationErrors = validationResult(req);
+
+  let folderNameValidationError;
+  formValidationErrors.errors.forEach((error) => {
+    if (error.path === "folder_name") {
+      folderNameValidationError = error.msg;
+    }
   });
+
+  const hasErrors = !formValidationErrors.isEmpty();
+
+  if (hasErrors) {
+    res.render("index", {
+      allData: req.data,
+      modalOpen: "editFolder",
+      values: {
+        folder: { id: req.params.id, folder_name: req?.body?.folder_name },
+      },
+      errorMessages: {
+        validationErrors: {
+          folder_name: folderNameValidationError,
+        },
+      },
+    });
+  } else {
+    res.render("index", {
+      allData: req.data,
+      modalOpen: "editFolder",
+      values: { folder },
+      errorMessages: {},
+    });
+  }
 }
 
 export async function handleEditFolderRequest(req, res, next) {

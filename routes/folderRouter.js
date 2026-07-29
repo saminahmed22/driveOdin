@@ -7,6 +7,7 @@ import {
   handleCreateFolderRequest,
   handleEditFolderRequest,
   handleDeleteFolderRequest,
+  renderFolderCreatePopver,
   renderFolderEditPopver,
   renderFolderDeletePopver,
   renderFolderPage,
@@ -18,6 +19,10 @@ import {
 import { authenticationStatus, isAuthor } from "../models/authModel.js";
 
 import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
+
+// Validators
+import { validationResult } from "express-validator";
+import { validateCreateFolderForm } from "../middlewares/validators/folderValidators.js";
 
 function redirectToFolderView(req, res, next) {
   const id = req.params.id || req?.body?.shareCode;
@@ -49,13 +54,38 @@ folderRouter.get(
 folderRouter.get("/download/:id", handleFolderDownloadRequest);
 
 //____post
-folderRouter.post("/new", authenticationStatus, handleCreateFolderRequest);
+folderRouter.post(
+  "/new",
+  authenticationStatus,
+  fetchAlluserData,
+  validateCreateFolderForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderFolderCreatePopver(req, res);
+    }
+
+    next();
+  },
+  handleCreateFolderRequest,
+);
 
 folderRouter.post(
   "/edit/:id",
   authenticationStatus,
   isAuthor,
   fetchAlluserData,
+  validateCreateFolderForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderFolderEditPopver(req, res);
+    }
+
+    next();
+  },
   handleEditFolderRequest,
 );
 folderRouter.post(
