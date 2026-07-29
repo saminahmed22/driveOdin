@@ -31,17 +31,47 @@ import { uploadImageMulter } from "../lib/multer.js";
 
 //#region Create post
 export async function renderUploadForm(req, res) {
-  res.render("index", {
-    allData: req.allData,
+  const formValidationErrors = validationResult(req);
 
+  let fileValidationError,
+    fileNameValidationError,
+    folderValidationError,
+    expiryDateValidationError;
+  formValidationErrors.errors.forEach((error) => {
+    if (error.path === "selected_image") {
+      fileValidationError = error.msg;
+    } else if (error.path === "file_name") {
+      fileNameValidationError = error.msg;
+    } else if (error.path === "selected_folder") {
+      folderValidationError = error.msg;
+    } else if (error.path === "expiryDate") {
+      expiryDateValidationError = error.msg;
+    }
+  });
+
+  const hasErrors = !formValidationErrors.isEmpty();
+
+  // console.log(formValidationErrors);
+  res.status(hasErrors ? 400 : 200).render("index", {
+    allData: req.data,
     modalOpen: "uploadForm",
-    errors: {},
+    values: {
+      folderSelected: req?.body?.selected_folder,
+      password: req?.body?.postPassword,
+      expires_at: req?.body?.expiryDate,
+    },
+    errorMessages: {
+      validationErrors: {
+        file: fileValidationError,
+        file_name: fileNameValidationError,
+        folderSelected: folderValidationError,
+        expires_at: expiryDateValidationError,
+      },
+    },
   });
 }
 
 export async function handleCreatePostRequest(req, res, next) {
-  await uploadImageMulter(req, res);
-
   const userId = req.user.id;
 
   // File name
@@ -54,8 +84,7 @@ export async function handleCreatePostRequest(req, res, next) {
   const file_size = formatReadableSize(req.file.size);
 
   // File path
-  const dir = path.dirname(req.file.path);
-  const location = `${dir}/${file_name}`;
+  const location = req.file.path;
 
   // Password
   const isProtected = req.body.postPassword.length > 0;
@@ -105,6 +134,11 @@ export async function renderFileEditModal(req, res, next) {
   const postID = req.params.id;
   const post = findPostFromAllData(postID, req.data);
 
+  const fileName = path.basename(post.location);
+  const newLocation = `/uploads/${fileName}`;
+
+  post.location = newLocation;
+
   post.file_ext = path.extname(post.file_name);
 
   res.render("index", {
@@ -128,17 +162,9 @@ export async function handleEditPostRequest(req, res, next) {
 
   const file_name = `${req.body.file_name}${file_ext}`;
 
-  const dir = path.dirname(post.location);
-  const newPath = `${dir}/${file_name}`;
-  fs.rename(post.location, newPath, (err) => {
-    if (err) {
-      throw new Error(err);
-    }
-  });
-
   const postID = req.params.id;
   const userID = req.user.id;
-  const data = { file_name, newPath };
+  const data = { file_name };
 
   await editPost(postID, userID, data);
 
@@ -266,6 +292,11 @@ export async function getImage(req, res, next) {
 
 export async function renderDownloadPage(req, res, next) {
   const post = req.post;
+
+  const fileName = path.basename(post.location);
+  const newLocation = `/uploads/${fileName}`;
+
+  post.location = newLocation;
 
   res.render("index", {
     allData: req?.data,
