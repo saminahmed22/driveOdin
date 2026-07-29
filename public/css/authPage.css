@@ -7,7 +7,7 @@
   margin-top: 50px;
 }
 
-.errorContainer {
+.passportErrorContainer {
   height: 0;
 
   min-width: 250px;
@@ -32,23 +32,29 @@
 }
 
 .fieldErrorMessage {
-  height: 0px;
+  height: fit-content;
+
+  max-width: 250px;
 
   font-size: 0.9rem;
 
   color: crimson;
 
-  animation: openUp 0.3s ease forwards;
-
   font-weight: 500;
 
-  opacity: 0;
+  animation: openUp 0.3s ease forwards;
 }
 
 @keyframes openUp {
+  from {
+    opacity: 0;
+
+    transform: translateY(-100%);
+  }
+
   to {
-    height: 30px;
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
