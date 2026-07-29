@@ -141,12 +141,39 @@ export async function renderFileEditModal(req, res, next) {
 
   post.file_ext = path.extname(post.file_name);
 
-  res.render("index", {
-    allData: req.data,
-    modalOpen: "editFile",
-    values: { post },
-    errors: {},
+  // Validator
+  const formValidationErrors = validationResult(req);
+
+  let fileNameValidationError;
+  formValidationErrors.errors.forEach((error) => {
+    if (error.path === "file_name") {
+      fileNameValidationError = error.msg;
+    }
   });
+
+  const hasErrors = !formValidationErrors.isEmpty();
+
+  if (hasErrors) {
+    post.file_name_without_extension = req.body.file_name;
+
+    res.render("index", {
+      allData: req.data,
+      modalOpen: "editFile",
+      values: { post },
+      errorMessages: {
+        validationErrors: {
+          file_name: fileNameValidationError,
+        },
+      },
+    });
+  } else {
+    res.render("index", {
+      allData: req.data,
+      modalOpen: "editFile",
+      values: { post },
+      errorMessages: {},
+    });
+  }
 }
 
 export async function handleEditPostRequest(req, res, next) {

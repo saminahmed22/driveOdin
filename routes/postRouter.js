@@ -26,7 +26,10 @@ import { uploadImageMulter } from "../lib/multer.js";
 
 // Validators
 import { validationResult } from "express-validator";
-import { validateUploadForm } from "../middlewares/validators/uploadValidator.js";
+import {
+  validateUploadForm,
+  validateEditForm,
+} from "../middlewares/validators/uploadValidator.js";
 import { validateDownloadForm } from "../middlewares/validators/downloadValidator.js";
 
 import fs from "fs";
@@ -111,6 +114,16 @@ postRouter.post(
   authenticationStatus,
   isAuthor,
   fetchAlluserData,
+  validateEditForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderFileEditModal(req, res);
+    }
+
+    next();
+  },
   handleEditPostRequest,
 );
 

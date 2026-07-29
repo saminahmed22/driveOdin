@@ -58,3 +58,18 @@ export const validateUploadForm = [
     .withMessage("Expiry date must be within 1-15 days.")
     .bail(),
 ];
+
+export const validateEditForm = [
+  body("file_name")
+    .notEmpty()
+    .withMessage("Please enter a file name.")
+    .bail()
+    .not()
+    .matches(/[\\/:*?"<>|]/)
+    .withMessage(
+      "File names cannot contain these(\\, /, :, *, ?, <, >, |) symbols.",
+    )
+    .bail()
+    .trim()
+    .escape(),
+];

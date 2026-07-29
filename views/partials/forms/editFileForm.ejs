@@ -54,6 +54,13 @@
         >
       </div>
     </div>
+    <% if (locals.errorMessages) { %>
+    <% if (errorMessages?.validationErrors?.file_name?.length > 0) { %>
+    <p class="fieldErrorMessage">
+      <%= errorMessages?.validationErrors?.file_name %>
+    </p>
+    <% } %>
+    <% } %>
 
     <button type="submit" class="submitBtn">Submit</button>
   </form>
