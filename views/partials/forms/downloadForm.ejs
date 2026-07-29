@@ -29,6 +29,26 @@
   </div>
 
   <div class="downloadTypeOptionsContainer">
+    <% if (values?.requestType === "folder") { %>
+    <div class="radioGroup">
+      <input
+        type="radio"
+        name="downloadType"
+        id="download_type_radio_1"
+        value="post"
+      />
+      <label class="radio_label" for="download_type_radio_1">Image</label>
+
+      <input
+        type="radio"
+        name="downloadType"
+        id="download_type_radio_2"
+        value="folder"
+        checked
+      />
+      <label class="radio_label" for="download_type_radio_2">Folder</label>
+    </div>
+    <% } else{ %>
     <div class="radioGroup">
       <input
         type="radio"
@@ -47,6 +67,7 @@
       />
       <label class="radio_label" for="download_type_radio_2">Folder</label>
     </div>
+    <% } %>
   </div>
 
   <form class="fileDownloadForm popoverForm" action="/" method="POST">
@@ -63,6 +84,13 @@
         autocomplete="off"
         value="<%= values?.shareCode %>"
       />
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.shareCode?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.shareCode %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
 
     <div class="inputContainer downloadFormPasswordInputField">

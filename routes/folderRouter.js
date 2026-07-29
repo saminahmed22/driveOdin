@@ -15,6 +15,8 @@ import {
   handleFolderDownloadRequest,
 } from "../controllers/folderController.js";
 
+import { renderDownloadForm } from "../controllers/postController.js";
+
 // Models
 import { authenticationStatus, isAuthor } from "../models/authModel.js";
 
@@ -23,6 +25,7 @@ import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 // Validators
 import { validationResult } from "express-validator";
 import { validateCreateFolderForm } from "../middlewares/validators/folderValidators.js";
+import { validateDownloadForm } from "../middlewares/validators/downloadValidator.js";
 
 function redirectToFolderView(req, res, next) {
   const id = req.params.id || req?.body?.shareCode;
@@ -33,7 +36,22 @@ function redirectToFolderView(req, res, next) {
 // Routes
 
 //____get
-folderRouter.get("/:id", fetchAlluserData, getFolder, renderFolderPage);
+folderRouter.get(
+  "/:id",
+  fetchAlluserData,
+  validateDownloadForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderDownloadForm(req, res);
+    }
+
+    next();
+  },
+  getFolder,
+  renderFolderPage,
+);
 
 folderRouter.get(
   "/edit/:id",
@@ -96,4 +114,18 @@ folderRouter.post(
   handleDeleteFolderRequest,
 );
 
-folderRouter.post("/download", redirectToFolderView);
+folderRouter.post(
+  "/download",
+  fetchAlluserData,
+  validateDownloadForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderDownloadForm(req, res);
+    }
+
+    next();
+  },
+  redirectToFolderView,
+);

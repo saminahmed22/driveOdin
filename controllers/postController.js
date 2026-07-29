@@ -21,6 +21,8 @@ import { reformatPostDataObject } from "../utils/reformatAllDataObject.js";
 import fs from "fs";
 import path from "path";
 
+import { validationResult } from "express-validator";
+
 // Models
 import { isAuthor } from "../models/authModel.js";
 
@@ -180,11 +182,30 @@ export async function handleDeletePostRequest(req, res, next) {
 
 //#region Share/Download request related function
 export async function renderDownloadForm(req, res, error) {
-  res.render("index", {
+  const formValidationErrors = validationResult(req);
+
+  let shareCodeValidationError;
+  formValidationErrors.errors.forEach((error) => {
+    if (error.path === "shareCode") {
+      shareCodeValidationError = error.msg;
+    }
+  });
+
+  const hasErrors = !formValidationErrors.isEmpty();
+
+  const requestType = req.originalUrl.split("/").includes("post")
+    ? "post"
+    : "folder";
+
+  res.status(hasErrors ? 400 : 200).render("index", {
     allData: req.data,
     modalOpen: "downloadForm",
-    values: { shareCode: req?.params?.id },
-    errors: { error: error },
+    values: { shareCode: req?.params?.id ? req?.params?.id : "", requestType },
+    errorMessages: {
+      validationErrors: {
+        shareCode: shareCodeValidationError,
+      },
+    },
   });
 }
 

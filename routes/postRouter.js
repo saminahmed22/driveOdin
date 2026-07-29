@@ -22,6 +22,10 @@ import { authenticationStatus, isAuthor } from "../models/authModel.js";
 // Middlewares
 import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 
+// Validators
+import { validationResult } from "express-validator";
+import { validateDownloadForm } from "../middlewares/validators/downloadValidator.js";
+
 function redirectToPostView(req, res, next) {
   const id = req?.post?.id || req?.body?.shareCode || req.params.id;
 
@@ -35,6 +39,16 @@ postRouter.get(
   "/:id",
   isAuthor,
   fetchAlluserData,
+  validateDownloadForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderDownloadForm(req, res);
+    }
+
+    next();
+  },
   getImage,
   renderDownloadPage,
 );
@@ -87,4 +101,19 @@ postRouter.post(
   handleDeletePostRequest,
 );
 
-postRouter.post("/download", addDataToSession, redirectToPostView);
+postRouter.post(
+  "/download",
+  fetchAlluserData,
+  validateDownloadForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderDownloadForm(req, res);
+    }
+
+    next();
+  },
+  addDataToSession,
+  redirectToPostView,
+);
