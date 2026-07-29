@@ -6,6 +6,7 @@ export const postRouter = Router();
 import {
   handleCreatePostRequest,
   getImage,
+  renderUploadForm,
   renderDownloadForm,
   renderDownloadPage,
   renderFileEditModal,
@@ -21,10 +22,14 @@ import { authenticationStatus, isAuthor } from "../models/authModel.js";
 
 // Middlewares
 import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
+import { uploadImageMulter } from "../lib/multer.js";
 
 // Validators
 import { validationResult } from "express-validator";
+import { validateUploadForm } from "../middlewares/validators/uploadValidator.js";
 import { validateDownloadForm } from "../middlewares/validators/downloadValidator.js";
+
+import fs from "fs";
 
 function redirectToPostView(req, res, next) {
   const id = req?.post?.id || req?.body?.shareCode || req.params.id;
@@ -81,6 +86,22 @@ postRouter.post("/passwordRequired/:id", addDataToSession, redirectToPostView);
 postRouter.post(
   "/upload",
   authenticationStatus,
+  fetchAlluserData,
+  uploadImageMulter,
+  validateUploadForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      const path = req.file.path;
+
+      fs.promises.unlink(path); // Removes stored file if invalid
+
+      return renderUploadForm(req, res);
+    }
+
+    next();
+  },
   handleCreatePostRequest,
   redirectToPostView,
 );
