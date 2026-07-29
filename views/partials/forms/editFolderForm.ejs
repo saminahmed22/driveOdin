@@ -43,7 +43,15 @@
         name="folder_name"
         id="folderName"
         value="<%= values?.folder?.folder_name %>"
+        autofocus
       />
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.folder_name?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.folder_name %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
 
     <button type="submit" class="submitBtn">Submit</button>
