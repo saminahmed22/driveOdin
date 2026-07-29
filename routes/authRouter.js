@@ -19,6 +19,13 @@ import {
   forceLogout,
 } from "../models/authModel.js";
 
+// Validators
+import { validationResult } from "express-validator";
+import {
+  validateLoginForm,
+  validateRegisterForm,
+} from "../middlewares/validators/authValidators.js";
+
 // Routes
 
 //____Get
@@ -35,6 +42,16 @@ authRouter.get(
 authRouter.post(
   "/login",
   authenticationStatusOnReAuth,
+  validateLoginForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderLoginPage(req, res);
+    }
+
+    next();
+  },
   passport.authenticate("local", {
     failureFlash: true,
     successRedirect: "/",
@@ -45,6 +62,16 @@ authRouter.post(
 authRouter.post(
   "/register",
   authenticationStatusOnReAuth,
+  validateRegisterForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderRegistrationPage(req, res);
+    }
+
+    next();
+  },
   registerUser,
   forceLogin,
 );
