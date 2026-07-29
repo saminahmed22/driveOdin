@@ -1,3 +1,17 @@
+<% if (modalOpen === "createFolder") { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popover = document.getElementById("createFolderDialog");
+
+    popover.inert = true;
+
+    popover.showModal();
+
+    popover.inert = false;
+  });
+</script>
+<% } %>
+
 <dialog id="createFolderDialog" class="modal">
   <div class="dialogHeader">
     <div class="dialogTitleContainer">
@@ -21,7 +35,20 @@
         <img src="/assets/icons/folder.svg" alt="Folder icon" />Folder
         name:</label
       >
-      <input type="text" name="folder_name" id="folder_name" />
+      <input
+        type="text"
+        name="folder_name"
+        id="folder_name"
+        value="<%= values?.folder_name %>"
+      />
+
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.folder_name?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.folder_name %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
 
     <button type="submit" class="submitBtn">Submit</button>
