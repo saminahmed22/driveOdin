@@ -38,8 +38,6 @@ export async function renderLoginPage(req, res) {
 export async function renderRegistrationPage(req, res) {
   const formValidationErrors = validationResult(req);
 
-  console.log(formValidationErrors);
-
   let firstNameValidationError,
     lastNameValidationError,
     usernameValidationError,
@@ -61,15 +59,9 @@ export async function renderRegistrationPage(req, res) {
     }
   }
 
-  console.log({
-    firstName: firstNameValidationError,
-    lastName: lastNameValidationError,
-    username: usernameValidationError,
-    password: passwordValidationError,
-    rePassword: rePasswordValidationError,
-  });
+  const hasErrors = !formValidationErrors.isEmpty();
 
-  res.render("authPage", {
+  res.status(hasErrors ? 400 : 200).render("authPage", {
     authMode: "register",
     values: {
       firstName: req?.body?.first_name,
@@ -79,7 +71,6 @@ export async function renderRegistrationPage(req, res) {
       rePassword: req?.body?.rePassword,
     },
     errorMessages: {
-      passportError: [],
       validationErrors: {
         firstName: firstNameValidationError,
         lastName: lastNameValidationError,
