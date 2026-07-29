@@ -36,14 +36,26 @@ function folderCollapseStatus(folder) {
 
   const status = foldersLocalStorage[folderID]?.collapse;
 
+  const folderCollapseBtn = folder.querySelector(".folderCollapseBtn");
+
   if (status) {
     folder.classList.add("collapse");
+
+    folderCollapseBtn.title = "Expand folder";
+  } else {
+    folderCollapseBtn.title = "Collapse folder";
   }
 
   const folderOptionStatus = foldersLocalStorage[folderID]?.folderOptionsExpand;
 
+  const folderOptionsBtn = folder.querySelector(".folderOptionsBtn");
+
   if (folderOptionStatus) {
     folder.querySelector(".folderOptions").classList.add("expand");
+
+    folderOptionsBtn.title = "Shrink folder options";
+  } else {
+    folderOptionsBtn.title = "Expand folder options";
   }
 }
 
@@ -54,6 +66,10 @@ function handleFolderCollapseClick(event, folder, folderID) {
   collapse
     ? folder.classList.add("collapse")
     : folder.classList.remove("collapse");
+
+  const folderCollapseBtn = folder.querySelector(".folderCollapseBtn");
+
+  folderCollapseBtn.title = collapse ? "Expand folder" : "Collapse folder";
 
   const existingFolders = JSON.parse(localStorage.getItem("folders")) || {};
 
@@ -83,6 +99,12 @@ function expnadFolderOptions(folder) {
     folderOptions.classList.add("expand");
     status = true;
   }
+
+  const folderOptionsBtn = folder.querySelector(".folderOptionsBtn");
+
+  folderOptionsBtn.title = status
+    ? "Shrink folder options"
+    : "Expand folder options";
 
   const existingFolders = JSON.parse(localStorage.getItem("folders")) || {};
 

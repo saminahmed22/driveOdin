@@ -24,13 +24,20 @@ function handleFileClick(event, file) {
 
 function handleFileOptionsClick(file) {
   const fileOptionsDiv = file.querySelector(".fileOptions");
+  const fileOptionExpandButton = file.querySelector(".fileOptionsBtn");
 
   if (fileOptionsDiv.classList.contains("expand")) {
     fileOptionsDiv.classList.replace("expand", "shrink");
+
+    fileOptionExpandButton.title = "Expand file options";
   } else if (fileOptionsDiv.classList.contains("shrink")) {
     fileOptionsDiv.classList.replace("shrink", "expand");
+
+    fileOptionExpandButton.title = "Shrink file options";
   } else {
     fileOptionsDiv.classList.add("expand");
+
+    fileOptionExpandButton.title = "Shrink file options";
   }
 }
 
