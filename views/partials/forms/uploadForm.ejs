@@ -35,6 +35,13 @@
         <p>Click here to select an image</p>
       </div>
     </button>
+    <% if (locals.errorMessages) { %>
+    <% if (errorMessages?.validationErrors?.file?.length > 0) { %>
+    <p class="fieldErrorMessage">
+      <%= errorMessages?.validationErrors?.file %>
+    </p>
+    <% } %>
+    <% } %>
 
     <div class="inputContainer">
       <label for="file_name">
@@ -50,6 +57,13 @@
         />
         <span><p class="fileNameExtension">.ext</p></span>
       </div>
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.file_name?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.file_name %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
 
     <div class="folderSelectInputContainer">
@@ -58,8 +72,21 @@
         Select a folder</label
       >
 
-      <select name="selected_folder" id="selected_folder_option" required>
+      <select name="selected_folder" id="selected_folder_option">
         <% allData?.folders?.forEach((folder, index) => { %>
+        <% if (values?.folderSelected) { %>
+        <% if (folder.id === values?.folderSelected) { %>
+        <option value="<%= folder.id %>" selected>
+          <span class="directoryMark">/</span
+          ><%= folder.folder_name %>
+        </option>
+        <% } else{%>
+        <option value="<%= folder.id %>">
+          <span class="directoryMark">/</span
+          ><%= folder.folder_name %>
+        </option>
+        <% } %>
+        <% } else{%>
         <% if (index === 0) { %>
         <option value="<%= folder.id %>" selected>
           <span class="directoryMark">/</span
@@ -71,9 +98,17 @@
           ><%= folder.folder_name %>
         </option>
         <% } %>
+        <% } %>
 
         <% }) %>
       </select>
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.folderSelected?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.folderSelected %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
 
     <div class="inputContainer">
@@ -86,8 +121,8 @@
           type="password"
           name="postPassword"
           id="postPassword"
-          maxlength="8"
           class="codeInputField"
+          value="<%= values?.password %>"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
           <img
@@ -104,18 +139,50 @@
         Expiry date:
       </p>
       <div class="radioGroup">
-        <input type="radio" name="expiryDate" id="radio_1" value="1" checked />
-        <label class="radio_label" for="radio_1">1 day</label>
+        <% for( let i = 0; i < 4; i++ ) { %> <% const expiryDates = ["1", "3",
+        "7", "15"] %> <%if(values?.expires_at === expiryDates[i]){%>
+        <input
+          type="radio"
+          name="expiryDate"
+          id="<%= `radio_${i+1}` %>"
+          value="<%= expiryDates[i]%>"
+          checked
+        />
+        <%} else{%>
+        <%if(!values?.expires_at && i === 0){%>
+        <input
+          type="radio"
+          name="expiryDate"
+          id="<%= `radio_${i+1}` %>"
+          value="<%= expiryDates[i]%>"
+          checked
+        />
+        <%} else{%>
+        <input
+          type="radio"
+          name="expiryDate"
+          id="<%= `radio_${i+1}` %>"
+          value="<%= expiryDates[i]%>"
+        />
+        <%}%>
+        <%}%>
 
-        <input type="radio" name="expiryDate" id="radio_2" value="3" />
-        <label class="radio_label" for="radio_2">3 days</label>
-
-        <input type="radio" name="expiryDate" id="radio_3" value="7" />
-        <label class="radio_label" for="radio_3">7 days</label>
-
-        <input type="radio" name="expiryDate" id="radio_4" value="15" />
-        <label class="radio_label" for="radio_4">15 days</label>
+        <label class="radio_label" for="<%= `radio_${i+1}` %>"
+          ><%if(i === 0){%>
+          1 day
+          <%} else{%>
+          <%= `${expiryDates[i]} days`%>
+          <%}%></label
+        >
+        <% } %>
       </div>
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.expires_at?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.expires_at %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
     <input type="file" name="selected_image" id="imagePicker" />
     <button type="submit" class="submitBtn">Upload</button>
