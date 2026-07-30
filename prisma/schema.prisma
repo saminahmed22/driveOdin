@@ -33,12 +33,14 @@ model Post {
 }
 
 model Folder {
-  id          String   @id @default(nanoid(5))
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  folder_name String
-  posts       Post[]
-  created_at  DateTime @default(now())
+  id           String   @id @default(nanoid(5))
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  folder_name  String
+  isProtected  Boolean  @default(false)
+  passwordHash String?
+  posts        Post[]
+  created_at   DateTime @default(now())
 }
 
 model Session {
