@@ -48,12 +48,13 @@
       include('./partials/downloadPage.ejs') %> <%-
       include('./partials/fileSystem/fileList.ejs') %>
     </div>
-    <% } else{ %>
+    <% } else { %>
 
-    <%-
-      include('./partials/forms/downloadForm.ejs') %>
-    <%-
-      include('./partials/downloadPage.ejs') %>
+    <%-include('./partials/forms/downloadForm.ejs') %>
+    <%-include('./partials/downloadPage.ejs') %>
+    <%-include('../forms/passwordRequiredForm.ejs') %>
+    <%-include('../folderSharePage.ejs') %>
+
     <% } %>
   </body>
 </html>
