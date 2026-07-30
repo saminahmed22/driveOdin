@@ -8,7 +8,7 @@ export const validateUploadForm = [
 
       if (!file) {
         throw new Error("Please select an file");
-      } else if (file.size > 1048576) {
+      } else if (file.size > 26214400) {
         throw new Error("Maximum file size 25MB");
       } else {
         return true;
