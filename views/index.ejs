@@ -47,13 +47,15 @@
       include('./partials/forms/downloadForm.ejs') %> <%-
       include('./partials/downloadPage.ejs') %> <%-
       include('./partials/fileSystem/fileList.ejs') %>
+      <%-include('./partials/forms/passwordRequiredForm.ejs') %>
+      <%-include('./partials/folderSharePage.ejs') %>
     </div>
     <% } else { %>
 
     <%-include('./partials/forms/downloadForm.ejs') %>
     <%-include('./partials/downloadPage.ejs') %>
-    <%-include('../forms/passwordRequiredForm.ejs') %>
-    <%-include('../folderSharePage.ejs') %>
+    <%-include('./partials/forms/passwordRequiredForm.ejs') %>
+    <%-include('./partials/folderSharePage.ejs') %>
 
     <% } %>
   </body>
