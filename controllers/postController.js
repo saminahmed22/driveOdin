@@ -209,6 +209,11 @@ export async function renderFileDeleteModal(req, res, next) {
 
   const post = findPostFromAllData(req.params.id, req.data);
 
+  const fileName = path.basename(post.location);
+  const newLocation = `/uploads/${fileName}`;
+
+  post.location = newLocation;
+
   res.render("index", {
     allData: req.data,
     modalOpen: "deleteFile",
@@ -237,10 +242,12 @@ export async function handleDeletePostRequest(req, res, next) {
 export async function renderDownloadForm(req, res, error) {
   const formValidationErrors = validationResult(req);
 
-  let shareCodeValidationError;
+  let shareCodeValidationError, passwordValidationError;
   formValidationErrors.errors.forEach((error) => {
     if (error.path === "shareCode") {
       shareCodeValidationError = error.msg;
+    } else if (error.path === "password") {
+      passwordValidationError = error.msg;
     }
   });
 
@@ -253,10 +260,15 @@ export async function renderDownloadForm(req, res, error) {
   res.status(hasErrors ? 400 : 200).render("index", {
     allData: req.data,
     modalOpen: "downloadForm",
-    values: { shareCode: req?.params?.id ? req?.params?.id : "", requestType },
+    values: {
+      shareCode: req?.params?.id || req?.body?.shareCode,
+      requestType,
+      password: req?.body?.password,
+    },
     errorMessages: {
       validationErrors: {
         shareCode: shareCodeValidationError,
+        password: passwordValidationError,
       },
     },
   });
@@ -281,6 +293,8 @@ export async function getImage(req, res, next) {
     if (!authorStatus) {
       const givenPassword = req?.session?.password;
 
+      console.log(givenPassword);
+
       if (!givenPassword) {
         res.redirect(`/post/passwordRequired/${postID}`);
 
@@ -293,7 +307,7 @@ export async function getImage(req, res, next) {
       */
       removeDataFromSession(req, res);
 
-      const isGenuine = compareHash(givenPassword, post.passwordHash);
+      const isGenuine = await compareHash(givenPassword, post.passwordHash);
 
       if (!isGenuine) {
         res.redirect(`/post/passwordRequired/${shareCode}`);
@@ -334,12 +348,16 @@ export async function renderDownloadPage(req, res, next) {
 }
 
 export async function renderPasswordRequriedForm(req, res, next) {
-  const postID = req.params.id;
+  const requestType = req?.originalUrl?.split("/")?.includes("post")
+    ? "post"
+    : "folder";
+
+  const ID = req?.params?.id;
 
   res.render("index", {
     allData: req?.data,
     modalOpen: "passwordRequired",
-    values: { postID },
+    values: { requestType, ID },
     errors: [],
   });
 }
@@ -350,7 +368,7 @@ export async function renderPasswordRequriedForm(req, res, next) {
 // Stores user given password for locked posts on session temporarily
 // as the router redirects users to post view route on submission
 export function addDataToSession(req, res, next) {
-  req.session.password = req.body.postPassword;
+  req.session.password = req.body.password;
 
   req.session.save((err) => {
     if (err) return next(err);
