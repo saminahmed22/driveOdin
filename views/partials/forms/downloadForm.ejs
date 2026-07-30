@@ -94,7 +94,7 @@
     </div>
 
     <div class="inputContainer downloadFormPasswordInputField">
-      <label for="postPassword">
+      <label for="password">
         <img src="/assets/icons/lock.svg" alt="" />Enter password (If
         applicable):</label
       >
@@ -102,9 +102,9 @@
         <input
           class="codeInputField"
           type="password"
-          name="postPassword"
-          id="filePasswordInput"
-          maxlength="8"
+          name="password"
+          id="passwordInput"
+          value="<%= values?.password %>"
         />
         <button type="button" class="passwordVisibilityBtn passwordInvisible">
           <img
@@ -113,6 +113,14 @@
           />
         </button>
       </div>
+
+      <% if (locals.errorMessages) { %>
+      <% if (errorMessages?.validationErrors?.password?.length > 0) { %>
+      <p class="fieldErrorMessage">
+        <%= errorMessages?.validationErrors?.password %>
+      </p>
+      <% } %>
+      <% } %>
     </div>
 
     <button type="submit" class="submitBtn">Submit</button>
