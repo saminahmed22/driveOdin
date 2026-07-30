@@ -75,6 +75,12 @@ folderRouter.get("/download/:id", handleFolderDownloadRequest);
 
 //____post
 folderRouter.post(
+  "/passwordRequired/:id",
+  addDataToSession,
+  redirectToFolderView,
+);
+
+folderRouter.post(
   "/new",
   authenticationStatus,
   fetchAlluserData,
