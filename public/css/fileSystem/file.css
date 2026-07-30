@@ -32,10 +32,6 @@
   padding-left: 10px;
 }
 
-.postLockIcon {
-  filter: invert();
-}
-
 .fileSize,
 .fileShareCode {
   height: 100%;
