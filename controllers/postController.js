@@ -293,8 +293,6 @@ export async function getImage(req, res, next) {
     if (!authorStatus) {
       const givenPassword = req?.session?.password;
 
-      console.log(givenPassword);
-
       if (!givenPassword) {
         res.redirect(`/post/passwordRequired/${postID}`);
 
@@ -354,11 +352,26 @@ export async function renderPasswordRequriedForm(req, res, next) {
 
   const ID = req?.params?.id;
 
-  res.render("index", {
+  const formValidationErrors = validationResult(req);
+
+  let passwordValidationError;
+  formValidationErrors.errors.forEach((error) => {
+    if (error.path === "password") {
+      passwordValidationError = error.msg;
+    }
+  });
+
+  const hasErrors = !formValidationErrors.isEmpty();
+
+  res.status(hasErrors ? 400 : 200).render("index", {
     allData: req?.data,
     modalOpen: "passwordRequired",
     values: { requestType, ID },
-    errors: [],
+    errorMessages: {
+      validationErrors: {
+        password: passwordValidationError,
+      },
+    },
   });
 }
 //#endregion
