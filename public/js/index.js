@@ -129,6 +129,13 @@ document.addEventListener(
         form.reset();
       }
 
+      const textInputFields = dialog.querySelectorAll("input[type=text]");
+      if (textInputFields.length) {
+        textInputFields.forEach((field) => {
+          field.textContent = "";
+        });
+      }
+
       const errorFields = document.querySelectorAll(".fieldErrorMessage");
       if (errorFields.length) {
         errorFields.forEach((errorField) => {
