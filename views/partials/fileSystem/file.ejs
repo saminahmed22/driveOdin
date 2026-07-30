@@ -1,13 +1,13 @@
-<div class="file" title="File" data-postId="<%= postData.id %>">
+<div class="file" title="File" data-postId="<%= post.id %>">
   <div class="fileTitle">
     <img src="/assets/icons/image.svg" alt="" />
-    <p class="fileDetail fileTitleText" title="<%= postData.file_name %>">
-      <%= postData.file_name_short %>
+    <p class="fileDetail fileTitleText" title="<%= post.file_name %>">
+      <%= post.file_name_short %>
     </p>
 
-    <% if (postData.isProtected) { %>
+    <% if (post.isProtected) { %>
     <img
-      class="postLockIcon"
+      class="postLockIcon invertImg"
       src="/assets/icons/lock.svg"
       alt="Lock icon"
       title="This image is password protected"
@@ -15,13 +15,13 @@
     <% } %>
   </div>
 
-  <p class="fileDetail fileSize" title="size"><%= postData.file_size%></p>
-  <p class="fileDetail fileShareCode" title="Share code"><%= postData.id %></p>
+  <p class="fileDetail fileSize" title="size"><%= post.file_size%></p>
+  <p class="fileDetail fileShareCode" title="Share code"><%= post.id %></p>
   <p class="fileDetail fileCreationDate" title="Creation date">
-    <%= postData.readableCreationDate %>
+    <%= post.readableCreationDate %>
   </p>
   <p class="fileDetail fileExpirationDate" title="Expiration date">
-    <%= postData.readableExpiryDate %>
+    <%= post.readableExpiryDate %>
   </p>
 
   <div class="fileAction">
