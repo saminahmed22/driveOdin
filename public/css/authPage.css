@@ -8,7 +8,7 @@
 }
 
 .passportErrorContainer {
-  height: 0;
+  height: fit-content;
 
   min-width: 250px;
   max-width: 250px;
@@ -26,9 +26,9 @@
 
   overflow: hidden;
 
-  animation: openUp 0.3s ease forwards;
+  padding: 5px;
 
-  opacity: 0;
+  animation: openUp 0.3s ease forwards;
 }
 
 .fieldErrorMessage {
