@@ -31,6 +31,7 @@ import { fetchAlluserData } from "../middlewares/fetchAlluserData.js";
 import { validationResult } from "express-validator";
 import { validateCreateFolderForm } from "../middlewares/validators/folderValidators.js";
 import { validateDownloadForm } from "../middlewares/validators/downloadValidator.js";
+import { validatePasswordRequiredForm } from "../middlewares/validators/passwordRequiredValidators.js";
 
 function redirectToFolderView(req, res, next) {
   const id = req.params.id || req?.body?.shareCode;
@@ -76,6 +77,16 @@ folderRouter.get("/download/:id", handleFolderDownloadRequest);
 //____post
 folderRouter.post(
   "/passwordRequired/:id",
+  validatePasswordRequiredForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderPasswordRequriedForm(req, res);
+    }
+
+    next();
+  },
   addDataToSession,
   redirectToFolderView,
 );

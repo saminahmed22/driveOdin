@@ -31,6 +31,7 @@ import {
   validateEditForm,
 } from "../middlewares/validators/uploadValidator.js";
 import { validateDownloadForm } from "../middlewares/validators/downloadValidator.js";
+import { validatePasswordRequiredForm } from "../middlewares/validators/passwordRequiredValidators.js";
 
 import fs from "fs";
 
@@ -74,7 +75,21 @@ postRouter.get(
 );
 
 //____post
-postRouter.post("/passwordRequired/:id", addDataToSession, redirectToPostView);
+postRouter.post(
+  "/passwordRequired/:id",
+  validatePasswordRequiredForm,
+  (req, res, next) => {
+    const formValidationErrors = validationResult(req);
+
+    if (!formValidationErrors.isEmpty()) {
+      return renderPasswordRequriedForm(req, res);
+    }
+
+    next();
+  },
+  addDataToSession,
+  redirectToPostView,
+);
 
 postRouter.post(
   "/upload",
