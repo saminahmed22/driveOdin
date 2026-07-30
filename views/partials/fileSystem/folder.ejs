@@ -6,6 +6,15 @@
     <div class="folderTitleContainer">
       <img src="/assets/icons/folderWhite.svg" alt="" />
       <p class="folderTitle"><%= folder.folder_name %></p>
+
+      <% if (folder.isProtected) { %>
+      <img
+        class="folderLockIcon invertImg"
+        src="/assets/icons/lock.svg"
+        alt="Lock icon"
+        title="This folder is password protected"
+      />
+      <% } %>
     </div>
 
     <div class="folderHeaderActions">
@@ -40,7 +49,7 @@
     <p class="nofileText">This folder is empty.</p>
     <% } else{%>
     <% folder.posts.forEach(post => { %>
-    <%- include('./file.ejs', {postData: post}) %>
+    <%- include('./file.ejs', {post}) %>
     <% }) %>
     <% } %>
   </div>
