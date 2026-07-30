@@ -51,6 +51,28 @@
       <% } %>
     </div>
 
+    <div class="inputContainer">
+      <label for="folderPassword">
+        <img src="/assets/icons/lock.svg" alt="" /> Secure with a password
+        (Optional, but will be needed if it contains protected posts)</label
+      >
+      <div class="passwordInputField">
+        <input
+          type="password"
+          name="folderPassword"
+          id="folderPassword"
+          class="codeInputField"
+          value="<%= values?.password %>"
+        />
+        <button type="button" class="passwordVisibilityBtn passwordInvisible">
+          <img
+            src="/assets/icons/password_not_visible.svg"
+            alt="show password"
+          />
+        </button>
+      </div>
+    </div>
+
     <button type="submit" class="submitBtn">Submit</button>
   </form>
 </dialog>
