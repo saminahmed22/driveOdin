@@ -214,6 +214,8 @@ dialog[open]::backdrop {
 }
 
 .inputContainer label {
+  max-width: 350px;
+
   display: flex;
   align-items: center;
   gap: 5px;
