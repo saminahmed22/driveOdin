@@ -7,11 +7,15 @@ import {
   getAllFolders,
 } from "../models/folderModel.js";
 
+// Controllers
+import { removeDataFromSession } from "./postController.js";
+
 // Utils
 import { findFolderFromAllData } from "../utils/iterateObject.js";
 import { reformatAllDataObject } from "../utils/reformatAllDataObject.js";
 import { generateQR } from "../utils/generateQRcode.js";
 import { hashString } from "../utils/crypto.js";
+import { compareHash } from "../utils/crypto.js";
 
 import { ZipArchive } from "archiver";
 import fs from "fs";
@@ -136,6 +140,17 @@ export async function renderFolderDeletePopver(req, res, next) {
 
   const folder = findFolderFromAllData(req.params.id, req.data);
 
+  if (folder) {
+    if (!folder?.posts?.length) return;
+
+    folder?.posts.forEach((post) => {
+      const fileName = path.basename(post.location);
+      const newLocation = `/uploads/${fileName}`;
+
+      post.location = newLocation;
+    });
+  }
+
   res.render("index", {
     allData: req.data,
     modalOpen: "deleteFolder",
@@ -171,6 +186,17 @@ export async function renderFolderPage(req, res, next) {
   const folderID = req.params.id;
   const folder = req.folder;
 
+  if (folder) {
+    if (!folder?.posts?.length) return;
+
+    folder?.posts.forEach((post) => {
+      const fileName = path.basename(post.location);
+      const newLocation = `/uploads/${fileName}`;
+
+      post.location = newLocation;
+    });
+  }
+
   res.render("index", {
     allData: req.data,
     modalOpen: "folderSharePage",
@@ -190,6 +216,34 @@ export async function getFolder(req, res, next) {
 
   if (!folder) {
     throw new Error(`No folder has been found with the folder ID: ${folderID}`);
+  }
+
+  const isProtected = folder.isProtected;
+
+  if (isProtected) {
+    if (!authorStatus) {
+      const givenPassword = req?.session?.password;
+
+      if (!givenPassword) {
+        res.redirect(`/folder/passwordRequired/${folderID}`);
+
+        return;
+      }
+
+      /*
+        Removes password stored in the session
+        after accessing it the first time
+        */
+      removeDataFromSession(req, res);
+
+      const isGenuine = await compareHash(givenPassword, folder.passwordHash);
+
+      if (!isGenuine) {
+        res.redirect(`/folder/passwordRequired/${shareCode}`);
+
+        return;
+      }
+    }
   }
 
   // Source - https://stackoverflow.com/a/10185427
