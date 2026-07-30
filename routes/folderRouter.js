@@ -15,6 +15,11 @@ import {
   handleFolderDownloadRequest,
 } from "../controllers/folderController.js";
 
+import {
+  addDataToSession,
+  renderPasswordRequriedForm,
+} from "../controllers/postController.js";
+
 import { renderDownloadForm } from "../controllers/postController.js";
 
 // Models
@@ -38,19 +43,16 @@ function redirectToFolderView(req, res, next) {
 //____get
 folderRouter.get(
   "/:id",
+  isAuthor,
   fetchAlluserData,
-  validateDownloadForm,
-  (req, res, next) => {
-    const formValidationErrors = validationResult(req);
-
-    if (!formValidationErrors.isEmpty()) {
-      return renderDownloadForm(req, res);
-    }
-
-    next();
-  },
   getFolder,
   renderFolderPage,
+);
+
+folderRouter.get(
+  "/passwordRequired/:id",
+  fetchAlluserData,
+  renderPasswordRequriedForm,
 );
 
 folderRouter.get(
@@ -127,5 +129,6 @@ folderRouter.post(
 
     next();
   },
+  addDataToSession,
   redirectToFolderView,
 );
