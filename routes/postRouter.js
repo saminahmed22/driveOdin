@@ -47,16 +47,6 @@ postRouter.get(
   "/:id",
   isAuthor,
   fetchAlluserData,
-  validateDownloadForm,
-  (req, res, next) => {
-    const formValidationErrors = validationResult(req);
-
-    if (!formValidationErrors.isEmpty()) {
-      return renderDownloadForm(req, res);
-    }
-
-    next();
-  },
   getImage,
   renderDownloadPage,
 );
