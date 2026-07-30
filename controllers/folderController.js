@@ -11,6 +11,7 @@ import {
 import { findFolderFromAllData } from "../utils/iterateObject.js";
 import { reformatAllDataObject } from "../utils/reformatAllDataObject.js";
 import { generateQR } from "../utils/generateQRcode.js";
+import { hashString } from "../utils/crypto.js";
 
 import { ZipArchive } from "archiver";
 import fs from "fs";
@@ -46,9 +47,17 @@ export async function renderFolderCreatePopver(req, res) {
 
 export async function handleCreateFolderRequest(req, res, next) {
   const folder_name = req.body.folder_name;
+  const folder_password = req.body.folderPassword;
+  const isProtected = folder_password?.length > 0;
+
+  let passwordHash;
+  if (isProtected) {
+    passwordHash = await hashString(folder_password);
+  }
+
   const userId = req.user.id;
 
-  const data = { folder_name, userId };
+  const data = { folder_name, isProtected, passwordHash, userId };
 
   await createFolder(data);
 
