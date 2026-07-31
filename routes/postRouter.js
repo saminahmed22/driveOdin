@@ -15,6 +15,7 @@ import {
   handleDeletePostRequest,
   addDataToSession,
   renderPasswordRequriedForm,
+  handlePostDownloadRequest,
 } from "../controllers/postController.js";
 
 // Models
@@ -74,6 +75,8 @@ postRouter.get(
   renderFileDeleteModal,
 );
 
+postRouter.get("/download/:id", handlePostDownloadRequest);
+
 //____post
 postRouter.post(
   "/passwordRequired/:id",
@@ -101,10 +104,6 @@ postRouter.post(
     const formValidationErrors = validationResult(req);
 
     if (!formValidationErrors.isEmpty()) {
-      const path = req.file.path;
-
-      fs.promises.unlink(path); // Removes stored file if invalid
-
       return renderUploadForm(req, res);
     }
 

@@ -23,6 +23,10 @@ import path from "path";
 import os from "os";
 import crypto from "crypto";
 import { validationResult } from "express-validator";
+import { Readable } from "stream";
+
+// Supabase
+import { supabase } from "../lib/supabase.js";
 
 //#region Create folder
 export async function renderFolderCreatePopver(req, res) {
@@ -143,12 +147,21 @@ export async function renderFolderDeletePopver(req, res, next) {
   if (folder) {
     if (!folder?.posts?.length) return;
 
-    folder?.posts.forEach((post) => {
-      const fileName = path.basename(post.location);
-      const newLocation = `/uploads/${fileName}`;
+    await Promise.all(
+      (folder?.posts ?? []).map(async (post) => {
+        const { data, error } = await supabase.storage
+          .from("DriveOdinBucket")
+          .createSignedUrl(post.location, 60 * 15);
 
-      post.location = newLocation;
-    });
+        if (error) {
+          throw new Error(
+            `Failed to sign URL for post ${post.id}: ${error.message}`,
+          );
+        }
+
+        post.location = data.signedUrl;
+      }),
+    );
   }
 
   res.render("index", {
@@ -168,16 +181,31 @@ export async function handleDeleteFolderRequest(req, res, next) {
 
   const allFolders = req.data.folders;
 
-  if (allFolders.length > 1) {
-    const folderID = req.params.id;
-    const userID = req.user.id;
-
-    await deleteFolder(folderID, userID);
-
-    res.redirect("/");
-  } else {
+  if (allFolders.length < 1) {
     throw new Error("Cannot delete last folder.");
   }
+
+  const folderID = req.params.id;
+  const userID = req.user.id;
+  const folder = findFolderFromAllData(folderID, req.data);
+
+  const paths = folder.posts.map((post) => post.location);
+
+  if (paths.length > 0) {
+    const { error: storageError } = await supabase.storage
+      .from("DriveOdinBucket")
+      .remove(paths);
+
+    if (storageError) {
+      throw new Error(
+        `Failed to delete files from storage: ${storageError.message}`,
+      );
+    }
+  }
+
+  await deleteFolder(folderID, userID);
+
+  res.redirect("/");
 }
 //#endregion
 
@@ -188,13 +216,6 @@ export async function renderFolderPage(req, res, next) {
 
   if (folder) {
     if (!folder?.posts?.length) return;
-
-    folder?.posts.forEach((post) => {
-      const fileName = path.basename(post.location);
-      const newLocation = `/uploads/${fileName}`;
-
-      post.location = newLocation;
-    });
   }
 
   res.render("index", {
@@ -217,6 +238,23 @@ export async function getFolder(req, res, next) {
   if (!folder) {
     throw new Error(`No folder has been found with the folder ID: ${folderID}`);
   }
+
+  // Adds supabase image url on every post
+  await Promise.all(
+    (folder?.posts ?? []).map(async (post) => {
+      const { data, error } = await supabase.storage
+        .from("DriveOdinBucket")
+        .createSignedUrl(post.location, 60 * 15);
+
+      if (error) {
+        throw new Error(
+          `Failed to sign URL for post ${post.id}: ${error.message}`,
+        );
+      }
+
+      post.location = data.signedUrl;
+    }),
+  );
 
   const isProtected = folder.isProtected;
 
@@ -264,10 +302,12 @@ export async function handleFolderDownloadRequest(req, res, next) {
   const folderID = req.params.id;
   const folder = await findFolder(folderID);
 
+  if (!folder) {
+    throw new Error(`No folder found with ID: ${folderID}`);
+  }
+
   const zipNameUUID = `${folder.folder_name}-${crypto.randomUUID()}.zip`;
-
   const outputPath = path.join(os.tmpdir(), zipNameUUID);
-
   const output = fs.createWriteStream(outputPath);
 
   const archive = new ZipArchive({
@@ -297,12 +337,25 @@ export async function handleFolderDownloadRequest(req, res, next) {
 
   archive.pipe(output);
 
-  folder.posts.forEach((post) => {
-    const filePath = post.location;
-    const fileBuffer = fs.createReadStream(filePath);
+  // Stream each file into the archive one at a time
+  for (const post of folder.posts) {
+    const { data, error } = await supabase.storage
+      .from("DriveOdinBucket")
+      .download(post.location);
 
-    archive.append(fileBuffer, { name: post.file_name });
-  });
+    if (error) {
+      throw new Error(`Failed to download ${post.file_name}: ${error.message}`);
+    }
+
+    const nodeStream = Readable.fromWeb(data.stream());
+
+    // Wait for this file to be fully appended before moving to the next
+    await new Promise((resolve, reject) => {
+      archive.append(nodeStream, { name: post.file_name });
+      nodeStream.on("end", resolve);
+      nodeStream.on("error", reject);
+    });
+  }
 
   archive.finalize();
 }

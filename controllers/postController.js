@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 // Models
 import {
   createPost,
@@ -20,14 +22,15 @@ import {
 import { reformatPostDataObject } from "../utils/reformatAllDataObject.js";
 import fs from "fs";
 import path from "path";
-
+import { createClient } from "@supabase/supabase-js";
 import { validationResult } from "express-validator";
+import Crypto from "crypto";
 
 // Models
 import { isAuthor } from "../models/authModel.js";
 
-// Multer
-import { uploadImageMulter } from "../lib/multer.js";
+// Supabase
+import { supabase } from "../lib/supabase.js";
 
 //#region Create post
 export async function renderUploadForm(req, res) {
@@ -51,7 +54,6 @@ export async function renderUploadForm(req, res) {
 
   const hasErrors = !formValidationErrors.isEmpty();
 
-  // console.log(formValidationErrors);
   res.status(hasErrors ? 400 : 200).render("index", {
     allData: req.data,
     modalOpen: "uploadForm",
@@ -83,8 +85,18 @@ export async function handleCreatePostRequest(req, res, next) {
   // File size
   const file_size = formatReadableSize(req.file.size);
 
+  //Supabase upload
+  const storagePath = `${Crypto.randomUUID()}${file_ext}`;
+
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from("DriveOdinBucket")
+    .upload(storagePath, req.file.buffer, {
+      contentType: req.file.mimetype,
+      upsert: false,
+    });
+
   // File path
-  const location = req.file.path;
+  const location = uploadData.path;
 
   // Password
   const isProtected = req.body.postPassword.length > 0;
@@ -137,7 +149,12 @@ export async function renderFileEditModal(req, res, next) {
   const fileName = path.basename(post.location);
   const newLocation = `/uploads/${fileName}`;
 
-  post.location = newLocation;
+  // Get supabase image url
+  const { data, error } = await supabase.storage
+    .from("DriveOdinBucket")
+    .createSignedUrl(post.location, 60 * 15);
+
+  post.location = data.signedUrl;
 
   post.file_ext = path.extname(post.file_name);
 
@@ -212,7 +229,12 @@ export async function renderFileDeleteModal(req, res, next) {
   const fileName = path.basename(post.location);
   const newLocation = `/uploads/${fileName}`;
 
-  post.location = newLocation;
+  // Get supabase image url
+  const { data, error } = await supabase.storage
+    .from("DriveOdinBucket")
+    .createSignedUrl(post.location, 60 * 15);
+
+  post.location = data.signedUrl;
 
   res.render("index", {
     allData: req.data,
@@ -231,6 +253,17 @@ export async function handleDeletePostRequest(req, res, next) {
 
   const postID = req.params.id;
   const userID = req.user.id;
+  const post = findPostFromAllData(postID, req.data);
+
+  const { error: storageError } = await supabase.storage
+    .from("DriveOdinBucket")
+    .remove([post.location]);
+
+  if (storageError) {
+    throw new Error(
+      `Failed to delete file from storage: ${storageError.message}`,
+    );
+  }
 
   await deletePost(postID, userID);
 
@@ -284,7 +317,7 @@ export async function getImage(req, res, next) {
     : await findPost(postID);
 
   if (!post) {
-    throw new Error(`No post has been found with the post ID: ${postID}`);
+    throw new Error(`No post has been found with the post ID HERE: ${postID}`);
   }
 
   const isProtected = post.isProtected;
@@ -315,6 +348,13 @@ export async function getImage(req, res, next) {
     }
   }
 
+  // Get supabase image url
+  const { data, error } = await supabase.storage
+    .from("DriveOdinBucket")
+    .createSignedUrl(post.location, 60 * 15);
+
+  post.location = data.signedUrl;
+
   // Source - https://stackoverflow.com/a/10185427
   // Posted by Peter Lyons, modified by community. See post 'Timeline' for change history
   // Retrieved 2026-07-06, License - CC BY-SA 3.0
@@ -331,11 +371,6 @@ export async function getImage(req, res, next) {
 
 export async function renderDownloadPage(req, res, next) {
   const post = req.post;
-
-  const fileName = path.basename(post.location);
-  const newLocation = `/uploads/${fileName}`;
-
-  post.location = newLocation;
 
   res.render("index", {
     allData: req?.data,
@@ -373,6 +408,29 @@ export async function renderPasswordRequriedForm(req, res, next) {
       },
     },
   });
+}
+
+export async function handlePostDownloadRequest(req, res, next) {
+  const postID = req.params.id;
+  const post = await findPost(postID);
+
+  if (!post) {
+    throw new Error(`No post found with ID: ${postID}`);
+  }
+
+  const { data, error } = await supabase.storage
+    .from("DriveOdinBucket")
+    .download(post.location);
+
+  if (error) {
+    throw new Error(`Failed to download ${post.file_name}: ${error.message}`);
+  }
+
+  const buffer = Buffer.from(await data.arrayBuffer());
+
+  res.set("Content-Disposition", `attachment; filename="${post.file_name}"`);
+  res.set("Content-Type", data.type);
+  res.send(buffer);
 }
 //#endregion
 
