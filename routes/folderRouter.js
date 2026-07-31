@@ -72,7 +72,7 @@ folderRouter.get(
   renderFolderDeletePopver,
 );
 
-folderRouter.get("/download/:id", handleFolderDownloadRequest);
+folderRouter.get("/download/:id", isAuthor, handleFolderDownloadRequest);
 
 //____post
 folderRouter.post(

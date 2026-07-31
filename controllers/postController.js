@@ -336,7 +336,6 @@ export async function getImage(req, res, next) {
       Removes password stored in the session
       after accessing it the first time
       */
-      removeDataFromSession(req, res);
 
       const isGenuine = await compareHash(givenPassword, post.passwordHash);
 
@@ -411,8 +410,36 @@ export async function renderPasswordRequriedForm(req, res, next) {
 }
 
 export async function handlePostDownloadRequest(req, res, next) {
+  const authorStatus = req.isAuthor;
+
   const postID = req.params.id;
   const post = await findPost(postID);
+
+  const isProtected = post.isProtected;
+
+  if (isProtected && !authorStatus) {
+    const givenPassword = req?.session?.password;
+
+    if (!givenPassword) {
+      res.redirect(`/post/passwordRequired/${postID}`);
+
+      return;
+    }
+
+    /*
+      Removes password stored in the session
+      after accessing it the first time
+    */
+    removeDataFromSession(req, res);
+
+    const isGenuine = await compareHash(givenPassword, post.passwordHash);
+
+    if (!isGenuine) {
+      res.redirect(`/post/passwordRequired/${postID}`);
+
+      return;
+    }
+  }
 
   if (!post) {
     throw new Error(`No post found with ID: ${postID}`);

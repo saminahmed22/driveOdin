@@ -75,7 +75,7 @@ postRouter.get(
   renderFileDeleteModal,
 );
 
-postRouter.get("/download/:id", handlePostDownloadRequest);
+postRouter.get("/download/:id", isAuthor, handlePostDownloadRequest);
 
 //____post
 postRouter.post(

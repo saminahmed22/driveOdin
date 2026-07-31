@@ -258,29 +258,26 @@ export async function getFolder(req, res, next) {
 
   const isProtected = folder.isProtected;
 
-  if (isProtected) {
-    if (!authorStatus) {
-      const givenPassword = req?.session?.password;
+  if (isProtected && !authorStatus) {
+    const givenPassword = req?.session?.password;
 
-      if (!givenPassword) {
-        res.redirect(`/folder/passwordRequired/${folderID}`);
+    if (!givenPassword) {
+      res.redirect(`/folder/passwordRequired/${folderID}`);
 
-        return;
-      }
+      return;
+    }
 
-      /*
-        Removes password stored in the session
-        after accessing it the first time
-        */
-      removeDataFromSession(req, res);
+    /*
+      Removes password stored in the session
+      after accessing it the first time
+    */
 
-      const isGenuine = await compareHash(givenPassword, folder.passwordHash);
+    const isGenuine = await compareHash(givenPassword, folder.passwordHash);
 
-      if (!isGenuine) {
-        res.redirect(`/folder/passwordRequired/${shareCode}`);
+    if (!isGenuine) {
+      res.redirect(`/folder/passwordRequired/${shareCode}`);
 
-        return;
-      }
+      return;
     }
   }
 
@@ -299,8 +296,36 @@ export async function getFolder(req, res, next) {
 }
 
 export async function handleFolderDownloadRequest(req, res, next) {
+  const authorStatus = req.isAuthor;
+
   const folderID = req.params.id;
   const folder = await findFolder(folderID);
+
+  const isProtected = folder.isProtected;
+
+  if (isProtected && !authorStatus) {
+    const givenPassword = req?.session?.password;
+
+    if (!givenPassword) {
+      res.redirect(`/folder/passwordRequired/${folderID}`);
+
+      return;
+    }
+
+    /*
+      Removes password stored in the session
+      after accessing it the first time
+    */
+    removeDataFromSession(req, res);
+
+    const isGenuine = await compareHash(givenPassword, folder.passwordHash);
+
+    if (!isGenuine) {
+      res.redirect(`/folder/passwordRequired/${folderID}`);
+
+      return;
+    }
+  }
 
   if (!folder) {
     throw new Error(`No folder found with ID: ${folderID}`);
