@@ -4,6 +4,8 @@ import "dotenv/config";
 import express from "express";
 const app = express();
 
+app.set("trust proxy", 1);
+
 // Session
 import session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
@@ -22,6 +24,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 15, // 15 days, ms * minute * hour * day * day_count
+      secure: process.env.NODE_ENV === "production",
     },
   }),
 );
