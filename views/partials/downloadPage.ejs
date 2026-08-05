@@ -28,9 +28,15 @@
       </p>
     </div>
 
+    <% if (allData?.id) { %>
     <button class="closeBtn" commandfor="downloadPageDialog" command="close">
-      <img src="/assets/icons/close.svg" alt="Close icon" />
+    <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
+    <% } else { %>
+    <a href="/" class="closeBtn">
+    <img src="/assets/icons/close.svg" alt="Close icon" />
+    </a>
+<% } %>
   </div>
 
   <div class="sharePageContainer">
