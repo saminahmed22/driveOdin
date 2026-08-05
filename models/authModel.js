@@ -39,12 +39,10 @@ export async function isAuthor(req, res, next) {
 
   if (!requester) {
     req.isAuthor = false;
-
-    next();
+    return next();   // <-- stop here for anonymous users, FORGIVE ME FOR I HAVE SINNED, THIS RETURN WAS WRITTEN BY CLAUD BECUASE I'M FUCKING TIRED AAAH AND IT IS DIRECTLY EDITED IN GITHUB.
   }
 
   const urlArr = req.originalUrl.split("/");
-
   const requestID = req.params.id;
 
   const authorID = urlArr.includes("post")
@@ -54,6 +52,5 @@ export async function isAuthor(req, res, next) {
   const status = requester === authorID;
 
   req.isAuthor = status;
-
   next();
 }
