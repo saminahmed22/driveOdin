@@ -317,7 +317,22 @@ export async function getImage(req, res, next) {
     : await findPost(postID);
 
   if (!post) {
-    throw new Error(`No post has been found with the post ID HERE: ${postID}`);
+    res.status(400).render("index", {
+    allData: req.data,
+    modalOpen: "downloadForm",
+    values: {
+      shareCode: req?.params?.id || req?.body?.shareCode,
+      requestType: "post",
+      password: ""
+    },
+    errorMessages: {
+      validationErrors: {
+          shareCode: `Cannot find the post with the ID: ${postID}`,
+      },
+    },
+    });
+
+    return;
   }
 
   const isProtected = post.isProtected;
