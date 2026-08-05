@@ -211,10 +211,6 @@ export async function renderFolderPage(req, res, next) {
   const folderID = req.params.id;
   const folder = req.folder;
 
-  if (folder) {
-    if (!folder?.posts?.length) return;
-  }
-
   res.render("index", {
     allData: req.data,
     modalOpen: "folderSharePage",
