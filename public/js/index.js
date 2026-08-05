@@ -3,6 +3,7 @@ const uploadDialog = document.getElementById("uploadDialog");
 const downloadDialog = document.getElementById("downloadDialog");
 const downloadPagePopover = document.getElementById("downloadPagePopover");
 
+if(uploadDialog){
 uploadDialog.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
@@ -23,17 +24,20 @@ uploadDialog.addEventListener("click", (event) => {
       file_name.disabled = true;
     }
   }
-});
+})
+}
 
 const downloadReqForm = downloadDialog.querySelector("form");
 
+if(downloadReqForm){
 downloadReqForm.addEventListener("submit", (event) => {
   const checkedType = downloadDialog.querySelector(
     'input[name="downloadType"]:checked',
   ).value;
 
   downloadReqForm.action = `/${checkedType}/download`;
-});
+})
+}
 
 // Event listener for the password input container
 const passwordInputContainer = document.querySelectorAll(".passwordInputField");
