@@ -28,9 +28,15 @@
       </p>
     </div>
 
+   <% if (allData?.id) { %>
     <button class="closeBtn" commandfor="folderSharePageDialog" command="close">
-      <img src="/assets/icons/close.svg" alt="Close icon" />
+    <img src="/assets/icons/close.svg" alt="Close icon" />
     </button>
+    <% } else { %>
+    <a href="/" class="closeBtn">
+    <img src="/assets/icons/close.svg" alt="Close icon" />
+    </a>
+<% } %>
   </div>
 
   <% if (values?.folder?.posts?.length > 0) { %>
