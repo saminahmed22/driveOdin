@@ -142,6 +142,13 @@ export async function renderFolderDeletePopver(req, res, next) {
   }
 
   const folder = findFolderFromAllData(req.params.id, req.data);
+  const allFolders = req.data.folders;
+  
+  if (allFolders.length <= 1) {
+    res.redirect("/");
+
+    return;
+  }
 
   if (folder?.posts?.length) {
     await Promise.all(
@@ -179,7 +186,9 @@ export async function handleDeleteFolderRequest(req, res, next) {
   const allFolders = req.data.folders;
 
   if (allFolders.length <= 1) {
-    throw new Error("Cannot delete last folder.");
+    res.redirect("/");
+
+    return;
   }
 
   const folderID = req.params.id;
