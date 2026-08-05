@@ -238,7 +238,22 @@ export async function getFolder(req, res, next) {
     : await findFolder(folderID);
 
   if (!folder) {
-    throw new Error(`No folder has been found with the folder ID: ${folderID}`);
+    res.status(400).render("index", {
+    allData: req.data,
+    modalOpen: "downloadForm",
+    values: {
+      shareCode: req?.params?.id || req?.body?.shareCode,
+      requestType: "folder",
+      password: ""
+    },
+    errorMessages: {
+      validationErrors: {
+          shareCode: `Cannot find the folder with the ID: ${folderID}`,
+      },
+    },
+    });
+
+    return;
   }
 
   // Adds supabase image url on every post
