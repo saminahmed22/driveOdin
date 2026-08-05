@@ -178,7 +178,7 @@ export async function handleDeleteFolderRequest(req, res, next) {
 
   const allFolders = req.data.folders;
 
-  if (allFolders.length < 1) {
+  if (allFolders.length <= 1) {
     throw new Error("Cannot delete last folder.");
   }
 
