@@ -138,17 +138,14 @@ export async function handleEditFolderRequest(req, res, next) {
 export async function renderFolderDeletePopver(req, res, next) {
   if (!req.isAuthor) {
     res.redirect("/");
-
     return;
   }
 
   const folder = findFolderFromAllData(req.params.id, req.data);
 
-  if (folder) {
-    if (!folder?.posts?.length) return;
-
+  if (folder?.posts?.length) {
     await Promise.all(
-      (folder?.posts ?? []).map(async (post) => {
+      folder.posts.map(async (post) => {
         const { data, error } = await supabase.storage
           .from("DriveOdinBucket")
           .createSignedUrl(post.location, 60 * 15);
