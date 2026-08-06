@@ -1,5 +1,5 @@
 export function formatReadableDate(isoString) {
-  const date = new Date(isoString).toLocaleString()
+  const date = new Date(isoString);
 
   const formatter = new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
