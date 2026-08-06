@@ -24,8 +24,8 @@ model Post {
   file_name    String
   file_size    String
   location     String
-  uploaded_at  DateTime @default(now())
-  expires_at   DateTime
+  uploaded_at  DateTime @default(now()) @db.Timestamptz(3)
+  expires_at   DateTime @db.Timestamptz(3)
   isProtected  Boolean  @default(false)
   passwordHash String?
   folder       Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
