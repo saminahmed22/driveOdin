@@ -706,10 +706,7 @@ nav button {
     margin: 0;
   }
 
-  .downloadFileBtn,
-  .downloadFolderBtn {
-    margin-right: 40px;
-  }
+
 
   .fileUploadForm {
     width: 95%;
