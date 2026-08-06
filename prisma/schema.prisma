@@ -32,6 +32,11 @@ model Post {
   folderId     String
 }
 
+model Expired_posts {
+  id        String @id
+  file_name String
+}
+
 model Folder {
   id           String   @id @default(nanoid(5))
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
