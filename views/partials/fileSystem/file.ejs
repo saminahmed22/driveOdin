@@ -17,12 +17,16 @@
 
   <p class="fileDetail fileSize" title="size"><%= post.file_size%></p>
   <p class="fileDetail fileShareCode" title="Share code"><%= post.id %></p>
-  <p class="fileDetail fileCreationDate" title="Creation date">
-    <%= post.readableCreationDate %>
-  </p>
-  <p class="fileDetail fileExpirationDate" title="Expiration date">
-    <%= post.readableExpiryDate %>
-  </p>
+  <p
+    class="fileDetail fileCreationDate date"
+    title="Creation date"
+    data-raw="<%= post?.uploaded_at?.toISOString() %>"
+  ></p>
+  <p
+    class="fileDetail fileExpirationDate date"
+    title="Expiration date"
+    data-raw="<%= post?.expires_at?.toISOString() %>"
+  ></p>
 
   <div class="fileAction">
     <div class="fileOptions">
