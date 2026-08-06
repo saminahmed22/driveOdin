@@ -56,15 +56,15 @@
 
           <tr>
             <th>Created at<span class="fileDetailsTitleColon">:</span></th>
-            <td class="sharePagePreviewSize">
-              <%= values?.post?.readableCreationDate %>
+             <td class="sharePagePreviewSize date" data-raw="<%= values?.post?.uploaded_at?.toISOString() %>">
+
             </td>
           </tr>
 
           <tr>
             <th>Expires at<span class="fileDetailsTitleColon">:</span></th>
-            <td class="sharePagePreviewSize">
-              <%= values?.post?.readableExpiryDate %>
+            <td class="sharePagePreviewSize date" data-raw="<%= values?.post?.expires_at?.toISOString() %>">
+             
             </td>
           </tr>
         </table>
