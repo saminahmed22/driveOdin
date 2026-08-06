@@ -3,40 +3,42 @@ const uploadDialog = document.getElementById("uploadDialog");
 const downloadDialog = document.getElementById("downloadDialog");
 const downloadPagePopover = document.getElementById("downloadPagePopover");
 
-if(uploadDialog){
-uploadDialog.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-  if (!button) return;
+if (uploadDialog) {
+  uploadDialog.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+    if (!button) return;
 
-  const uploadSelectBtn = document.querySelector(".uploadSelectBtn");
-  const uploadBtnInstruction = document.querySelector(".uploadBtnInstruction");
+    const uploadSelectBtn = document.querySelector(".uploadSelectBtn");
+    const uploadBtnInstruction = document.querySelector(
+      ".uploadBtnInstruction",
+    );
 
-  if (button.classList.contains("closeBtn")) {
-    uploadSelectBtn.style.backgroundImage = "";
-    uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
-    uploadBtnInstruction.style.color = "black";
-    uploadBtnInstruction.style.textShadow = "none";
-    uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
+    if (button.classList.contains("closeBtn")) {
+      uploadSelectBtn.style.backgroundImage = "";
+      uploadBtnInstruction.style.backgroundColor = "rgba(0, 0, 0, 0)";
+      uploadBtnInstruction.style.color = "black";
+      uploadBtnInstruction.style.textShadow = "none";
+      uploadBtnInstruction.querySelector("img").style.filter = "invert(0)";
 
-    const file_name = document.getElementById("file_name");
+      const file_name = document.getElementById("file_name");
 
-    if (file_name) {
-      file_name.disabled = true;
+      if (file_name) {
+        file_name.disabled = true;
+      }
     }
-  }
-})
+  });
 }
 
 const downloadReqForm = downloadDialog.querySelector("form");
 
-if(downloadReqForm){
-downloadReqForm.addEventListener("submit", (event) => {
-  const checkedType = downloadDialog.querySelector(
-    'input[name="downloadType"]:checked',
-  ).value;
+if (downloadReqForm) {
+  downloadReqForm.addEventListener("submit", (event) => {
+    const checkedType = downloadDialog.querySelector(
+      'input[name="downloadType"]:checked',
+    ).value;
 
-  downloadReqForm.action = `/${checkedType}/download`;
-})
+    downloadReqForm.action = `/${checkedType}/download`;
+  });
 }
 
 // Event listener for the password input container
@@ -165,3 +167,32 @@ postCards.forEach((postCard) => {
     window.location.href = `/post/${postID}`;
   });
 });
+
+// Converts ISO dates into readable local date
+function formatReadableDate(rawDate) {
+  if (rawDate.length <= 0) return;
+
+  const date = new Date(rawDate);
+
+  const formatter = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  });
+
+  return formatter.format(date).replace(/am|pm/, (m) => m.toUpperCase());
+}
+
+const dates = document.querySelectorAll(".date");
+
+if (dates.length >= 1) {
+  for (const date of dates) {
+    const rawDate = date.dataset.raw;
+
+    date.textContent = formatReadableDate(rawDate);
+  }
+}

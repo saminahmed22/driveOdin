@@ -318,18 +318,18 @@ export async function getImage(req, res, next) {
 
   if (!post) {
     res.status(400).render("index", {
-    allData: req.data,
-    modalOpen: "downloadForm",
-    values: {
-      shareCode: req?.params?.id || req?.body?.shareCode,
-      requestType: "post",
-      password: ""
-    },
-    errorMessages: {
-      validationErrors: {
-          shareCode: `Cannot find the post with the ID: ${postID}`,
+      allData: req.data,
+      modalOpen: "downloadForm",
+      values: {
+        shareCode: req?.params?.id || req?.body?.shareCode,
+        requestType: "post",
+        password: "",
       },
-    },
+      errorMessages: {
+        validationErrors: {
+          shareCode: `Cannot find the post with the ID: ${postID}`,
+        },
+      },
     });
 
     return;

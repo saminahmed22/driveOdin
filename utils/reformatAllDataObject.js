@@ -1,4 +1,3 @@
-import { formatReadableDate } from "./readableDate.js";
 import { middleEllipsis } from "./stringEllipsisMiddle.js";
 
 import path from "path";
@@ -27,11 +26,6 @@ export function reformatPostDataObject(post) {
 
   post.file_name_short = `${middleEllipsis(post.file_name_without_extension)}${post.file_ext}`;
 
-  //#endregion
-
-  //#region Converts ISO dates into readble dates
-  post.readableCreationDate = formatReadableDate(post.uploaded_at);
-  post.readableExpiryDate = formatReadableDate(post.expires_at);
   //#endregion
 
   return post;
