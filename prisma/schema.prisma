@@ -40,12 +40,12 @@ model Folder {
   isProtected  Boolean  @default(false)
   passwordHash String?
   posts        Post[]
-  created_at   DateTime @default(now())
+  created_at   DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model Session {
   id        String   @id
   sid       String   @unique
   data      String
-  expiresAt DateTime
+  expiresAt DateTime @db.Timestamptz(3)
 }
