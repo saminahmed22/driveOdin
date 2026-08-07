@@ -33,7 +33,7 @@ model Post {
 }
 
 model Expired_posts {
-  id        String @id
+  id        Int    @id @default(autoincrement())
   file_name String
 }
 
